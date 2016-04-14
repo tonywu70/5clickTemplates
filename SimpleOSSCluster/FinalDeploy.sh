@@ -2,8 +2,11 @@
 mkdir -p /home/azureuser/bin/
 cd /home/azureuser/bin
 
-wget https://raw.githubusercontent.com/tanewill/sandbox/Ubuntu/DeployMultiVM/localDeploy.sh
+#download utilites and the HeadComputeNodeDeploy script
+wget https://raw.githubusercontent.com/tanewill/sandbox/Ubuntu/DeployMultiVM/HeadComputeNodeDeploy.sh
 wget https://raw.githubusercontent.com/tanewill/utils/master/authMe.sh
 wget https://raw.githubusercontent.com/tanewill/utils/master/myClusRun.sh
 chmod +x *
-runuser -l root -c '/home/azureuser/bin/localDeploy.sh'
+
+#Run HeadComputeNodeDeploy script
+runuser -l root -c '/home/azureuser/bin/HeadComputeNodeDeploy.sh'
