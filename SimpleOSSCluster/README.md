@@ -1,4 +1,4 @@
-# Deploy multiple Linux VMs
+# Deploy a simple cluster with Open Source Software
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2Fdeploycluster.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png"/>
@@ -8,4 +8,4 @@
 </a>
 
 
-This template allows you to deploy a simple Linux VM using a few different options for the Ubuntu Linux version, using the latest patched version. This will deploy in West US on a D1 VM Size.
+This template allows you to deploy a simple cluster with as many nodes as you would like. You will have the option to load a particular open source software package. OpenFOAM or NAMD.
