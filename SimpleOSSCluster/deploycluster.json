@@ -244,9 +244,17 @@
             }
     ],
     "outputs": {
-       "ipAddress": {
+       "HeadNodeIP": {
         "value": "[reference('NIC0').ipConfigurations[0].properties.privateIPAddress]",
         "type": "string"
-        }
+        },
+        "ipAddress": {
+        "copy": {
+                "name": "nicCopy",
+                "count": "[parameters('vmCount')]"
+        },
+        "value": "[reference(concat('NIC',copyIndex())).ipConfigurations[0].properties.privateIPAddress]",
+        "type": "string"
+
     }
 }
