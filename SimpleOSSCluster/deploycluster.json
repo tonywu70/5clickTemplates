@@ -244,13 +244,9 @@
             }
     ],
     "outputs": {
-   "siteUri" : {
-     "type" : "string",
-     "value": "[concat('http://',reference(resourceId('Microsoft.Network/publicIPAddresses', parameters('siteName'))).hostNames[0])]"
-   },
        "ipAddress": {
         "value": "[reference(concat(concat(resourceGroup().name,'ip0')).ipConfigurations[0].properties.privateIPAddress]",
         "type": "string"
+        }
     }
-}
 }
