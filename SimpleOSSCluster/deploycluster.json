@@ -238,7 +238,7 @@
                 "fileUris": [
                     "[concat('https://raw.githubusercontent.com/tanewill/tanewill/Ubuntu/DeployMultiVM/',variables('executeScript'))]"
                 ],
-                "commandToExecute": "[concat('bash ',variables('executeScript &'))]"
+                "commandToExecute": "[concat('bash ',variables('executeScript'),' &')]"
                 }
             }
             }
