@@ -248,13 +248,9 @@
         "value": "[reference('NIC0').ipConfigurations[0].properties.privateIPAddress]",
         "type": "string"
         },
-        "ipAddress": {
-            "value": "[reference(concat('NIC',copyIndex())).ipConfigurations[0].properties.privateIPAddress]",
-            "type": "string"
-        },
-        "copy": {
-                "name": "privIPCopy",
-                "count": "[parameters('vmCount')]"
+       "HeadNodePubIP": {
+        "value": "[reference('testeightip0').properties.ipAddress]",
+        "type": "string"
         }
     }
 }
