@@ -249,7 +249,7 @@
         "type": "string"
         },
        "HeadNodePubIP": {
-        "value": "[reference(concat(variables('dnsPrefixNameForPublicIP'),'0').properties.ipAddress]",
+        "value": "[reference(concat(variables('dnsPrefixNameForPublicIP'),'0')).properties.ipAddress]",
         "type": "string"
         }
     }
