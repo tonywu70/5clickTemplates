@@ -251,11 +251,11 @@
         },
         "ipAddress": {
             "value": "[reference(concat('NIC',copyIndex())).ipConfigurations[0].properties.privateIPAddress]",
-            "type": "string",
-             "copy": {
-                    "name": "privIPCopy",
-                    "count": "[parameters('vmCount')]"
-            }
+            "type": "string"
+        },
+        "copy": {
+                "name": "privIPCopy",
+                "count": "[parameters('vmCount')]"
         }
     }
 }
