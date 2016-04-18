@@ -245,7 +245,7 @@
     ],
     "outputs": {
        "ipAddress": {
-        "value": "[reference(concat(resourceGroup().name,'NIC0')).ipConfigurations[0].properties.privateIPAddress]",
+        "value": "[reference('NIC0').ipConfigurations[0].properties.privateIPAddress]",
         "type": "string"
         }
     }
