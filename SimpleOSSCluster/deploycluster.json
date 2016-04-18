@@ -59,7 +59,6 @@
     "variables": {
         "newStorageAccountName":"[concat(parameters('clusterName'),'stor')]",
         "dnsPrefixNameForPublicIP":"[concat(parameters('clusterName'),'ip')]",
-        "virtualNetworkName": "[concat(parameters('clusterName'),'net')]",
         "vmNamePrefix":"[concat(parameters('clusterName'),'comp')]",
         "addressPrefix": "10.0.0.0/16",
         "dataDiskSize": "1023",
@@ -73,7 +72,7 @@
         "subnetPrefix": "10.0.0.0/24",
         "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "vmStorageAccountContainerName": "vhds",
-        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
+        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
         "executeScript": "finaldeploy.sh",
         "availabilitySetName": "computeavset"
     },
