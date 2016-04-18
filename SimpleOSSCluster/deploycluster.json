@@ -244,7 +244,6 @@
             }
     ],
     "outputs": {
-        "apiVersion": "2015-05-01-preview",
        "HeadNodeIP": {
         "value": "[reference('NIC0').ipConfigurations[0].properties.privateIPAddress]",
         "type": "string"
