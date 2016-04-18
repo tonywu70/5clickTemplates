@@ -55,8 +55,6 @@
                 "description": "Name of virtualnetwork inside of Resource Group to join"
             }
         }
-            }
-        }
     },
     "variables": {
         "newStorageAccountName":"[concat(parameters('clusterName'),'stor')]",
