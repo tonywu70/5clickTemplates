@@ -70,9 +70,9 @@
         "storageAccountType": "Standard_LRS",
         "subnetName": "Subnet",
         "subnetPrefix": "10.0.0.0/24",
+         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks/',parameters('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "vmStorageAccountContainerName": "vhds",
-        "vnetID": "[resourceId('Microsoft.Network/virtualNetworks/',parameters('virtualNetworkName'))]",
         "executeScript": "finaldeploy.sh",
         "availabilitySetName": "computeavset"
     },
