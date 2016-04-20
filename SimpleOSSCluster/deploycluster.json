@@ -85,7 +85,7 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[concat(variables('dnsPrefixNameForPublicIP'),copyIndex())]",
+            "name": "[concat(variables('dnsPrefixNameForPublicIP'),'0')]",
             "location": "[resourceGroup().location]",
             "tags": {
                 "displayName": "PublicIPAddress"
