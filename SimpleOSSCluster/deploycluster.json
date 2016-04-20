@@ -64,7 +64,7 @@
         "dataDiskSize": "1023",
         "imageOffer": "ubuntuserver",
         "imagePublisher": "canonical",
-        "nicName": "[concat(parameters('clusterName'),"NIC")]",
+        "nicName": "[concat(parameters('clusterName'),'NIC')]",
         "OSDiskName": "osdisk",
         "publicIPAddressType": "Dynamic",
         "storageAccountType": "Standard_LRS",
