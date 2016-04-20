@@ -143,9 +143,6 @@
                         "name": "[concat('ipconfig', copyIndex())]",
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(variables('dnsPrefixNameForPublicIP'),copyIndex()))]"
-                            },
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
                             }
