@@ -123,8 +123,7 @@
                 "displayName": "NetworkInterface"
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),copyIndex()))]",
-                "[concat('Microsoft.Network/virtualNetworks/', parameters('virtualNetworkName'))]"
+                "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),copyIndex()))]"
             ],
             "properties": {
                 "ipConfigurations": [
