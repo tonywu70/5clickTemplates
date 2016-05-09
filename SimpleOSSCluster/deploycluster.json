@@ -73,7 +73,7 @@
          "vnetID": "[resourceId('Microsoft.Network/virtualNetworks/',parameters('virtualNetworkName'))]",
         "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "vmStorageAccountContainerName": "vhds",
-        "executeScript": "finaldeploy.sh",
+        "executeScript": "FinalDeploy.sh",
         "availabilitySetName": "computeavset"
     },
     "resources": [
@@ -224,7 +224,7 @@
                 "typeHandlerVersion": "1.4",
                 "settings": {
                 "fileUris": [
-                    "[concat('https://raw.githubusercontent.com/tanewill/tanewill/Ubuntu/DeployMultiVM/',variables('executeScript'))]"
+                    "[concat('https://raw.githubusercontent.com/tanewill/5clickTemplates/SurfCluster/SimpleOSSCluster/',variables('executeScript'))]"
                 ],
                 "commandToExecute": "[concat('bash ',variables('executeScript'),' 2>&1 & disown')]"
                 }
