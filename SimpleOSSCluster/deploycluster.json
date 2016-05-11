@@ -224,7 +224,7 @@
                 "typeHandlerVersion": "1.4",
                 "settings": {
                 "fileUris": [
-                    "[concat('https://raw.githubusercontent.com/tanewill/5clickTemplates/SurfCluster/SimpleOSSCluster/',variables('executeScript'))]"
+                    "[concat('https://raw.githubusercontent.com/Noesis-Support/5clickTemplates/SurfCluster/SimpleOSSCluster/',variables('executeScript'))]"
                 ],
                 "commandToExecute": "[concat('bash ',variables('executeScript'),' 2>&1 & disown')]"
                 }
