@@ -1,6 +1,7 @@
 #!/bin/bash
 
-set -xeuo pipefail
+set -x
+#set -xeuo pipefail
 
 if [[ $(id -u) -ne 0 ]] ; then
     echo "Must be run as root"
@@ -39,7 +40,8 @@ SLURM_CONF_DIR=$SHARE_DATA/conf
 # Hpc User
 HPC_USER=$4
 HPC_UID=7007
-HPC_GROUP=users
+HPC_GROUP=hpc
+HPC_GID=7007
 
 
 # Returns 0 if this node is the master node.
@@ -50,37 +52,13 @@ is_master()
     return $?
 }
 
-# Add the SLES 12 SDK repository which includes all the
-# packages for compilers and headers.
-#
-add_sdk_repo()
-{
-    repoFile="/etc/zypp/repos.d/SMT-http_smt-azure_susecloud_net:SLE-SDK12-Pool.repo"
-	
-    if [ -e "$repoFile" ]; then
-        echo "SLES 12 SDK Repository already installed"
-        return 0
-    fi
-	
-	wget $TEMPLATE_BASE_URL/sles12sdk.repo
-	
-	cp sles12sdk.repo "$repoFile"
-
-    # init new repo
-    zypper -n search nfs > /dev/null 2>&1
-}
 
 # Installs all required packages.
 #
 install_pkgs()
 {
-    pkgs="libbz2-1 libz1 openssl libopenssl-devel gcc gcc-c++ nfs-client rpcbind"
-
-    if is_master; then
-        pkgs="$pkgs nfs-kernel-server"
-    fi
-
-    zypper -n install $pkgs
+    yum -y install epel-release
+    yum -y install zlib zlib-devel bzip2 bzip2-devel bzip2-libs openssl openssl-devel openssl-libs gcc gcc-c++ nfs-utils rpcbind mdadm wget python-pip
 }
 
 # Partitions all data disks attached to the VM and creates
@@ -89,7 +67,7 @@ install_pkgs()
 setup_data_disks()
 {
     mountPoint="$1"
-	createdPartitions=""
+    createdPartitions=""
 
     # Loop through and partition disks until not found
     for disk in sdc sdd sde sdf sdg sdh sdi sdj sdk sdl sdm sdn sdo sdp sdq sdr; do
@@ -105,15 +83,15 @@ fd
 w
 EOF
         createdPartitions="$createdPartitions /dev/${disk}1"
-	done
+    done
 
     # Create RAID-0 volume
     if [ -n "$createdPartitions" ]; then
         devices=`echo $createdPartitions | wc -w`
         mdadm --create /dev/md10 --level 0 --raid-devices $devices $createdPartitions
-	    mkfs -t ext4 /dev/md10
-	    echo "/dev/md10 $mountPoint ext4 defaults,nofail 0 2" >> /etc/fstab
-	    mount /dev/md10
+        mkfs -t ext4 /dev/md10
+        echo "/dev/md10 $mountPoint ext4 defaults,nofail 0 2" >> /etc/fstab
+        mount /dev/md10
     fi
 }
 
@@ -130,10 +108,14 @@ setup_shares()
     mkdir -p $SHARE_DATA
 
     if is_master; then
-	    setup_data_disks $SHARE_DATA
+        setup_data_disks $SHARE_DATA
         echo "$SHARE_HOME    *(rw,async)" >> /etc/exports
         echo "$SHARE_DATA    *(rw,async)" >> /etc/exports
-        service nfsserver status && service nfsserver reload || service nfsserver start
+
+        systemctl enable rpcbind || echo "Already enabled"
+        systemctl enable nfs-server || echo "Already enabled"
+        systemctl start rpcbind || echo "Already enabled"
+        systemctl start nfs-server || echo "Already enabled"
     else
         echo "master:$SHARE_HOME $SHARE_HOME    nfs4    rw,auto,_netdev 0 0" >> /etc/fstab
         echo "master:$SHARE_DATA $SHARE_DATA    nfs4    rw,auto,_netdev 0 0" >> /etc/fstab
@@ -143,9 +125,9 @@ setup_shares()
     fi
 }
 
-# Downloads/builds/installs munged on the node.  
-# The munge key is generated on the master node and placed 
-# in the data share.  
+# Downloads/builds/installs munged on the node.
+# The munge key is generated on the master node and placed
+# in the data share.
 # Worker nodes copy the existing key from the data share.
 #
 install_munge()
@@ -154,7 +136,7 @@ install_munge()
 
     useradd -M -c "Munge service account" -g munge -s /usr/sbin/nologin munge
 
-    wget https://github.com/dun/munge/archive/munge-0.5.11.tar.gz
+    wget https://github.com/dun/munge/archive/munge-${MUNGE_VERSION}.tar.gz
 
     tar xvfz munge-$MUNGE_VERSION.tar.gz
 
@@ -171,7 +153,7 @@ install_munge()
 
     if is_master; then
         dd if=/dev/urandom bs=1 count=1024 > /etc/munge/munge.key
-		mkdir -p $SLURM_CONF_DIR
+    mkdir -p $SLURM_CONF_DIR
         cp /etc/munge/munge.key $SLURM_CONF_DIR
     else
         cp $SLURM_CONF_DIR/munge.key /etc/munge/munge.key
@@ -196,12 +178,16 @@ install_slurm_config()
 
         mkdir -p $SLURM_CONF_DIR
 
-	    wget "$TEMPLATE_BASE_URL/slurm.template.conf"
+        if [ -e "$TEMPLATE_BASE_URL/slurm.template.conf" ]; then
+            cp "$TEMPLATE_BASE_URL/slurm.template.conf" .
+        else
+            wget "$TEMPLATE_BASE_URL/slurm.template.conf"
+        fi
 
-		cat slurm.template.conf |
-		        sed 's/__MASTER__/'"$MASTER_HOSTNAME"'/g' |
-				sed 's/__WORKER_HOSTNAME_PREFIX__/'"$WORKER_HOSTNAME_PREFIX"'/g' |
-				sed 's/__LAST_WORKER_INDEX__/'"$LAST_WORKER_INDEX"'/g' > $SLURM_CONF_DIR/slurm.conf
+        cat slurm.template.conf |
+        sed 's/__MASTER__/'"$MASTER_HOSTNAME"'/g' |
+                sed 's/__WORKER_HOSTNAME_PREFIX__/'"$WORKER_HOSTNAME_PREFIX"'/g' |
+                sed 's/__LAST_WORKER_INDEX__/'"$LAST_WORKER_INDEX"'/g' > $SLURM_CONF_DIR/slurm.conf
     fi
 
     ln -s $SLURM_CONF_DIR/slurm.conf /etc/slurm/slurm.conf
@@ -217,7 +203,7 @@ install_slurm()
 
     useradd -M -u $SLURM_UID -c "SLURM service account" -g $SLURM_GROUP -s /usr/sbin/nologin $SLURM_USER
 
-    mkdir /etc/slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
+    mkdir -p /etc/slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
 
     chown -R slurm:slurm /var/spool/slurmd /var/run/slurmd /var/run/slurmctld /var/log/slurmd /var/log/slurmctld
 
@@ -226,7 +212,7 @@ install_slurm()
     tar xvfz slurm-$SLURM_VERSION.tar.gz
 
     cd slurm-slurm-$SLURM_VERSION
-	
+
     ./configure -libdir=/usr/lib64 --prefix=/usr --sysconfdir=/etc/slurm && make && make install
 
     install_slurm_config
@@ -246,27 +232,48 @@ install_slurm()
 #
 setup_hpc_user()
 {
-    if is_master; then
-        useradd -c "HPC User" -g $HPC_GROUP -d $SHARE_HOME/$HPC_USER -s /bin/bash -m -u $HPC_UID $HPC_USER
+    # disable selinux
+    sed -i 's/enforcing/disabled/g' /etc/selinux/config
+    setenforce permissive
+    
+    groupadd -g $HPC_GID $HPC_GROUP
 
+    # Don't require password for HPC user sudo
+    echo "$HPC_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    
+    # Disable tty requirement for sudo
+    sed -i 's/^Defaults[ ]*requiretty/# Defaults requiretty/g' /etc/sudoers
+
+    if is_master; then
+    
+        useradd -c "HPC User" -g $HPC_GROUP -m -d $SHARE_HOME/$HPC_USER -s /bin/bash -u $HPC_UID $HPC_USER
+
+        mkdir -p $SHARE_HOME/$HPC_USER/.ssh
+        
         # Configure public key auth for the HPC user
-        sudo -u $HPC_USER ssh-keygen -t rsa -f $SHARE_HOME/$HPC_USER/.ssh/id_rsa -q -P ""
+        ssh-keygen -t rsa -f $SHARE_HOME/$HPC_USER/.ssh/id_rsa -q -P ""
         cat $SHARE_HOME/$HPC_USER/.ssh/id_rsa.pub > $SHARE_HOME/$HPC_USER/.ssh/authorized_keys
 
         echo "Host *" > $SHARE_HOME/$HPC_USER/.ssh/config
         echo "    StrictHostKeyChecking no" >> $SHARE_HOME/$HPC_USER/.ssh/config
         echo "    UserKnownHostsFile /dev/null" >> $SHARE_HOME/$HPC_USER/.ssh/config
-		echo "    PasswordAuthentication no" >> $SHARE_HOME/$HPC_USER/.ssh/config
+        echo "    PasswordAuthentication no" >> $SHARE_HOME/$HPC_USER/.ssh/config
 
-        chown $HPC_USER:$HPC_GROUP $SHARE_HOME/$HPC_USER/.ssh/authorized_keys
-        chown $HPC_USER:$HPC_GROUP $SHARE_HOME/$HPC_USER/.ssh/config
+        # Fix .ssh folder ownership
+        chown -R $HPC_USER:$HPC_GROUP $SHARE_HOME/$HPC_USER
+
+        # Fix permissions
+        chmod 700 $SHARE_HOME/$HPC_USER/.ssh
+        chmod 644 $SHARE_HOME/$HPC_USER/.ssh/config
+        chmod 644 $SHARE_HOME/$HPC_USER/.ssh/authorized_keys
+        chmod 600 $SHARE_HOME/$HPC_USER/.ssh/id_rsa
+        chmod 644 $SHARE_HOME/$HPC_USER/.ssh/id_rsa.pub
+        
+        # Give hpc user access to data share
         chown $HPC_USER:$HPC_GROUP $SHARE_DATA
     else
         useradd -c "HPC User" -g $HPC_GROUP -d $SHARE_HOME/$HPC_USER -s /bin/bash -u $HPC_UID $HPC_USER
     fi
-
-    # Don't require password for HPC user sudo
-    echo "$HPC_USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 }
 
 # Sets all common environment variables and system parameters.
@@ -275,19 +282,43 @@ setup_env()
 {
     # Set unlimited mem lock
     echo "$HPC_USER hard memlock unlimited" >> /etc/security/limits.conf
-	echo "$HPC_USER soft memlock unlimited" >> /etc/security/limits.conf
+    echo "$HPC_USER soft memlock unlimited" >> /etc/security/limits.conf
 
-	# Intel MPI config for IB
-    echo "# IB Config for MPI" > /etc/profile.d/hpc.sh
-	echo "export I_MPI_FABRICS=shm:dapl" >> /etc/profile.d/hpc.sh
-	echo "export I_MPI_DAPL_PROVIDER=ofa-v2-ib0" >> /etc/profile.d/hpc.sh
-	echo "export I_MPI_DYNAMIC_CONNECTION=0" >> /etc/profile.d/hpc.sh
+    # Intel MPI config for IB
+    echo "# IB Config for MPI" > /etc/profile.d/mpi.sh
+    echo "export I_MPI_FABRICS=shm:dapl" >> /etc/profile.d/mpi.sh
+    echo "export I_MPI_DAPL_PROVIDER=ofa-v2-ib0" >> /etc/profile.d/mpi.sh
+    echo "export I_MPI_DYNAMIC_CONNECTION=0" >> /etc/profile.d/mpi.sh
 }
 
-add_sdk_repo
+install_easybuild()
+{
+    yum -y install Lmod python-devel python-pip gcc gcc-c++ patch unzip tcl tcl-devel libibverbs libibverbs-devel
+    pip install vsc-base
+
+    EASYBUILD_HOME=$SHARE_HOME/$HPC_USER/EasyBuild
+
+    if is_master; then
+        su - $HPC_USER -c "pip install --install-option --prefix=$EASYBUILD_HOME https://github.com/hpcugent/easybuild-framework/archive/easybuild-framework-v2.5.0.tar.gz"
+
+        # Add Lmod to the HPC users path
+        echo 'export PATH=/usr/share/lmod/6.0.15/libexec:$PATH' >> $SHARE_HOME/$HPC_USER/.bashrc
+
+        # Setup Easybuild configuration and paths
+        echo 'export PATH=$HOME/EasyBuild/bin:$PATH' >> $SHARE_HOME/$HPC_USER/.bashrc
+        echo 'export PYTHONPATH=$HOME/EasyBuild/lib/python2.7/site-packages:$PYTHONPATH' >> $SHARE_HOME/$HPC_USER/.bashrc
+        echo "export MODULEPATH=$EASYBUILD_HOME/modules/all" >> $SHARE_HOME/$HPC_USER/.bashrc
+        echo "export EASYBUILD_MODULES_TOOL=Lmod" >> $SHARE_HOME/$HPC_USER/.bashrc
+        echo "export EASYBUILD_INSTALLPATH=$EASYBUILD_HOME" >> $SHARE_HOME/$HPC_USER/.bashrc
+        echo "export EASYBUILD_DEBUG=1" >> $SHARE_HOME/$HPC_USER/.bashrc
+        echo "source /usr/share/lmod/6.0.15/init/bash" >> $SHARE_HOME/$HPC_USER/.bashrc
+    fi
+}
+
 install_pkgs
 setup_shares
 setup_hpc_user
 install_munge
 install_slurm
 setup_env
+install_easybuild
