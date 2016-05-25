@@ -133,8 +133,8 @@
         "master": "10.0.0.254"
       }
     },
-    "masterOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'),'osDisk.vhd')]",
-    "workerOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('vmName'))]",
+    "masterOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('masterVMName'),'osDisk.vhd')]",
+    "workerOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('workerVMName'))]",
     
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('networkSettings').virtualNetworkName)]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('networkSettings').subnet.dse.name)]",
@@ -233,7 +233,7 @@
         },
         "storageProfile": {
           "osDisk": {
-            "name": "[concat(variables('vmName'),'-osDisk')]",
+            "name": "[concat(variables('masterVMName'),'-osDisk')]",
             "osType": "[parameters('osType')]",
             "caching": "ReadWrite",
             "createOption": "FromImage",
@@ -327,7 +327,7 @@
         },
         "storageProfile": {
           "osDisk": {
-            "name": "[concat(variables('vmName'),'-osDisk')]",
+            "name": "[concat(variables('workerVMName'),'-osDisk')]",
             "osType": "[parameters('osType')]",
             "caching": "ReadWrite",
             "createOption": "FromImage",
