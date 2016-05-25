@@ -241,7 +241,7 @@
               "uri": "[parameters('osDiskVhdUri')]"
             },
             "vhd": {
-              "uri": "[variables('osDiskVhdName')]"
+              "uri": "[variables('masterOsDiskVhdName')]"
             }
           }
         },
@@ -335,7 +335,7 @@
               "uri": "[parameters('osDiskVhdUri')]"
             },
             "vhd": {
-              "uri": "[concat(variables('osDiskVhdName'),'worker',copyindex(),'osDisk.vhd')]"
+              "uri": "[concat(variables('workerOsDiskVhdName'),'worker',copyindex(),'osDisk.vhd')]"
             }
           }
         },
