@@ -215,7 +215,7 @@
            
             "apiVersion": "2015-05-01-preview",
             "copy": {
-                "name": "nodeCopy",
+                "name": "extCopy",
                 "count": "[parameters('vmCount')]"
             },
             "type": "Microsoft.Compute/virtualMachines/extensions",
