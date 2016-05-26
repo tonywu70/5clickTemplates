@@ -219,7 +219,7 @@
                 "count": "[parameters('vmCount')]"
             },
             "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('vmNamePrefix'),'0','/Install')]",
+            "name": "[concat(variables('vmNamePrefix'),copyIndex(),'/Install')]",
             "location": "[resourceGroup().location]",
             "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', variables('vmNamePrefix'),copyIndex())]"],
             "properties": {
