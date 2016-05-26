@@ -19,9 +19,9 @@ runuser -l azureuser -c 'bin/authMe.sh'
 
 #install openFOAM
 runuser -l azureuser -c "bin/myClusRun.sh 'echo \"source /opt/openfoam30/etc/bashrc\">>.bashrc'"
-runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo add-apt-repository http://www.openfoam.org/download/ubuntu'"
-runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo apt-get update'"
-runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo apt-get -qq --yes --force-yes install openfoam30'"
+#runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo add-apt-repository http://www.openfoam.org/download/ubuntu'"
+#runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo apt-get update'"
+#runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo apt-get -qq --yes --force-yes install openfoam30'"
 #runuser -l azureuser -c "bin/myClusRun.sh 'DEBIAN_FRONTEND=noninteractive sudo apt-get -qq --yes --force-yes install paraviewopenfoam44'"
 
 #configure OpenFOAM
