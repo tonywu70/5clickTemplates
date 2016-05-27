@@ -115,27 +115,8 @@
     "masterVMName": "master",
     "workerVMName": "worker",
     "nicName": "nic",
-    "networkSettings": {
-      "virtualNetworkName": "virtualnetwork",
-      "addressPrefix": "10.0.0.0/16",
-      "subnet": {
-        "dse": {
-          "name": "dse",
-          "prefix": "10.0.0.0/24",
-          "vnet": "virtualnetwork"
-        }
-      },
-      "statics": {
-        "workerRange": {
-          "base": "10.0.0.",
-          "start": 5
-        },
-        "master": "10.0.0.254"
-      }
-    },
     "masterOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('masterVMName'),'osDisk.vhd')]",
     "workerOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('workerVMName'))]",
-    
     "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('networkSettings').virtualNetworkName)]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('networkSettings').subnet.dse.name)]",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
