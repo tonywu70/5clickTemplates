@@ -3,6 +3,8 @@
 set -x
 #set -xeuo pipefail
 
+
+
 if [[ $(id -u) -ne 0 ]] ; then
     echo "Must be run as root"
     exit 1
@@ -12,6 +14,9 @@ if [ $# != 5 ]; then
     echo "Usage: $0 <MasterHostname> <WorkerHostnamePrefix> <WorkerNodeCount> <HPCUserName> <TemplateBaseUrl>"
     exit 1
 fi
+
+sudo yum install -y kernel-headers --disableexcludes=all
+sudo yum install -y kernel-devel --disableexcludes=all
 
 # Set user args
 MASTER_HOSTNAME=$1
