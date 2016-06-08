@@ -279,7 +279,7 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "[concat("10.5.64.", "6")]",
+              "privateIPAddress": "["10.5.64.6"]",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
