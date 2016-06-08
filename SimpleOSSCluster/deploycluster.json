@@ -50,7 +50,7 @@
         },
         "virtualNetworkName": {
             "type": "string",
-            "defaultValue": "myVirtNet",
+            "defaultValue": "surffoamnet",
             "metadata":{
                 "description": "Name of virtualnetwork inside of Resource Group to join"
             }
