@@ -179,11 +179,15 @@
                     },
                     "osDisk": {
                         "name": "osdisk",
+                        "osType": "Linux",
                         "vhd": {
                             "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',concat(variables('OSDiskName'),copyIndex()),'.vhd')]"
                         },
                         "caching": "ReadWrite",
-                        "createOption": "FromImage"
+                        "createOption": "FromImage",
+                        "image": {
+                          "uri": "https://surffoamstor.blob.core.windows.net/vhds/masterosDisk.vhd"
+                        },
                     },
                     "dataDisks": [
                         {
