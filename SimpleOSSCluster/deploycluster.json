@@ -141,7 +141,6 @@
                 "count": "[parameters('vmCount')]"
             },
             "dependsOn": [
-                "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
                 "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),copyIndex()))]"
             ],
             "location": "[resourceGroup().location]",
