@@ -175,7 +175,7 @@
                         "name": "osdisk",
                         "osType": "Linux",
                         "vhd": {
-                            "uri": "[concat('http://surffoamstor.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',concat(variables('OSDiskName'),copyIndex()),'.vhd')]"
+                            "uri": "[concat('http://surffoamstor.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',concat(parameters('clusterName'),variables('OSDiskName'),copyIndex()),'.vhd')]"
                         },
                         "caching": "ReadWrite",
                         "createOption": "FromImage",
@@ -189,7 +189,7 @@
                             "diskSizeGB": "[variables('dataDiskSize')]",
                             "lun": 0,
                             "vhd": {
-                                "Uri": "[concat('http://surffoamstor.blob.core.windows.net/vhds/',concat(variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
+                                "Uri": "[concat('http://surffoamstor.blob.core.windows.net/vhds/',concat(parameters('clusterName'),variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
                             },
                             "caching": "None",
                             "createOption": "Empty"
