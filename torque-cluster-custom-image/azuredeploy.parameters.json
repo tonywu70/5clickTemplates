@@ -3,22 +3,40 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "dnsName": {
-      "value": "GEN-UNIQUE-8"
+      "value": "sismiccdns"
     },
-    "newStorageAccountName": {
-      "value": "GEN-UNIQUE-8"
+    "userImageStorageAccountName": {
+      "value": "sasismica02"
+    },
+	"osDiskVhdUri": {
+      "value": "https://sasismica02.blob.core.windows.net/vhds/SISMICABASE2016425111348.vhd"
     },
     "adminUserName": {
       "value": "azureuser"
     },
     "adminPassword": {
-      "value": "GEN-PASSWORD"
+      "value": "Azure@123"
+    },
+    "osType": {
+      "value": "Linux"
     },
     "vmSize": {
-      "value": "Standard_D1"
+      "value": "Standard_A8"
     },
     "scaleNumber": {
-      "value": 2
+      "value": 3
+    },
+    "newOrExisting": {
+      "value": "existing"
+    },
+    "virtualNetworkName": {
+      "value": "vnet-hpc-azure-scus"
+    },
+	"existingVirtualNetworkResourceGroup": {
+      "value": "rg-petro-azure-vnet-scus"
+    },
+	"subnetName": {
+      "value": "subnet-sismica"
     }
   }
 }
