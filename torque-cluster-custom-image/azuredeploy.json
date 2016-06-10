@@ -198,7 +198,7 @@
                 "id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
               },
               "subnet": {
-                "id": "[reference('vnet-template').outputs.subnet1Ref.value]"
+                "id": "[variables('subnetRef')]"
               }
             }
           }
@@ -285,7 +285,7 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "['10.5.65.12']",
+              "privateIPAddress": "[concat('10.5.65.2'),copyindex()]",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
