@@ -90,6 +90,12 @@
         "description": "VNet Name"
       }
     },
+     "existingVirtualNetworkResourceGroup": {
+      "type": "string",
+      "metadata": {
+        "description": "Name of the existing VNET resource group"
+      }
+    },
     "subnetName": {
       "type": "string",
       "defaultValue": "Subnet1",
@@ -111,7 +117,7 @@
     "nicName": "nic",
     "masterOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('masterVMName'),'osDisk.vhd')]",
     "workerOsDiskVhdName": "[concat('http://',parameters('userImageStorageAccountName'),'.blob.core.windows.net/vhds/',variables('workerVMName'))]",
-    "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',parameters('virtualNetworkName'))]",
+    "vnetID": "[resourceId(parameters('existingVirtualNetworkResourceGroup'), 'Microsoft.Network/virtualNetworks', parameters('existingVirtualNetworkName'))]",
     "subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
     "sshKeyPath": "[concat('/home/',parameters('adminUsername'),'/.ssh/authorized_keys')]",
     "templateBaseUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/torque-cluster-custom-image/",
