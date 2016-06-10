@@ -285,7 +285,7 @@
             "name": "ipconfig1",
             "properties": {
               "privateIPAllocationMethod": "Static",
-              "privateIPAddress": "['10.5.65.11']",
+              "privateIPAddress": "['10.5.65.12']",
               "subnet": {
                 "id": "[variables('subnetRef')]"
               }
