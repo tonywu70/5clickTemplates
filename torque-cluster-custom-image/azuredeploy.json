@@ -126,8 +126,8 @@
     "storageAccountType": "Standard_LRS"
   },
   "resources": [
-  	{
-  		"apiVersion": "2015-01-01",
+    {
+  	    "apiVersion": "2015-01-01",
             "name": "vnet-template",
             "type": "Microsoft.Resources/deployments",
             "properties": {
@@ -179,7 +179,7 @@
         }
       }
     },
-     {
+    {
       "apiVersion": "2016-03-30",
       "type": "Microsoft.Network/networkInterfaces",
       "name": "[variables('nicName')]",
