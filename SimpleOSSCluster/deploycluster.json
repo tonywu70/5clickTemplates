@@ -167,7 +167,7 @@
                         "caching": "ReadWrite",
                         "createOption": "FromImage",
                         "image": {
-                          "uri": "https://surffoamstor.blob.core.windows.net/vhds/masterosDisk.vhd"
+                          "uri": "http://surffoamstor.blob.core.windows.net/vhds/masterosDisk.vhd"
                         },
                     },
                     "dataDisks": [
