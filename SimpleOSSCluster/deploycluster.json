@@ -169,7 +169,19 @@
                         "image": {
                           "uri": "http://surffoamstor.blob.core.windows.net/vhds/masterosDisk.vhd"
                         },
-                    }
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "datadisk1",
+                            "diskSizeGB": "[variables('dataDiskSize')]",
+                            "lun": 0,
+                            "vhd": {
+                                "Uri": "[concat('http://surffoamstor.blob.core.windows.net/vhds/',concat(parameters('clusterName'),variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
+                            },
+                            "caching": "None",
+                            "createOption": "Empty"
+                        }
+                    ]
                 },
                 "networkProfile": {
                     "networkInterfaces": [
