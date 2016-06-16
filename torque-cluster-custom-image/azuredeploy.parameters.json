@@ -12,10 +12,10 @@
       "value": "https://sasismica02.blob.core.windows.net/vhds/SISMICABASE2016425111348.vhd"
     },
     "adminUserName": {
-      "value": "azureuser"
+      "value": ""
     },
     "adminPassword": {
-      "value": "Azure@123"
+      "value": ""
     },
     "osType": {
       "value": "Linux"
