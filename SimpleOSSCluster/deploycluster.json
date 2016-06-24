@@ -230,15 +230,5 @@
                 }
             }
             }
-    ],
-    "outputs": {
-       "HeadNodeIP": {
-        "value": "[reference(concat(variables('nicName'),'0')).ipConfigurations[0].properties.privateIPAddress]",
-        "type": "string"
-        },
-       "HeadNodePubIP": {
-        "value": "[reference(concat(variables('dnsPrefixNameForPublicIP'),'0')).properties.dnsSettings.fqdn]",
-        "type": "string"
-        }
-    }
+    ]
 }
