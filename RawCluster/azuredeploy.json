@@ -99,6 +99,7 @@
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/",
     "cnSetupScript": "cn-setup.sh",
+    "hnSetupScript": "hn-setup.sh",
     "osType": {
       "publisher": "OpenLogic",
       "offer": "CentOS-HPC",
@@ -108,7 +109,8 @@
     "imageReference": "[variables('osType')]",
     "vmScripts": {
       "scriptsToDownload": [
-        "[concat(variables('scriptUrl'), 'cn-setup.sh')]"
+        "[concat(variables('scriptUrl'), 'cn-setup.sh')]",
+        "[concat(variables('scriptUrl'), 'hn-setup.sh')]"
       ],
       "commandToExecute": ""
     },
@@ -239,7 +241,23 @@
             "enabled": "true",
             "storageUri": "[concat('http://',variables('jumpBoxSAName'),'.blob.core.windows.net')]"
           }
-        }
+        },          
+        "extensionProfile": {
+        "extensions": [
+          {
+            "name": "installHN",
+            "properties": {
+              "publisher": "Microsoft.OSTCExtensions",
+              "type": "CustomScriptForLinux",
+              "typeHandlerVersion": "1.5",
+              "autoUpgradeMinorVersion": true,
+              "settings": {
+                "fileUris": "[variables('vmScripts').scriptsToDownload]",
+                "commandToExecute": "[concat('sh ', variables('hnSetupScript'))]"
+              }
+            }
+          }
+        ]
       }
     },
     {
