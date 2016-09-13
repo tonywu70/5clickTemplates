@@ -250,7 +250,7 @@
           "location": "[parameters('resourceLocation')]",
           "apiVersion": "[variables('storageApiVersion')]",
           "dependsOn": [
-            "[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName')]"
+            "[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName'))]"
           ],
           "tags": {
             "displayName": "masterExtension"
