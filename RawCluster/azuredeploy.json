@@ -262,7 +262,7 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": "[variables('vmScripts').scriptsToDownload]",
-              "commandToExecute": "[concat('bash ', concat('master-setup.sh')) ]",
+              "commandToExecute": "[concat('bash ', concat('hn-setup.sh')) ]",
               "timestamp": 4
             }
           }
