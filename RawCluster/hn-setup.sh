@@ -1,8 +1,8 @@
 #!/bin/bash
 
 yum install -y -q nfs-utils 
-mkdir -p /var/nfsshare
-chmod -R 777 /var/nfsshare/
+mkdir -p /mnt/nfsshare
+chmod -R 777 /mnt/nfsshare/
 systemctl enable rpcbind
 systemctl enable nfs-server
 systemctl enable nfs-lock
