@@ -241,25 +241,33 @@
             "enabled": "true",
             "storageUri": "[concat('http://',variables('jumpBoxSAName'),'.blob.core.windows.net')]"
           }
-        },          
-        "extensionProfile": {
-          "extensions": [
-            {
-              "name": "installHN",
-              "properties": {
-                "publisher": "Microsoft.OSTCExtensions",
-                "type": "CustomScriptForLinux",
-                "typeHandlerVersion": "1.5",
-                "autoUpgradeMinorVersion": true,
-                "settings": {
-                  "fileUris": "[variables('vmScripts').scriptsToDownload]",
-                  "commandToExecute": "[concat('sh ', variables('hnSetupScript'))]"
-                }
-              }
-            }
-          ]
         }
       }
+      "resources": [
+        {
+          "name": "masterExtension",
+          "type": "extensions",
+          "location": "[variables('location')]",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName')]"
+          ],
+          "tags": {
+            "displayName": "masterExtension"
+          },
+          "properties": {
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.5",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": "[variables('vmScripts').scriptsToDownload]",
+              "commandToExecute": "[concat('bash ', concat('master-setup.sh')) ]",
+              "timestamp": 4
+            }
+          }
+        }
+      ]
     },
     {
       "type": "Microsoft.Compute/virtualMachineScaleSets",
