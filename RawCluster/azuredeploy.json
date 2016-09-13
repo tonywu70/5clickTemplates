@@ -110,7 +110,8 @@
     "vmScripts": {
       "scriptsToDownload": [
         "[concat(variables('scriptUrl'), 'cn-setup.sh')]",
-        "[concat(variables('scriptUrl'), 'hn-setup.sh')]"
+        "[concat(variables('scriptUrl'), 'hn-setup.sh')]",
+        "[concat(variables('scriptUrl'), 'install-fluent.sh')]"
       ],
       "commandToExecute": ""
     },
