@@ -97,6 +97,7 @@
     "publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
     "nicName": "[concat(variables('namingInfix'), 'nic')]",
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
+    "scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/",
     "osType": {
       "publisher": "OpenLogic",
       "offer": "CentOS-HPC",
@@ -104,6 +105,12 @@
       "version": "latest"
     },
     "imageReference": "[variables('osType')]",
+    "vmScripts": {
+      "scriptsToDownload": [
+        "[concat(variables('scriptUrl'), 'cnSetupScript.sh')]"
+      ],
+      "commandToExecute": ""
+    },
     "computeApiVersion": "2016-03-30",
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15"
@@ -293,9 +300,27 @@
                 }
               }
             ]
+          },
+          "extensionProfile": {
+            "extensions": [
+              {
+                "name": "installCN",
+                "properties": {
+                  "publisher": "Microsoft.OSTCExtensions",
+                  "type": "CustomScriptForLinux",
+                  "typeHandlerVersion": "1.5",
+                  "autoUpgradeMinorVersion": true,
+                  "settings": {
+                    "fileUris": "[variables('vmScripts').scriptsToDownload]",
+                    "commandToExecute": "[concat('sh ', variables('cnSetupScript.sh'))]"
+                  }
+                }
+              }
+            ]
           }
         }
-      }
+      },
+      
     }
   ]
 }
