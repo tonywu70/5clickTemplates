@@ -247,7 +247,7 @@
         {
           "name": "masterExtension",
           "type": "extensions",
-          "location": "[variables('location')]",
+          "location": "[parameters('resourceLocation')]",
           "apiVersion": "[variables('storageApiVersion')]",
           "dependsOn": [
             "[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName')]"
