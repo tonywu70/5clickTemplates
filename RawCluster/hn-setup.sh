@@ -16,3 +16,5 @@ systemctl start nfs-idmap
 localip=`hostname -i | cut --delimiter='.' -f -3`
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 systemctl restart nfs-server
+
+nmap -sn $localip.* | grep $localip. | awk '{print $5}' > nodeips.txt
