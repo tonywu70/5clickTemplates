@@ -243,21 +243,22 @@
           }
         },          
         "extensionProfile": {
-        "extensions": [
-          {
-            "name": "installHN",
-            "properties": {
-              "publisher": "Microsoft.OSTCExtensions",
-              "type": "CustomScriptForLinux",
-              "typeHandlerVersion": "1.5",
-              "autoUpgradeMinorVersion": true,
-              "settings": {
-                "fileUris": "[variables('vmScripts').scriptsToDownload]",
-                "commandToExecute": "[concat('sh ', variables('hnSetupScript'))]"
+          "extensions": [
+            {
+              "name": "installHN",
+              "properties": {
+                "publisher": "Microsoft.OSTCExtensions",
+                "type": "CustomScriptForLinux",
+                "typeHandlerVersion": "1.5",
+                "autoUpgradeMinorVersion": true,
+                "settings": {
+                  "fileUris": "[variables('vmScripts').scriptsToDownload]",
+                  "commandToExecute": "[concat('sh ', variables('hnSetupScript'))]"
+                }
               }
             }
-          }
-        ]
+          ]
+        }
       }
     },
     {
