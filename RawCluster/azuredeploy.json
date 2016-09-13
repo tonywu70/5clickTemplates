@@ -27,20 +27,16 @@
     },
     "vmSku": {
       "type": "string",
-      "defaultValue": "Standard_A1",
-      "metadata": {
-        "description": "Size of VMs in the VM Scale Set."
-      }
-    },
-    "ubuntuOSVersion": {
-      "type": "string",
-      "defaultValue": "14.04.4-LTS",
+      "defaultValue": "Basic_A4",
       "allowedValues": [
-        "15.10",
-        "14.04.4-LTS"
+        "Basic_A4",
+        "Standard_A8",
+        "Standard_A9",
+        "Standard_A10",
+        "Standard_A11"
       ],
       "metadata": {
-        "description": "The Ubuntu version for the VM. This will pick a fully patched image of this given Ubuntu version. Allowed values are: 15.10, 14.04.4-LTS."
+        "description": "Which instance would you like to deploy to?"
       }
     },
     "vmssName":{
@@ -102,9 +98,9 @@
     "nicName": "[concat(variables('namingInfix'), 'nic')]",
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "osType": {
-      "publisher": "Canonical",
-      "offer": "UbuntuServer",
-      "sku": "[parameters('ubuntuOSVersion')]",
+      "publisher": "OpenLogic",
+      "offer": "CentOS-HPC",
+      "sku": "7.1",
       "version": "latest"
     },
     "imageReference": "[variables('osType')]",
