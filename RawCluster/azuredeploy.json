@@ -98,6 +98,7 @@
     "nicName": "[concat(variables('namingInfix'), 'nic')]",
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/",
+    "cnSetupScript": "cn-setup.sh",
     "osType": {
       "publisher": "OpenLogic",
       "offer": "CentOS-HPC",
@@ -312,7 +313,7 @@
                   "autoUpgradeMinorVersion": true,
                   "settings": {
                     "fileUris": "[variables('vmScripts').scriptsToDownload]",
-                    "commandToExecute": "[concat('sh ', variables('cnSetupScript.sh'))]"
+                    "commandToExecute": "[concat('sh ', variables('cnSetupScript'))]"
                   }
                 }
               }
