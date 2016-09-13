@@ -108,7 +108,7 @@
     "imageReference": "[variables('osType')]",
     "vmScripts": {
       "scriptsToDownload": [
-        "[concat(variables('scriptUrl'), 'cnSetupScript.sh')]"
+        "[concat(variables('scriptUrl'), 'cn-setup.sh')]"
       ],
       "commandToExecute": ""
     },
