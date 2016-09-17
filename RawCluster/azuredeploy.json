@@ -276,7 +276,7 @@
           "location": "[parameters('resourceLocation')]",
           "apiVersion": "[variables('storageApiVersion')]",
           "dependsOn": [
-            "['extensions/masterExtension']"
+             "[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName')/extensions/masterExtension)]",
           ],
           "tags": {
             "displayName": "fluentExtension"
