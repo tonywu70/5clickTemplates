@@ -1,10 +1,9 @@
-sudo mkdir /mnt/ANSYS1
-sudo mkdir /mnt/ANSYS2
-sudo mkdir /mnt/ANSYS3
+mkdir /mnt/ANSYS1
+mkdir /mnt/ANSYS2
+mkdir /mnt/ANSYS3
+mkdir /mnt/resource/INSTALLERS
 
-sudo mount -t iso9660 -o loop /mnt/resource/DOWNLOADS/ANSYS172_LINX64_Disk1.iso/mnt/ANSYS1/
-sudo mount -t iso9660 -o loop /mnt/resource/DOWNLOADS/ANSYS172_LINX64_Disk2.iso /mnt/ANSYS2/
-sudo mount -t iso9660 -o loop /mnt/resource/DOWNLOADS/ANSYS172_LINX64_Disk3.iso /mnt/ANSYS3/
+wget -O http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz /mnt/resource/ANSYS.tgz
+tar -xzf /mnt/resource/ANSYS.tgz -C /mnt/resource/INSTALLERS/
 
-sudo mkdir -p /mnt/resource/ANSYS_INSTALL
-sudo cp -r /mnt/ANSYS*/* /mnt/resource/ANSYS_INSTALL
+source /mnt/resource/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/nfsshare/ansys_inc/" -fluent
