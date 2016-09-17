@@ -18,3 +18,5 @@ echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /
 systemctl restart nfs-server
 
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > nodeips.txt
+
+
