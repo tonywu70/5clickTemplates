@@ -269,6 +269,29 @@
               "timestamp": 4
             }
           }
+        },
+        {
+          "name": "fluentExtension",
+          "type": "extensions",
+          "location": "[parameters('resourceLocation')]",
+          "apiVersion": "[variables('storageApiVersion')]",
+          "dependsOn": [
+            "['extensions/masterExtension']"
+          ],
+          "tags": {
+            "displayName": "fluentExtension"
+          },
+          "properties": {
+            "publisher": "Microsoft.OSTCExtensions",
+            "type": "CustomScriptForLinux",
+            "typeHandlerVersion": "1.5",
+            "autoUpgradeMinorVersion": true,
+            "settings": {
+              "fileUris": "[variables('vmScripts').scriptsToDownload]",
+              "commandToExecute": "[concat('bash ', concat('install-fluent.sh')) ]",
+              "timestamp": 4
+            }
+          }
         }
       ]
     },
