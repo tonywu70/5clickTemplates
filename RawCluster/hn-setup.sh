@@ -18,11 +18,17 @@ systemctl start nfs-lock
 systemctl start nfs-idmap
 
 wget https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
-chmod +x install-fluent.sh
-source install-fluent.sh
+wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
 
 localip=`hostname -i | cut --delimiter='.' -f -3`
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 systemctl restart nfs-server
+mkdir -p /home/$USER/bin
+
 mv passwordlessAuth.sh /home/$USER/bin/
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
+
+chmod +x install-fluent.sh
+source install-fluent.sh
+
+
