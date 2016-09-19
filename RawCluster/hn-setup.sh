@@ -41,7 +41,7 @@ echo 'StrictHostKeyChecking no' >> /home/$USER/.ssh/config
 chmod 400 /home/$USER/.ssh/config
 chown $USER:$USER /home/$USER/.ssh/config
 
-for NAME in `cat nodeips.txt`; do sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'hostname' >> nodenames.txt;done
+for NAME in `cat /home/$USER/bin/nodeips.txt`; do sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'hostname' >> /home/$USER/bin/nodenames.txt;done
 
 NAMES=`cat nodenames.txt` #names from names.txt file
 for NAME in $NAMES; do
