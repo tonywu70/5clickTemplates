@@ -66,8 +66,9 @@ for NAME in $NAMES; do
         done
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'chmod 700 /home/'$USER'/.ssh/'
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'chmod 640 /home/'$USER'/.ssh/authorized_keys'
-
 done
+
+cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
 
 chmod +x install-fluent.sh
 source install-fluent.sh
