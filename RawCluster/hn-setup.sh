@@ -2,6 +2,7 @@
 USER=$1
 PASS=$2
 echo User is: $1
+echo Pass is: $2
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 rpm -ivh epel-release-7-8.noarch.rpm
 
@@ -28,7 +29,8 @@ mkdir -p /home/$USER/bin
 
 mv passwordlessAuth.sh /home/$USER/bin/
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
-sed -i '/'$localip'/d' /home/$USER/bin/nodeips.txt
+myhost=`hostname -i`
+sed -i '/'$myhost'/d' /home/$USER/bin/nodeips.txt
 sed -i '/10.0.0.1/d' /home/$USER/bin/nodeips.txt
 
 mkdir -p /home/$USER/.ssh
