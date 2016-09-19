@@ -41,6 +41,7 @@ echo 'StrictHostKeyChecking no' >> /home/$USER/.ssh/config
 chmod 400 /home/$USER/.ssh/config
 chown $USER:$USER /home/$USER/.ssh/config
 
+mkdir -p ~/.ssh
 echo 'Host *' >> ~/.ssh/config
 echo 'StrictHostKeyChecking no' >> ~/.ssh/config
 chmod 400 ~/.ssh/config
