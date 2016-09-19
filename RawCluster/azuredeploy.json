@@ -265,30 +265,7 @@
             "autoUpgradeMinorVersion": true,
             "settings": {
               "fileUris": "[variables('vmScripts').scriptsToDownload]",
-              "commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername')) ]",
-              "timestamp": 4
-            }
-          }
-        },
-        {
-          "name": "fluentExtension",
-          "type": "extensions",
-          "location": "[parameters('resourceLocation')]",
-          "apiVersion": "[variables('storageApiVersion')]",
-          "dependsOn": [
-             "[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName')/extensions/masterExtension)]",
-          ],
-          "tags": {
-            "displayName": "fluentExtension"
-          },
-          "properties": {
-            "publisher": "Microsoft.OSTCExtensions",
-            "type": "CustomScriptForLinux",
-            "typeHandlerVersion": "1.5",
-            "autoUpgradeMinorVersion": true,
-            "settings": {
-              "fileUris": "[variables('vmScripts').scriptsToDownload]",
-              "commandToExecute": "[concat('bash ', concat('install-fluent.sh')) ]",
+              "commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword')) ]",
               "timestamp": 4
             }
           }
