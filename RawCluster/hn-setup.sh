@@ -19,6 +19,10 @@ systemctl start nfs-server
 systemctl start nfs-lock
 systemctl start nfs-idmap
 
+ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
+ln -s /opt/intel/impi/5.1.3.181/lib64/ lib
+
+
 wget https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
 
