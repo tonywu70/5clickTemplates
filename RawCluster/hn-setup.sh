@@ -1,6 +1,7 @@
 #!/bin/bash
 USER=$1
 PASS=$2
+IP=`hostname -i`
 echo User is: $1
 echo Pass is: $2
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
@@ -61,6 +62,7 @@ NAMES=`cat /home/$USER/bin/nodenames.txt` #names from names.txt file
 for NAME in $NAMES; do
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/cn-setup.sh $USER@$NAME:/home/$USER/
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/nodenames.txt $USER@$NAME:/home/$USER/
+        sshpass -p $PASS ssh -t -o ConnectTimeout=2 $USER@$NAME 'echo "Azure@123" | sudo -S sh /home/'$USER'/cn-setup.sh '$IP
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'mkdir /home/'$USER'/.ssh && chmod 700 .ssh'
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME "echo -e  'y\n' | ssh-keygen -f .ssh/id_rsa -t rsa -N ''"
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'touch /home/'$USER'/.ssh/config'
