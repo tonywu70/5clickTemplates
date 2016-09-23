@@ -22,7 +22,7 @@ systemctl start nfs-idmap
 systemctl restart nfs-server
 
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
-ln -s /opt/intel/impi/5.1.3.181/lib64/ lib
+ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
 mkdir -p /home/$USER/bin
 wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
