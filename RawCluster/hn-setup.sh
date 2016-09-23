@@ -9,6 +9,7 @@ rpm -ivh epel-release-7-8.noarch.rpm
 yum install -y -q nfs-utils sshpass nmap
 yum groupinstall -y "X Window System"
 mkdir -p /mnt/nfsshare
+
 chmod -R 777 /mnt/nfsshare/
 systemctl enable rpcbind
 systemctl enable nfs-server
@@ -18,18 +19,20 @@ systemctl start rpcbind
 systemctl start nfs-server
 systemctl start nfs-lock
 systemctl start nfs-idmap
+systemctl restart nfs-server
 
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ lib
 
-
-wget https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
+mkdir -p /home/$USER/bin
+wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
+wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/clusRun.sh -O /home/$USER/bin/clusRun.sh
+chmod +x /home/$USER/bin/clusRun.sh
+chown $USER:$USER /home/$USER/bin/clusRun.sh
 
 localip=`hostname -i | cut --delimiter='.' -f -3`
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
-systemctl restart nfs-server
-mkdir -p /home/$USER/bin
 
 mv passwordlessAuth.sh /home/$USER/bin/
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
