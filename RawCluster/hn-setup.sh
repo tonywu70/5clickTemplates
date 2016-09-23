@@ -28,8 +28,10 @@ mkdir -p /home/$USER/bin
 wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
 wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/clusRun.sh -O /home/$USER/bin/clusRun.sh
+wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/cn-setup.sh -O /home/$USER/bin/cn-setup.sh
 chmod +x /home/$USER/bin/clusRun.sh
-chown $USER:$USER /home/$USER/bin/clusRun.sh
+chmod +x /home/$USER/bin/cn-setup.sh
+chown $USER:$USER /home/$USER/bin/*
 
 localip=`hostname -i | cut --delimiter='.' -f -3`
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
@@ -57,6 +59,7 @@ for NAME in `cat /home/$USER/bin/nodeips.txt`; do sshpass -p $PASS ssh -o Connec
 
 NAMES=`cat /home/$USER/bin/nodenames.txt` #names from names.txt file
 for NAME in $NAMES; do
+        sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/install-cn.sh $USER@$NAME:/home/$USER/
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/nodenames.txt $USER@$NAME:/home/$USER/
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'mkdir /home/'$USER'/.ssh && chmod 700 .ssh'
         sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME "echo -e  'y\n' | ssh-keygen -f .ssh/id_rsa -t rsa -N ''"
@@ -77,6 +80,8 @@ done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
 chown azureuser:azureuser /home/$USER/.ssh/*
+rm /home/$USER/bin/install-cn.sh
+source /home/$USER/bin/clusRun.sh $USER /home/$USER/install-cn.sh
 
 chmod +x install-fluent.sh
 source install-fluent.sh $USER
