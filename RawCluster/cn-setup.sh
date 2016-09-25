@@ -2,6 +2,7 @@
 IPPRE=$1
 yum install -y -q nfs-utils
 mkdir -p /mnt/nfsshare
+chmod 777 /mnt/nfsshare
 systemctl enable rpcbind
 systemctl enable nfs-server
 systemctl enable nfs-lock
