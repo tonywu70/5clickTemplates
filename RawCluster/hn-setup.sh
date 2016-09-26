@@ -79,7 +79,7 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-chown azureuser:azureuser /home/$USER/.ssh/*
+chown -R azureuser:azureuser /home/$USER/.ssh/
 rm /home/$USER/bin/install-cn.sh
 
 chmod +x install-fluent.sh
