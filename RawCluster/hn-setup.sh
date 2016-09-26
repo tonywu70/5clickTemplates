@@ -10,7 +10,7 @@ rpm -ivh epel-release-7-8.noarch.rpm
 yum install -y -q nfs-utils sshpass nmap
 yum groupinstall -y "X Window System"
 mkdir -p /mnt/nfsshare
-
+echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 chmod -R 777 /mnt/nfsshare/
 systemctl enable rpcbind
 systemctl enable nfs-server
@@ -35,8 +35,6 @@ chmod +x /home/$USER/bin/cn-setup.sh
 chown $USER:$USER /home/$USER/bin/*
 
 localip=`hostname -i | cut --delimiter='.' -f -3`
-echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
-
 mv passwordlessAuth.sh /home/$USER/bin/
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
 myhost=`hostname -i`
