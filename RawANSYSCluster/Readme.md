@@ -7,19 +7,17 @@
 <b>Quickstart</b>
 
 	1) Deploy ARM Template
-		a. Click on link --> Deploy ARM Template
-		b. Select region (make sure HPC is avail)
+		a. Click on the link above
+		b. Select HPC available region
 		c. Select vm size (A8/9)
-		d. Name
+		d. Name, less than 10 characters
 		e. License server IP, use default if in MSFT
 		f. Benchmark model
-	2) Wait for deployment
+	2) Wait for deployment (may be long if a larger model)
 	3) Logon to machine IP listed in portal
-		a. Using shell, putty, or Moba
 	4) Navigate to /mnt/resource
-	5) Run fluent
-		a. Command where t48 is the number of cores that you want to run on t32 would be for 32 cores
-			i. time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t48 -cnf=/home/azureuser/bin/nodenames.txt -i runme.jou)
+	5) Run fluent, t20 is the number of cores you want to run on
+		a. time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t20 -cnf=/home/azureuser/bin/nodenames.txt -i runme.jou)
 
 
 <b>Architecture</b>
