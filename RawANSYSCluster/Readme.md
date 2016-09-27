@@ -12,7 +12,7 @@
 	1) Deploy ARM Template
 		a. Click on the link above
 		b. Select HPC available region
-		c. Select vm size (A8/9)
+		c. Select vm size (A8/9) and quantity (make sure to have quota for it)
 		d. Name, less than 10 characters
 		e. License server IP, use default if in MSFT
 		f. Benchmark model
