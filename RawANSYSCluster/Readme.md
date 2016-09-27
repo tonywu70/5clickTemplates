@@ -6,6 +6,7 @@
 <a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawANSYSCluster%2Fazuredeploy.json" target="_blank">
 <img src="http://armviz.io/visualizebutton.png"/>
 </a>
+<br></br>
 <b>Quickstart</b>
 
 	1) Deploy ARM Template
