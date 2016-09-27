@@ -2,6 +2,7 @@
 USER=$1
 LICIP=$2
 HOST=`hostname`
+echo $USER,$LICIP,$HOST
 
 mkdir /mnt/resource/INSTALLERS
 tar -xzf /mnt/resource/ANSYS.tgz -C /mnt/resource/INSTALLERS/
