@@ -80,7 +80,7 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-tar -xzf /mnt/resource/$DOWN -C /mnt/resource
+tar -xf /mnt/resource/$DOWN -C /mnt/resource
 mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
 mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
 mv runme.jou /mnt/resource/runme.jou
