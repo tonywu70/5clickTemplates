@@ -7,7 +7,7 @@ IP=`hostname -i`
 echo User is: $1
 echo Pass is: $2
 
-wget -bqc http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/$DOWN -O /mnt/resource/$DOWN
+wget -bq http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/$DOWN -O /mnt/resource/$DOWN
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 rpm -ivh epel-release-7-8.noarch.rpm
 
