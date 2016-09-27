@@ -77,13 +77,15 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-chown -R azureuser:azureuser /home/$USER/.ssh/
-chown -R azureuser:azureuser /home/$USER/bin/
-chown -R azureuser:azureuser /mnt/resource/
-rm /home/$USER/bin/cn-setup.sh
 tar -xzf /mnt/resource/sedan_4m.tgz -C /mnt/resource
 mv /mnt/resource/sedan_4m.cas.gz /mnt/resource/benchmark.cas.gz
 mv /mnt/resource/sedan_4m.dat.gz /mnt/resource/benchmark.dat.gz
+mv runme.jou /mnt/resource/runme.jou
+cp /home/$USER/bin/nodenames.txt /mnt/resource/hosts
+chown -R $USER:$USER /home/$USER/.ssh/
+chown -R $USER:$USER /home/$USER/bin/
+chown -R $USER:$USER /mnt/resource/
+rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-fluent.sh
 source install-fluent.sh $USER
