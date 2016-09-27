@@ -64,6 +64,13 @@
             "metadata": {
                 "description": "Admin password on all VMs."
             },
+        "licenseIP": {
+            "maxLength": 15,
+            "defaultValue": "52.169.161.205",
+            "type": "String",
+            "metadata": {
+                "description": "ANSYS License Server IP, standard ports"
+            },
         "downloadModel": {
             "defaultValue": "sedan_4m.tar",
             "allowedValues": [
