@@ -27,15 +27,12 @@ ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
 mkdir -p /home/$USER/bin
-wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/install-fluent.sh
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
-wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/clusRun.sh -O /home/$USER/bin/clusRun.sh
-wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/cn-setup.sh -O /home/$USER/bin/cn-setup.sh
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/sedan_4m.tgz -O /mnt/resource/sedan_4m.tgz
 
-chmod +x /home/$USER/bin/clusRun.sh
-chmod +x /home/$USER/bin/cn-setup.sh
-chown $USER:$USER /home/$USER/bin/*
+mv clusRun.sh cn-setup.sh /home/$USER/bin
+chmod +x /home/$USER/bin/*.sh
+chown $USER:$USER /home/$USER/bin
 
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
 myhost=`hostname -i`
