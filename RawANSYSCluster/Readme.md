@@ -20,7 +20,7 @@
 	3) Logon to machine IP listed in portal
 	4) Navigate to /mnt/resource
 	5) Run fluent, t20 is the number of cores you want to run on
-		a. time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t20 -cnf=/home/azureuser/bin/nodenames.txt -i runme.jou)
+		a. time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t20 -cnf=hosts -i runme.jou)
 
 
 <b>Architecture</b>
@@ -35,13 +35,13 @@ Four Storage Accounts are created for the VMSS and one for the Jumpbox. An NFS f
 
 <b>Software Configuration</b>
 
-A number of packages are installed during deployment in order to support the NFS share and the tools that are used to create the authentication. During the authentication phase of the deployment, files named <u>nodenames.txt</u> and <u>nodeips.txt</u> are placed in ~/bin. These are the names and ip addresses of all of the nodes in the VMSS. Each of these nodes should be accesible with the following command:
+A number of packages are installed during deployment in order to support the NFS share and the tools that are used to create the authentication. During the authentication phase of the deployment, files named <u>nodenames.txt</u> and <u>nodeips.txt</u> are placed in ~/bin. These are files that contain the names and ip addresses of all of the nodes in the VMSS a copy of the <u>nodenames.txt</u> is placed in <u>/mnt/resource/hosts</u>. Each of these nodes should be accesible with the following command:
 
 <code>ssh {username}@{vm-private-ip-address}</code>
 
-In addition ANSYS Fluent version 17.2 is installed into the /mnt/nfsshare/ directory and the path to the Fluent binary is added to ~.bashrc. The benchmark model that was selected at deploy time is downloaded and unpacked as <u>benchmark.cas.tgz</u> and <u>benchmark.dat.tgz</u> these are the 'Case' and 'Data' files for Fluent. They are placed in /mnt/resource on the Jumpbox. A file named runme.jou contains the scripting commands for Fluent. With these three files a benchmark can be run by issuing the following command.
+In addition ANSYS Fluent version 17.2 is installed into the <u>/mnt/nfsshare/</u> directory and the path to the Fluent binary is added to ~.bashrc. The benchmark model that was selected at deploy time is downloaded and unpacked as <u>benchmark.cas.tgz</u> and <u>benchmark.dat.tgz</u> these are the 'Case' and 'Data' files for Fluent. They are placed in /mnt/resource on the Jumpbox. A file named runme.jou contains the scripting commands for Fluent. With these three files a benchmark can be run by issuing the following command.
 
-<code>time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t48 -cnf=/home/azureuser/bin/nodenames.txt -i runme.jou)</code>
+<code>time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t48 -cnf=hosts -i runme.jou)</code>
 
 <b>Licensing</b>
 
