@@ -83,6 +83,7 @@
             "metadata": {
                 "description": "Which benchark model would you like to download"
             }
+        }
     },
     "variables": {
         "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
