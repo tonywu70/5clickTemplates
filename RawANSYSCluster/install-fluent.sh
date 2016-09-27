@@ -1,5 +1,6 @@
 #!/bin/bash
 USER=$1
+LICIP=$2
 HOST=`hostname`
 
 mkdir /mnt/resource/INSTALLERS
@@ -8,8 +9,8 @@ tar -xzf /mnt/resource/ANSYS.tgz -C /mnt/resource/INSTALLERS/
 cd /mnt/resource/INSTALLERS/ANSYS/
 mkdir -p /mnt/nfsshare/ansys_inc/shared_files/licensing/
 
-echo SERVER=1055@52.169.161.205 > /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
-echo ANSYSLI_SERVERS=2325@52.169.161.205 >> /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
+echo SERVER=1055@$LICIP > /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
+echo ANSYSLI_SERVERS=2325@$LICIP >> /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
 
 echo export FLUENT_HOSTNAME=$HOST >> /home/$USER/.bashrc
 echo export INTELMPI_ROOT=/opt/intel/impi/5.1.3.181 >> /home/$USER/.bashrc
