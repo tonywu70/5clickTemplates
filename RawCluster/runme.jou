@@ -2,6 +2,6 @@ f r-c-d test.cas.gz
 par lat
 par band
 s iterate 100
-f w-c-d results y
+f w-c-d results.gz y
 parallel timer usage
 exit y
