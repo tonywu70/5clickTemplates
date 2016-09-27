@@ -6,9 +6,25 @@
 
 <b>Quickstart</b>
 
+	1) Deploy ARM Template
+		a. Click on link --> Deploy ARM Template
+		b. Select region (make sure HPC is avail)
+		c. Select vm size (A8/9)
+		d. Name
+		e. License server IP, use default if in MSFT
+		f. Benchmark model
+	2) Wait for deployment
+	3) Logon to machine IP listed in portal
+		a. Using shell, putty, or Moba
+	4) Navigate to /mnt/resource
+	5) Run fluent
+		a. Command where t48 is the number of cores that you want to run on t32 would be for 32 cores
+			i. time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t48 -cnf=/home/azureuser/bin/nodenames.txt -i runme.jou)
+
+
 <b>Architecture</b>
 
-<img src="https://github.com/tanewill/5clickTemplates/blob/master/images/hpc_vmss_architecture.png" width="395" height="274"  alt="hpc_vmss_architecture" border="1"/> <br></br>
+<img src="https://github.com/tanewill/5clickTemplates/blob/master/images/hpc_vmss_architecture.png"  align="middle" width="395" height="274"  alt="hpc_vmss_architecture" border="1"/> <br></br>
 This template is designed to assist in the assessment of the ANSYS Fluent CFD package in the Microsoft Azure environment. It automatically downloads and configures Fluent. In addition it authenticates all of the nodes on the cluster and creates a common share directory to be used for each of the nodes. A Virtual Machine Jumpbox is created and a Virtual Machine Scale Set (VMSS) of the same type of machine is created. The VMSS enables easy scaling and quick deployment of the cluster. The Jumpbox serves as the head node. A network card is attached to the Jumpbox and placed in a Virtual Network. The Jumpbox and VMSS reside in the same virtual network. A public IP is assigned to the network with port 22 open. The Jumpbox can be accessed with the following command:
 
 <code>ssh {username}@{vm-private-ip-address}</code>
