@@ -1,7 +1,8 @@
 #!/bin/bash
 USER=$1
 PASS=$2
-DOWN=$3
+DOWN=$4
+LICIP=$3
 IP=`hostname -i`
 echo User is: $1
 echo Pass is: $2
@@ -89,6 +90,6 @@ chown -R $USER:$USER /mnt/resource/
 rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-fluent.sh
-source install-fluent.sh $USER
+source install-fluent.sh $USER $LICIP
 
 
