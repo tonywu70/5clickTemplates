@@ -63,8 +63,19 @@
             "type": "SecureString",
             "metadata": {
                 "description": "Admin password on all VMs."
+            },
+        "downloadModel": {
+            "defaultValue": "sedan_4m.tar",
+            "allowedValues": [
+                "",
+                "sedan_4m.tar",
+                "aircraft_wing_14.tar",
+                "f1_racecar_140m.tar"
+            ],
+            "type": "String",
+            "metadata": {
+                "description": "Which benchark model would you like to download"
             }
-        }
     },
     "variables": {
         "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
@@ -258,7 +269,7 @@
                         "autoUpgradeMinorVersion": true,
                         "settings": {
                             "fileUris": "[variables('vmScripts').scriptsToDownload]",
-                            "commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword')) ]",
+                            "commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('downloadModel')) ]",
                             "timestamp": 4
                         }
                     },
