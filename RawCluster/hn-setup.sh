@@ -80,6 +80,7 @@ done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
 chown -R azureuser:azureuser /home/$USER/.ssh/
+chown -R azureuser:azureuser /mnt/resource/
 rm /home/$USER/bin/install-cn.sh
 
 chmod +x install-fluent.sh
