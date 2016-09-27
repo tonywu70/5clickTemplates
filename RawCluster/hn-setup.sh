@@ -1,6 +1,7 @@
 #!/bin/bash
 USER=$1
 PASS=$2
+DOWN=$3
 IP=`hostname -i`
 echo User is: $1
 echo Pass is: $2
@@ -28,7 +29,7 @@ ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
 mkdir -p /home/$USER/bin
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
-wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/sedan_4m.tgz -O /mnt/resource/sedan_4m.tgz
+wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/$DOWN -O /mnt/resource/$DOWN
 
 mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
@@ -77,9 +78,9 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-tar -xzf /mnt/resource/sedan_4m.tgz -C /mnt/resource
-mv /mnt/resource/sedan_4m.cas.gz /mnt/resource/benchmark.cas.gz
-mv /mnt/resource/sedan_4m.dat.gz /mnt/resource/benchmark.dat.gz
+tar -xzf /mnt/resource/$DOWN -C /mnt/resource
+mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
+mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
 mv runme.jou /mnt/resource/runme.jou
 cp /home/$USER/bin/nodenames.txt /mnt/resource/hosts
 chown -R $USER:$USER /home/$USER/.ssh/
