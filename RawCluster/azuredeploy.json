@@ -112,7 +112,7 @@
                 "[concat(variables('scriptUrl'), 'cn-setup.sh')]",
                 "[concat(variables('scriptUrl'), 'hn-setup.sh')]",
                 "[concat(variables('scriptUrl'), 'install-fluent.sh')]",
-                "[concat(variables('scriptUrl'), 'passwordlessAuth.sh')]"
+                "[concat(variables('scriptUrl'), 'runme.jou')]",
             ],
             "commandToExecute": ""
         },
