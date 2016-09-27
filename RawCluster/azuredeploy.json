@@ -39,11 +39,11 @@
                 "description": "Which instance would you like to deploy to?"
             }
         },
-        "vmssName": {
-            "maxLength": 12,
+        "uniqueName": {
+            "maxLength": 10,
             "type": "String",
             "metadata": {
-                "description": "String used as a base for naming resources. Must be 3-12 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+                "description": "String used as a base for naming resources. Must be 3-10 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
             }
         },
         "instanceCount": {
@@ -69,7 +69,7 @@
     "variables": {
         "namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
         "longNamingInfix": "[toLower(parameters('vmssName'))]",
-        "jumpBoxName": "[variables('longNamingInfix')]",
+        "jumpBoxName": "[concat(variables('longNamingInfix'),'jb')]",
         "jumpBoxSAName": "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), 'jumpboxsa')), 'jb')]",
         "jumpBoxOSDiskName": "[concat(variables('jumpBoxName'), 'osdisk')]",
         "jumpBoxVHDContainerName": "[concat(variables('jumpBoxName'), 'vhd')]",
