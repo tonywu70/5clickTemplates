@@ -40,10 +40,10 @@
             }
         },
         "vmssName": {
-            "maxLength": 61,
+            "maxLength": 12,
             "type": "String",
             "metadata": {
-                "description": "String used as a base for naming resources. Must be 3-61 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+                "description": "String used as a base for naming resources. Must be 3-12 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
             }
         },
         "instanceCount": {
@@ -204,7 +204,7 @@
         },
         {
             "type": "Microsoft.Compute/virtualMachines",
-            "name": "[variables('jumpBoxName')]",
+            "name": "[parameters('vmssName')]",
             "apiVersion": "[variables('computeApiVersion')]",
             "location": "[parameters('resourceLocation')]",
             "properties": {
