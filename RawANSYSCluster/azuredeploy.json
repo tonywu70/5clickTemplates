@@ -39,7 +39,7 @@
 				"description": "Which instance would you like to deploy to?"
 			}
 		},
-		"uniqueName": {
+		"vmssName": {
 			"maxLength": 10,
 			"type": "String",
 			"metadata": {
