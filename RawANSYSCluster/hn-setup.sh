@@ -1,11 +1,12 @@
 #!/bin/bash
 USER=$1
 PASS=$2
-DOWN=$4
 LICIP=$3
+DOWN=$4
+
 IP=`hostname -i`
-echo User is: $1
-echo Pass is: $2
+echo User is: $USER
+echo Pass is: $PASS
 echo License IP is: $LICIP
 echo Model is: $DOWN
 
