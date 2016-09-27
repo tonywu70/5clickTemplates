@@ -30,6 +30,8 @@ wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/R
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
 wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/clusRun.sh -O /home/$USER/bin/clusRun.sh
 wget --quiet https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawCluster/cn-setup.sh -O /home/$USER/bin/cn-setup.sh
+wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/sedan_4m.tgz -O /mnt/resource/sedan_4m.tgz
+
 chmod +x /home/$USER/bin/clusRun.sh
 chmod +x /home/$USER/bin/cn-setup.sh
 chown $USER:$USER /home/$USER/bin/*
@@ -80,8 +82,12 @@ done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
 chown -R azureuser:azureuser /home/$USER/.ssh/
+chown -R azureuser:azureuser /home/$USER/bin/
 chown -R azureuser:azureuser /mnt/resource/
 rm /home/$USER/bin/install-cn.sh
+tar -xzf /mnt/resource/sedan_4m.tgz -C /mnt/resource
+mv /mnt/resource/sedan_4m.cas.gz /mnt/resource/benchmark.cas.gz
+mv /mnt/resource/sedan_4m.dat.gz /mnt/resource/benchmark.dat.gz
 
 chmod +x install-fluent.sh
 source install-fluent.sh $USER
