@@ -1,5 +1,6 @@
 #!/bin/bash
 IPPRE=$1
+USER=`whoami`
 yum install -y -q nfs-utils
 mkdir -p /mnt/nfsshare
 chmod 777 /mnt/nfsshare
@@ -18,6 +19,6 @@ mount -a
 
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
-chown -R azureuser:azureuser /mnt/resource/
+chown -R $USER:$USER /mnt/resource/
 
 df
