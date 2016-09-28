@@ -59,7 +59,7 @@
 				"description": "Admin password on all VMs."
 			}
 		},
-		"licenseIP": {
+		"PODKey": {
 			"maxLength": 15,
 			"defaultValue": "52.169.161.205",
 			"type": "String",
