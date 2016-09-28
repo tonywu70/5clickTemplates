@@ -12,6 +12,9 @@ echo Pass is: $PASS
 echo License IP is: $LICIP
 echo Model is: $DOWN
 
+echo "*               hard    memlock         unlimited" >> /etc/security/limits.conf
+echo "*               soft    memlock         unlimited" >> /etc/security/limits.conf
+
 mkdir -p /home/$USER/.ssh
 mkdir -p /home/$USER/bin
 mkdir -p /mnt/resource/scratch
