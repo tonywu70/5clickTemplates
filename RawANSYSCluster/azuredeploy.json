@@ -61,10 +61,10 @@
 		},
 		"licenseIP": {
 			"maxLength": 15,
-			"defaultValue": "52.169.161.205",
+			"defaultValue": "",
 			"type": "String",
 			"metadata": {
-				"description": "ANSYS License Server IP, standard ports"
+				"description": "ANSYS License Server IP, standard ports. MSFT Users contact tanewill@microsoft.com for license"
 			}
 		},
 		"downloadModel": {
