@@ -5,9 +5,10 @@ HOST=`hostname`
 echo $USER,$LICIP,$HOST
 
 mkdir /mnt/resource/INSTALLERS
-tar -xzf /mnt/resource/ANSYS.tgz -C /mnt/resource/INSTALLERS/
+tar -xzf /mnt/resource/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -C /mnt/resource/INSTALLERS/
 
-cd /mnt/resource/INSTALLERS/ANSYS/
+cd /mnt/resource/INSTALLERS/starccm+_11.02.010/
+
 mkdir -p /mnt/nfsshare/ansys_inc/shared_files/licensing/
 
 echo SERVER=1055@$LICIP > /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
