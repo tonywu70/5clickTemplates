@@ -24,7 +24,7 @@ ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
 wget --quiet http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -O /mnt/resource/ANSYS.tgz
-wget -q http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/$DOWN -O /mnt/resource/$DOWN
+wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/$DOWN -O /mnt/scratch/$DOWN
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 
 rpm -ivh epel-release-7-8.noarch.rpm
@@ -89,14 +89,14 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-tar -xf /mnt/resource/$DOWN -C /mnt/resource
-mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
-mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
-mv runme.jou /mnt/resource/runme.jou
-cp /home/$USER/bin/nodenames.txt /mnt/resource/hosts
+tar -xf /mnt/scratch/$DOWN -C /mnt/scratch
+#mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
+#mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
+#mv runme.jou /mnt/resource/runme.jou
+cp /home/$USER/bin/nodenames.txt /mnt/scratch/hosts
 chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
-chown -R $USER:$USER /mnt/resource/
+chown -R $USER:$USER /mnt/scratch/
 rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-fluent.sh
