@@ -23,14 +23,12 @@
 				"Basic_A4",
 				"Standard_A8",
 				"Standard_A9",
-				"Standard_A10",
-				"Standard_A11",
 				"Standard_H16r",
 				"Standard_H16mr"				
 			],
 			"type": "String",
 			"metadata": {
-				"description": "Which instance would you like to deploy to?"
+				"description": "Which instance would you like to deploy to? Not all VMs are available in all regions"
 			}
 		},
 		"vmssName": {
@@ -60,24 +58,23 @@
 			}
 		},
 		"PODKey": {
-			"maxLength": 15,
-			"defaultValue": "52.169.161.205",
+			"maxLength": 30,
+			"defaultValue": "",
 			"type": "String",
 			"metadata": {
-				"description": "ANSYS License Server IP, standard ports"
+				"description": "StarCCM+ POD Key, MSFT Usage Only, standard ports"
 			}
 		},
 		"downloadModel": {
-			"defaultValue": "sedan_4m.tar",
+			"defaultValue": "civil.sim.tgz",
 			"allowedValues": [
 				"",
-				"sedan_4m.tar",
-				"aircraft_wing_14.tar",
-				"f1_racecar_140m.tar"
+				"civil.sim.tgz",
+				"LeMans_100M.tgz"
 			],
 			"type": "String",
 			"metadata": {
-				"description": "Which benchark model would you like to download"
+				"description": "Which benchmark model would you like to download"
 			}
 		}
 	},
