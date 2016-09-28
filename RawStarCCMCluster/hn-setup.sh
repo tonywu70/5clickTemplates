@@ -5,20 +5,30 @@ LICIP=$3
 DOWN=$4
 
 IP=`hostname -i`
+localip=`hostname -i | cut --delimiter='.' -f -3`
+
 echo User is: $USER
 echo Pass is: $PASS
 echo License IP is: $LICIP
 echo Model is: $DOWN
 
+mkdir -p /home/$USER/bin
+mkdir -p /mnt/resource/scratch
+mkdir -p /mnt/nfsshare
+ln -s /mnt/resource/scratch /mnt/scratch
+ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
+ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
+
+wget --quiet http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -O /mnt/resource/ANSYS.tgz
 wget -q http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/$DOWN -O /mnt/resource/$DOWN
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
-rpm -ivh epel-release-7-8.noarch.rpm
 
+rpm -ivh epel-release-7-8.noarch.rpm
 yum install -y -q nfs-utils sshpass nmap
 yum groupinstall -y "X Window System"
-mkdir -p /mnt/nfsshare
-localip=`hostname -i | cut --delimiter='.' -f -3`
+
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
+echo "/mnt/scratch $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 chmod -R 777 /mnt/nfsshare/
 systemctl enable rpcbind
 systemctl enable nfs-server
@@ -29,12 +39,6 @@ systemctl start nfs-server
 systemctl start nfs-lock
 systemctl start nfs-idmap
 systemctl restart nfs-server
-
-ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
-ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
-
-mkdir -p /home/$USER/bin
-wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
 
 mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
