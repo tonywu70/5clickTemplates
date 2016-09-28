@@ -12,6 +12,7 @@ echo Pass is: $PASS
 echo License IP is: $LICIP
 echo Model is: $DOWN
 
+mkdir -p /home/$USER/.ssh
 mkdir -p /home/$USER/bin
 mkdir -p /mnt/resource/scratch
 mkdir -p /mnt/nfsshare
@@ -49,9 +50,7 @@ myhost=`hostname -i`
 sed -i '/'$myhost'/d' /home/$USER/bin/nodeips.txt
 sed -i '/10.0.0.1/d' /home/$USER/bin/nodeips.txt
 
-mkdir -p /home/$USER/.ssh
 echo -e  'y\n' | ssh-keygen -f /home/$USER/.ssh/id_rsa -t rsa -N ''
-
 echo 'Host *' >> /home/$USER/.ssh/config
 echo 'StrictHostKeyChecking no' >> /home/$USER/.ssh/config
 chmod 400 /home/$USER/.ssh/config
