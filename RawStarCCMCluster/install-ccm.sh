@@ -7,7 +7,7 @@ echo $USER,$LICIP,$HOST
 mkdir /mnt/resource/INSTALLERS
 tar -xzf /mnt/scratch/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -C /mnt/scratch/INSTALLERS/
 
-cd /mnt/scratch/INSTALLERS/starccm+_11.02.010/
+cd /mnt/resource/INSTALLERS/starccm+_11.02.010/
 
 #mkdir -p /mnt/nfsshare/ansys_inc/shared_files/licensing/
 
