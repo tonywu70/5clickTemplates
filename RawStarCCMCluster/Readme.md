@@ -1,4 +1,4 @@
-# Simple Cluster with ANSYS installed
+# Simple VMSS Cluster with StarCCM+ installed
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
