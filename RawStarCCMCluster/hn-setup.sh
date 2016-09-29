@@ -23,7 +23,7 @@ ln -s /mnt/resource/scratch /mnt/scratch
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
-wget --quiet http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -O /mnt/resource/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz
+wget --quiet http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -O /mnt/scratch/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz
 wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/$DOWN -O /mnt/scratch/$DOWN
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 
