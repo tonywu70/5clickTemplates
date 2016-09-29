@@ -13,7 +13,7 @@ cd /mnt/scratch/INSTALLERS/starccm+_11.02.010/
 
 #echo SERVER=1055@$LICIP > /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
 #echo ANSYSLI_SERVERS=2325@$LICIP >> /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
-echo export PODKey=$LICIP
+echo export PODKey=$LICIP >> /home/$USER/.bashrc
 echo export CDLMD_LICENSE_FILE=1999@flex.cd-adapco.com >> /home/$USER/.bashrc
 echo export INTELMPI_ROOT=/opt/intel/impi/5.1.3.181 >> /home/$USER/.bashrc
 echo export I_MPI_FABRICS=shm:dapl >> /home/$USER/.bashrc
