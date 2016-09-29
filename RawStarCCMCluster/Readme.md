@@ -19,7 +19,7 @@
 	2) Wait for deployment (may be long if a larger model)
 	3) Logon to machine IP listed in portal
 	4) Navigate to /mnt/scratch/benchmark
-	5) Run fluent, 'np 8' is the number of cores you want to run on
+	5) Run StarCCM+, 'np 8' is the number of cores you want to run on
 		a. time(/mnt/scratch/applications/STAR-CCM+11.02.010-R8/star/bin/starccm+ -np 8 
 		-machinefile $HOSTS -power -podkey $PODKey -rsh ssh -mpi intel -cpubind bandwidth,v 
 		-mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 
