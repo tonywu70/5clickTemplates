@@ -28,6 +28,6 @@ sh /mnt/scratch/INSTALLERS/starccm+_11.02.010/STAR-CCM+11.02.010_01_linux-x86_64
 rm -rf /mnt/scratch/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz
 rm /mnt/scratch/*.tgz
 mv /mnt/scratch/*.sim /mnt/scratch/benchmark
-chown -R $USER:$USER /mnt/scratch
+chown -R $USER:$USER /mnt/scratch/*
 chown -R $USER:$USER /mnt/nfsshare
 
