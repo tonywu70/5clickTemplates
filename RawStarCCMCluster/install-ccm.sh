@@ -22,6 +22,6 @@ echo export I_MPI_ROOT=/opt/intel/compilers_and_libraries_2016.2.181/linux/mpi >
 #echo export PATH=/mnt/scrat/ansys_inc/v172/fluent/bin:/opt/intel/impi/5.1.3.181/bin64:$PATH >> /home/$USER/.bashrc
 echo export I_MPI_DYNAMIC_CONNECTION=0 >> /home/$USER/.bashrc
 
-source /mount/scratch/STAR-CCM+11.02.010-R8/STAR-CCM+11.02.010_01_linux-x86_64-2.5_gnu4.8-r8.bin -i silent -DINSTALLDIR=/mnt/scratch/ -DNODOC=true -DINSTALLFLEX=false
+source /mnt/scratch/INSTALLERS/STAR-CCM+11.02.010-R8/STAR-CCM+11.02.010_01_linux-x86_64-2.5_gnu4.8-r8.bin -i silent -DINSTALLDIR=/mnt/scratch/ -DNODOC=true -DINSTALLFLEX=false
 
 
