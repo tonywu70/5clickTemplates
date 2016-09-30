@@ -49,8 +49,8 @@ chown $USER:$USER /home/$USER/bin
 
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
 myhost=`hostname -i`
-sed -i '/'$myhost'/d' /home/$USER/bin/nodeips.txt
-sed -i '/10.0.0.1/d' /home/$USER/bin/nodeips.txt
+sed -i '/\<'$myhost'\>/d' /home/$USER/bin/nodeips.txt
+sed -i '/\<10.0.0.1\>/d' /home/$USER/bin/nodeips.txt
 
 echo -e  'y\n' | ssh-keygen -f /home/$USER/.ssh/id_rsa -t rsa -N ''
 echo 'Host *' >> /home/$USER/.ssh/config
