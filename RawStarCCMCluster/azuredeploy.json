@@ -70,7 +70,11 @@
 			"allowedValues": [
 				"",
 				"civil.sim.tgz",
-				"LeMans_100M.tgz"
+				"LeMans_17M.tgz",
+				"LeMans_100M.tgz",
+				"LeMans_514M.tgz",
+				"VTM_68M.tgz"
+				
 			],
 			"type": "String",
 			"metadata": {
