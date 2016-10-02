@@ -97,6 +97,7 @@ chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
 chown -R $USER:$USER /mnt/scratch/
 chmod -R 744 /mnt/scratch/
+ln -s /mnt/scratch/ /mnt/resource/scratch
 rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-ccm.sh
