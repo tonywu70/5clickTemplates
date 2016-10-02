@@ -7,7 +7,10 @@ echo $USER,$LICIP,$HOST
 mkdir /mnt/scratch/applications
 mkdir /mnt/scratch/INSTALLERS
 mkdir /mnt/scratch/benchmark
-wget http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/runAndRecord.java -O /mnt/scratch/benchmark/runAndRecord.java
+
+wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/runAndRecord.java -O /mnt/scratch/benchmark/runAndRecord.java
+wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -O /mnt/scratch/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz
+wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/$DOWN -O /mnt/scratch/$DOWN
 
 tar -xzf /mnt/scratch/STAR-CCM+11.02.010_01_linux-x86_64-r8.tar.gz -C /mnt/scratch/INSTALLERS/
 
