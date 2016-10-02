@@ -20,11 +20,7 @@
 	3) Logon to machine IP listed in portal
 	4) Navigate to /mnt/scratch/benchmark
 	5) Run StarCCM+, 'np 8' is the number of cores you want to run on
-		a. time(/mnt/scratch/applications/STAR-CCM+11.02.010-R8/star/bin/starccm+ -np 8 
-		-machinefile $HOSTS -power -podkey $PODKey -rsh ssh -mpi intel -cpubind bandwidth,v 
-		-mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 
-		-genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java 
-		/mnt/scratch/benchmark/civil.sim)
+		a. time(starccm+ -np 8 -machinefile /home/$USER/bin/nodenames.txt -power -podkey $PODKey -rsh ssh -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java /mnt/scratch/benchmark/civil.sim)
 
 
 <b>Architecture</b>
