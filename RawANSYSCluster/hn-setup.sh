@@ -92,6 +92,7 @@ chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
 chown -R $USER:$USER /mnt/resource/
 rm /home/$USER/bin/cn-setup.sh
+ln -s /mnt/scratch/ /mnt/resource/scratch
 
 chmod +x install-fluent.sh
 source install-fluent.sh $USER $LICIP
