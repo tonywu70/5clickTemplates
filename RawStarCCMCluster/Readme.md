@@ -45,7 +45,7 @@ A number of packages are installed during deployment in order to support the NFS
 
 In addition StarCCM+ version 11.02.010-R8 is installed into the <u>/mnt/scratch/applications/</u> directory and the path to the StarCCM+ binary is added to ~.bashrc. The benchmark model that was selected at deploy time is downloaded and unpacked. It is placed in /mnt/scratch/benchmark on the Jumpbox. A file named runAndRecord.java contains the scripting commands for StarCCM+. With these two files a benchmark can be run by issuing the following command.
 
-<code>time((/mnt/scratch/applications/STAR-CCM+11.02.010-R8/star/bin/starccm+ -np 8 -machinefile $HOSTS -power -podkey $PODKey -rsh ssh -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java /mnt/scratch/benchmark/civil.sim)</code>
+<code>time((starccm+ -np 8 -machinefile /home/$USER/bin/nodenames.txt -power -podkey $PODKey -rsh ssh -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java /mnt/scratch/benchmark/civil.sim)</code>
 
 <b>Licensing</b>
 
