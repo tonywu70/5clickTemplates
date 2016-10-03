@@ -86,7 +86,6 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-tar -xf /mnt/scratch/$DOWN -C /mnt/scratch
 #mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
 #mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
 #mv runme.jou /mnt/resource/runme.jou
@@ -99,6 +98,6 @@ ln -s /mnt/scratch/ /mnt/resource/scratch
 rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-ccm.sh
-source install-ccm.sh $USER $LICIP
+source install-ccm.sh $USER $LICIP $DOWN
 
 
