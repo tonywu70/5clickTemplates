@@ -2,7 +2,8 @@
 USER=$1
 LICIP=$2
 HOST=`hostname`
-echo $USER,$LICIP,$HOST
+DOWN=$3
+echo $USER,$LICIP,$HOST,$DOWN
 
 mkdir /mnt/scratch/applications
 mkdir /mnt/scratch/INSTALLERS
@@ -12,6 +13,7 @@ wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage
 wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.04.012_01_linux-x86_64-r8.tar.gz -O /mnt/scratch/STAR-CCM+11.04.012_01_linux-x86_64-r8.tar.gz
 wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/$DOWN -O /mnt/scratch/$DOWN
 
+tar -xzf /mnt/scratch/$DOWN
 tar -xzf /mnt/scratch/STAR-CCM+11.04.012_01_linux-x86_64-r8.tar.gz -C /mnt/scratch/INSTALLERS/
 
 cd /mnt/scratch/INSTALLERS/starccm+_11.04.012/
