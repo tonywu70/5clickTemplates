@@ -9,8 +9,8 @@ mkdir /mnt/scratch/applications
 mkdir /mnt/scratch/INSTALLERS
 mkdir /mnt/scratch/benchmark
 
-wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/runAndRecord.java -O /mnt/scratch/benchmark/runAndRecord.java
-wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/STAR-CCM+11.04.012_01_linux-x86_64-r8.tar.gz -O /mnt/scratch/STAR-CCM+11.04.012_01_linux-x86_64-r8.tar.gz
+wget -q http://azbenchmarkstorage.blob.core.windows.net/exabenchmarkstorage/.mpifile -O /mnt/scratch/benchmark/.mpifile
+wget -q http://azbenchmarkstorage.blob.core.windows.net/exabenchmarkstorage/powerflow-5.3c-linux.tar.gz -O /mnt/scratch/powerflow-5.3c-linux.tar.gz
 wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/$DOWN -O /mnt/scratch/$DOWN
 
 tar -xf /mnt/scratch/$DOWN -C /mnt/scratch
