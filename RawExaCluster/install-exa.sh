@@ -5,6 +5,9 @@ HOST=`hostname`
 DOWN=$3
 echo $USER,$LICIP,$HOST,$DOWN
 
+sudo yum install -y compat-libstdc++-33.i686
+sudo yum install -y rsh
+
 mkdir /mnt/scratch/applications
 mkdir /mnt/scratch/INSTALLERS
 mkdir /mnt/scratch/benchmark
@@ -14,7 +17,7 @@ wget -q http://azbenchmarkstorage.blob.core.windows.net/exabenchmarkstorage/powe
 wget -q http://azbenchmarkstorage.blob.core.windows.net/cdadapcobenchmarkstorage/$DOWN -O /mnt/scratch/$DOWN
 
 tar -xf /mnt/scratch/$DOWN -C /mnt/scratch
-tar -xzf /mnt/scratch/STAR-CCM+11.04.012_01_linux-x86_64-r8.tar.gz -C /mnt/scratch/INSTALLERS/
+tar -xzf /mnt/scratch/powerflow-5.3c-linux.tar.gz -C /mnt/scratch/INSTALLERS/
 
 cd /mnt/scratch/INSTALLERS/starccm+_11.04.012/
 
