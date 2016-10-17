@@ -134,24 +134,6 @@
 		"storageApiVersion": "2015-06-15"
 	},
 	"resources": [{
-		"type": "Microsoft.Network/virtualNetworks",
-		"name": "[variables('virtualNetworkName')]",
-		"apiVersion": "[variables('networkApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
-		"properties": {
-			"addressSpace": {
-				"addressPrefixes": [
-					"[variables('addressPrefix')]"
-				]
-			},
-			"subnets": [{
-				"name": "[variables('subnetName')]",
-				"properties": {
-					"addressPrefix": "[variables('subnetPrefix')]"
-				}
-			}]
-		}
-	}, {
 		"type": "Microsoft.Storage/storageAccounts",
 		"name": "[variables('jumpBoxSAName')]",
 		"apiVersion": "[variables('storageApiVersion')]",
@@ -256,7 +238,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('PODKey'),' ',parameters('downloadModel')) ]",
+					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('downloadModel')) ]",
 					"timestamp": 4
 				}
 			},
