@@ -18,7 +18,7 @@ mkdir -p /home/$USER/.ssh
 mkdir -p /home/$USER/bin
 mkdir -p /mnt/resource/scratch
 mkdir -p /mnt/nfsshare
-ln -s /mnt/resource/scratch /mnt/scratch
+
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
@@ -29,7 +29,7 @@ yum install -y -q nfs-utils sshpass nmap htop
 yum groupinstall -y "X Window System"
 
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
-echo "/mnt/scratch $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
+echo "/mnt/resource/scratch $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 chmod -R 777 /mnt/nfsshare/
 systemctl enable rpcbind
 systemctl enable nfs-server
@@ -89,12 +89,11 @@ cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
 #mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
 #mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
 #mv runme.jou /mnt/resource/runme.jou
-cp /home/$USER/bin/nodenames.txt /mnt/scratch/hosts
+cp /home/$USER/bin/nodenames.txt /mnt/resource/scratch/hosts
 chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
-chown -R $USER:$USER /mnt/scratch/
-chmod -R 744 /mnt/scratch/
-ln -s /mnt/scratch/ /mnt/resource/scratch
+chown -R $USER:$USER /mnt/resource/scratch/
+chmod -R 744 /mnt/resource/scratch/
 rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-ccm.sh
