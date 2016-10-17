@@ -188,6 +188,11 @@
 		"name": "[variables('jumpBoxName')]",
 		"apiVersion": "[variables('computeApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
+		"dependsOn": [
+			"[concat('Microsoft.Storage/storageAccounts/', variables('jumpBoxSAName'))]",
+			"[concat('Microsoft.Network/networkInterfaces/', variables('jumpBoxNicName'))]"
+		],
+
 		"properties": {
 			"hardwareProfile": {
 				"vmSize": "[parameters('vmSku')]"
@@ -219,7 +224,8 @@
 					"storageUri": "[concat('http://',variables('jumpBoxSAName'),'.blob.core.windows.net')]"
 				}
 			}
-		},
+		}
+		
 	}, {
 		"type": "Microsoft.Compute/virtualMachineScaleSets",
 		"sku": {
