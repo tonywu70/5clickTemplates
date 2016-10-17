@@ -69,11 +69,7 @@
 			"defaultValue": "civil.sim.tgz",
 			"allowedValues": [
 				"",
-				"civil.sim.tgz",
-				"LeMans_17M.tgz",
-				"LeMans_100M.tgz",
-				"LeMans_514M.tgz",
-				"VTM_68M.tgz"
+				"large-performance-test-1024ts.cdi"
 				
 			],
 			"type": "String",
