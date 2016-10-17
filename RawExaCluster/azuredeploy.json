@@ -57,16 +57,17 @@
 				"description": "Admin password on all VMs."
 			}
 		},
-		"PODKey": {
-			"maxLength": 30,
-			"defaultValue": "",
-			"type": "String",
-			"metadata": {
-				"description": "StarCCM+ POD Key, MSFT Usage Only, standard ports"
-			}
+		"vnetName": {
+			"type": "string"
+		},
+		"vnetResourceGroup": {
+			"type": "string"
+		},
+		"subnetName": {
+			"type": "string"
 		},
 		"downloadModel": {
-			"defaultValue": "civil.sim.tgz",
+			"defaultValue": "large-performance-test-1024ts.cdi",
 			"allowedValues": [
 				"",
 				"large-performance-test-1024ts.cdi"
@@ -195,14 +196,13 @@
 						"id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
 					},
 					"subnet": {
-						"id": "[variables('subnetRef')]"
+						"id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', parameters('vnetResourceGroup'), '/providers/Microsoft.Network/virtualNetworks/', parameters('vnetName'), '/subnets/', parameters('subnetName'))]"
 					}
 				}
 			}]
 		},
 		"dependsOn": [
-			"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+			"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
 		]
 	}, {
 		"type": "Microsoft.Compute/virtualMachines",
