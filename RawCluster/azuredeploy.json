@@ -58,7 +58,7 @@
 			}
 		}
 	},
-	"variables": {
+"variables": {
 		"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
 		"longNamingInfix": "[toLower(parameters('vmssName'))]",
 		"jumpBoxName": "[concat(variables('longNamingInfix'),'jb')]",
@@ -103,6 +103,7 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
+				"[concat(variables('scriptUrl'), 'install-ccm.sh')]",
 				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
 			],
 			"commandToExecute": ""
@@ -188,11 +189,6 @@
 		"name": "[variables('jumpBoxName')]",
 		"apiVersion": "[variables('computeApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
-		"dependsOn": [
-			"[concat('Microsoft.Storage/storageAccounts/', variables('jumpBoxSAName'))]",
-			"[concat('Microsoft.Network/networkInterfaces/', variables('jumpBoxNicName'))]"
-		],
-
 		"properties": {
 			"hardwareProfile": {
 				"vmSize": "[parameters('vmSku')]"
@@ -224,8 +220,35 @@
 					"storageUri": "[concat('http://',variables('jumpBoxSAName'),'.blob.core.windows.net')]"
 				}
 			}
-		}
-		
+		},
+		"resources": [{
+			"type": "extensions",
+			"name": "masterExtension",
+			"apiVersion": "[variables('storageApiVersion')]",
+			"location": "[parameters('resourceLocation')]",
+			"tags": {
+				"displayName": "masterExtension"
+			},
+			"properties": {
+				"publisher": "Microsoft.OSTCExtensions",
+				"type": "CustomScriptForLinux",
+				"typeHandlerVersion": "1.5",
+				"autoUpgradeMinorVersion": true,
+				"settings": {
+					"fileUris": "[variables('vmScripts').scriptsToDownload]",
+					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword')) ]",
+					"timestamp": 4
+				}
+			},
+			"dependsOn": [
+				"[concat('Microsoft.Compute/virtualMachines/', variables('jumpBoxName'))]",
+				"[concat('Microsoft.Compute/virtualMachineScaleSets/',variables('namingInfix'))]"
+			]
+		}],
+		"dependsOn": [
+			"[concat('Microsoft.Storage/storageAccounts/', variables('jumpBoxSAName'))]",
+			"[concat('Microsoft.Network/networkInterfaces/', variables('jumpBoxNicName'))]"
+		]
 	}, {
 		"type": "Microsoft.Compute/virtualMachineScaleSets",
 		"sku": {
