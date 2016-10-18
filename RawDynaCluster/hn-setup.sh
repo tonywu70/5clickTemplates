@@ -96,7 +96,7 @@ chown -R $USER:$USER /mnt/scratch/
 chmod -R 744 /mnt/resource/scratch/
 rm /home/$USER/bin/cn-setup.sh
 
-chmod +x install-ccm.sh
-source install-ccm.sh $USER $LICIP $DOWN
+chmod +x install-dyna.sh
+source install-dyna.sh $USER $LICIP $DOWN
 
 
