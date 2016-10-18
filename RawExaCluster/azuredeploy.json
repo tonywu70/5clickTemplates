@@ -306,8 +306,7 @@
 			}
 		},
 		"dependsOn": [
-			"storageLoop",
-			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+			"storageLoop"
 		]
 	}]
 }
