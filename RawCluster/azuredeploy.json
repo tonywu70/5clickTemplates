@@ -103,7 +103,6 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
-				"[concat(variables('scriptUrl'), 'install-ccm.sh')]",
 				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
 			],
 			"commandToExecute": ""
