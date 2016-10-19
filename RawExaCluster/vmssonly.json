@@ -68,6 +68,9 @@
 		}
  },
 	"variables": {
+		"computeApiVersion": "2016-03-30",
+		"networkApiVersion": "2016-03-30",
+		"storageApiVersion": "2015-06-15",
 		"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
 		"longNamingInfix": "[toLower(parameters('vmssName'))]",
 		"storageAccountType": "Standard_LRS",
@@ -102,9 +105,13 @@
 			"version": "latest"
 		},
 		"imageReference": "[variables('osType')]",
-		"computeApiVersion": "2016-03-30",
-		"networkApiVersion": "2016-03-30",
-		"storageApiVersion": "2015-06-15"
+		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawExaCluster/",
+		"vmScripts": {
+			"scriptsToDownload": [
+				"[concat(variables('scriptUrl'), 'hello-world.sh')]"
+			],
+			"commandToExecute": ""
+		},
 	},
 	"resources": [{
 		"type": "Microsoft.Storage/storageAccounts",
@@ -170,6 +177,25 @@
 						}
 					}]
 				}
+				"extensionProfile": {
+					"extensions": [
+					  {
+						"name": "VMSS Extensions",
+						"properties": {
+							"publisher": "Microsoft.OSTCExtensions",
+							"type": "CustomScriptForLinux",
+							"typeHandlerVersion": "1.5",
+							"autoUpgradeMinorVersion": true,
+							"settings": {
+								"fileUris": "[variables('vmScripts').scriptsToDownload]",
+								"commandToExecute": "[concat('bash ', 'hello-world.sh') ]",
+								"timestamp": 4
+							}
+						},
+					  }
+					]
+				}
+			
 			}
 		},
 		"dependsOn": [
