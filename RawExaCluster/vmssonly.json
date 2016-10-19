@@ -191,7 +191,7 @@
 								"commandToExecute": "[concat('bash ', 'hello-world.sh') ]",
 								"timestamp": 4
 							}
-						},
+						}
 					  }
 					]
 				}
