@@ -3,22 +3,33 @@ USER=$1
 PASS=$2
 LICIP=$3
 DOWN=$4
-
 IP=`hostname -i`
+localip=`hostname -i | cut --delimiter='.' -f -3`
+
 echo User is: $USER
 echo Pass is: $PASS
 echo License IP is: $LICIP
 echo Model is: $DOWN
 
-wget -q http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/$DOWN -O /mnt/resource/$DOWN
-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
-rpm -ivh epel-release-7-8.noarch.rpm
+echo "*               hard    memlock         unlimited" >> /etc/security/limits.conf
+echo "*               soft    memlock         unlimited" >> /etc/security/limits.conf
 
-yum install -y -q nfs-utils sshpass nmap
-yum groupinstall -y "X Window System"
+mkdir -p /home/$USER/.ssh
+mkdir -p /home/$USER/bin
+mkdir -p /mnt/resource/scratch
 mkdir -p /mnt/nfsshare
-localip=`hostname -i | cut --delimiter='.' -f -3`
+
+ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
+ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
+
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+
+rpm -ivh epel-release-7-8.noarch.rpm
+yum install -y -q nfs-utils sshpass nmap htop
+yum groupinstall -y "X Window System"
+
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
+echo "/mnt/resource/scratch $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 chmod -R 777 /mnt/nfsshare/
 systemctl enable rpcbind
 systemctl enable nfs-server
@@ -30,24 +41,16 @@ systemctl start nfs-lock
 systemctl start nfs-idmap
 systemctl restart nfs-server
 
-ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
-ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
-
-mkdir -p /home/$USER/bin
-wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
-
 mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
 chown $USER:$USER /home/$USER/bin
 
 nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
 myhost=`hostname -i`
-sed -i '/'$myhost'/d' /home/$USER/bin/nodeips.txt
-sed -i '/10.0.0.1/d' /home/$USER/bin/nodeips.txt
+sed -i '/\<'$myhost'\>/d' /home/$USER/bin/nodeips.txt
+sed -i '/\<10.0.0.1\>/d' /home/$USER/bin/nodeips.txt
 
-mkdir -p /home/$USER/.ssh
 echo -e  'y\n' | ssh-keygen -f /home/$USER/.ssh/id_rsa -t rsa -N ''
-
 echo 'Host *' >> /home/$USER/.ssh/config
 echo 'StrictHostKeyChecking no' >> /home/$USER/.ssh/config
 chmod 400 /home/$USER/.ssh/config
@@ -83,16 +86,18 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-tar -xf /mnt/resource/$DOWN -C /mnt/resource
-mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
-mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
-mv runme.jou /mnt/resource/runme.jou
-cp /home/$USER/bin/nodenames.txt /mnt/resource/hosts
+cp /home/$USER/bin/nodenames.txt /mnt/resource/scratch/hosts
 chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
-chown -R $USER:$USER /mnt/resource/
+chown -R $USER:$USER /mnt/resource/scratch/
+chmod -R 744 /mnt/resource/scratch/
 rm /home/$USER/bin/cn-setup.sh
-ln -s /mnt/scratch/ /mnt/resource/scratch
+
+# Don't require password for HPC user sudo
+echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    
+# Disable tty requirement for sudo
+sed -i 's/^Defaults[ ]*requiretty/# Defaults requiretty/g' /etc/sudoers
 
 chmod +x install-fluent.sh
 source install-fluent.sh $USER $LICIP
