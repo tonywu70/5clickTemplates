@@ -4,10 +4,11 @@ LICIP=$2
 HOST=`hostname`
 echo $USER,$LICIP,$HOST
 
-mkdir /mnt/resource/INSTALLERS
-tar -xzf /mnt/resource/ANSYS.tgz -C /mnt/resource/INSTALLERS/
+mkdir /mnt/resource/scratch
+mkdir /mnt/resource/scratch/INSTALLERS
+tar -xzf /mnt/resource/scratch/ANSYS.tgz -C /mnt/resource/scratch/INSTALLERS/
 
-cd /mnt/resource/INSTALLERS/ANSYS/
+cd /mnt/resource/scratch/INSTALLERS/ANSYS/
 mkdir -p /mnt/nfsshare/ansys_inc/shared_files/licensing/
 
 echo SERVER=1055@$LICIP > /mnt/nfsshare/ansys_inc/shared_files/licensing/ansyslmd.ini
@@ -21,7 +22,9 @@ echo export I_MPI_ROOT=/opt/intel/compilers_and_libraries_2016.2.181/linux/mpi >
 echo export PATH=/mnt/nfsshare/ansys_inc/v172/fluent/bin:/opt/intel/impi/5.1.3.181/bin64:$PATH >> /home/$USER/.bashrc
 echo export I_MPI_DYNAMIC_CONNECTION=0 >> /home/$USER/.bashrc
 
-source /mnt/resource/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/nfsshare/ansys_inc/" -fluent
+source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/nfsshare/ansys_inc/" -fluent
+source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/nfsshare/ansys_inc/" -cfx
+
 
 
 
