@@ -86,15 +86,18 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-#mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
-#mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
-#mv runme.jou /mnt/resource/runme.jou
 cp /home/$USER/bin/nodenames.txt /mnt/resource/scratch/hosts
 chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
 chown -R $USER:$USER /mnt/resource/scratch/
 chmod -R 744 /mnt/resource/scratch/
 rm /home/$USER/bin/cn-setup.sh
+
+# Don't require password for HPC user sudo
+echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    
+# Disable tty requirement for sudo
+sed -i 's/^Defaults[ ]*requiretty/# Defaults requiretty/g' /etc/sudoers
 
 chmod +x install-ccm.sh
 source install-ccm.sh $USER $LICIP $DOWN
