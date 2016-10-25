@@ -1,5 +1,4 @@
-{
-	"$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
+{"$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
 		"resourceLocation": {
@@ -57,6 +56,18 @@
 				"description": "Admin password on all VMs."
 			}
 		},
+		"vnetName": {
+			"defaultValue": "MAT-vNet",
+			"type": "string"
+		},
+		"vnetResourceGroup": {
+			"defaultValue": "MAT-Networking-RG",
+			"type": "string"
+		},
+		"subnetName": {
+			"defaultValue": "Development",
+			"type": "string"
+		},
 		"PODKey": {
 			"maxLength": 30,
 			"defaultValue": "",
@@ -103,12 +114,8 @@
 		"saCount": "[length(variables('uniqueStringArray'))]",
 		"vhdContainerName": "[concat(variables('namingInfix'), 'vhd')]",
 		"osDiskName": "[concat(variables('namingInfix'), 'osdisk')]",
-		"addressPrefix": "10.0.0.0/16",
-		"subnetPrefix": "10.0.0.0/24",
-		"virtualNetworkName": "[concat(variables('namingInfix'), 'vnet')]",
-		"subnetName": "[concat(variables('namingInfix'), 'subnet')]",
-		"vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-		"subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
+		"vnetID": "[resourceId(parameters('vnetResourceGroup'),'Microsoft.Network/virtualNetworks', parameters('virtualNetworkName'))]",
+		"subnetRef": "[concat(variables('vnetID'),'/subnets/',parameters('subnetName'))]",
 		"publicIPAddressName": "[concat(variables('namingInfix'), 'pip')]",
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
@@ -136,34 +143,16 @@
 		"networkApiVersion": "2016-03-30",
 		"storageApiVersion": "2015-06-15"
 	},
-	"resources": [{
-		"type": "Microsoft.Network/virtualNetworks",
-		"name": "[variables('virtualNetworkName')]",
-		"apiVersion": "[variables('networkApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
-		"properties": {
-			"addressSpace": {
-				"addressPrefixes": [
-					"[variables('addressPrefix')]"
-				]
-			},
-			"subnets": [{
-				"name": "[variables('subnetName')]",
-				"properties": {
-					"addressPrefix": "[variables('subnetPrefix')]"
-				}
-			}]
-		}
-	}, {
-		"type": "Microsoft.Storage/storageAccounts",
+	"resources": [
+	{"type": "Microsoft.Storage/storageAccounts",
 		"name": "[variables('jumpBoxSAName')]",
 		"apiVersion": "[variables('storageApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
 		"properties": {
 			"accountType": "[variables('storageAccountType')]"
 		}
-	}, {
-		"type": "Microsoft.Storage/storageAccounts",
+	}, 
+	{"type": "Microsoft.Storage/storageAccounts",
 		"name": "[concat(variables('uniqueStringArray')[copyIndex()], variables('newStorageAccountSuffix'))]",
 		"apiVersion": "[variables('storageApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
@@ -174,8 +163,8 @@
 		"properties": {
 			"accountType": "[variables('storageAccountType')]"
 		}
-	}, {
-		"type": "Microsoft.Network/publicIPAddresses",
+	}, 
+	{"type": "Microsoft.Network/publicIPAddresses",
 		"name": "[variables('publicIPAddressName')]",
 		"apiVersion": "[variables('networkApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
@@ -205,11 +194,10 @@
 			}]
 		},
 		"dependsOn": [
-			"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
-			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+			"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
 		]
-	}, {
-		"type": "Microsoft.Compute/virtualMachines",
+	}, 
+	{"type": "Microsoft.Compute/virtualMachines",
 		"name": "[variables('jumpBoxName')]",
 		"apiVersion": "[variables('computeApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
@@ -273,8 +261,8 @@
 			"[concat('Microsoft.Storage/storageAccounts/', variables('jumpBoxSAName'))]",
 			"[concat('Microsoft.Network/networkInterfaces/', variables('jumpBoxNicName'))]"
 		]
-	}, {
-		"type": "Microsoft.Compute/virtualMachineScaleSets",
+	}, 
+	{"type": "Microsoft.Compute/virtualMachineScaleSets",
 		"sku": {
 			"name": "[parameters('vmSku')]",
 			"tier": "Standard",
@@ -318,7 +306,7 @@
 								"name": "[variables('ipConfigName')]",
 								"properties": {
 									"subnet": {
-										"id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'), '/subnets/', variables('subnetName'))]"
+										"id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', parameters('vnetResourceGroup'), '/providers/Microsoft.Network/virtualNetworks/', parameters('vnetName'), '/subnets/', parameters('subnetName'))]"
 									}
 								}
 							}]
@@ -328,8 +316,7 @@
 			}
 		},
 		"dependsOn": [
-			"storageLoop",
-			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+			"storageLoop"
 		]
 	}]
 }
