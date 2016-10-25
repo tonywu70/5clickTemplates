@@ -57,20 +57,20 @@
 			}
 		},
 		"vnetName": {
-			"defaultValue": "MAT-vNet",
+			"defaultValue": "",
 			"type": "string"
 		},
 		"vnetResourceGroup": {
-			"defaultValue": "MAT-Networking-RG",
+			"defaultValue": "",
 			"type": "string"
 		},
 		"subnetName": {
-			"defaultValue": "Development",
+			"defaultValue": "",
 			"type": "string"
 		},
 		"PODKey": {
 			"maxLength": 30,
-			"defaultValue": "",
+			"defaultValue": "abcdefg",
 			"type": "String",
 			"metadata": {
 				"description": "StarCCM+ POD Key, MSFT Usage Only, standard ports"
