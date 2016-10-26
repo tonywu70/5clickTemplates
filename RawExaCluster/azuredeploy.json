@@ -57,20 +57,23 @@
 				"description": "Admin password on all VMs."
 			}
 		},
-		"vnetName": {
-			"type": "string"
-		},
-		"vnetResourceGroup": {
-			"type": "string"
-		},
-		"subnetName": {
-			"type": "string"
+		"PODKey": {
+			"maxLength": 30,
+			"defaultValue": "",
+			"type": "String",
+			"metadata": {
+				"description": "StarCCM+ POD Key, MSFT Usage Only, standard ports"
+			}
 		},
 		"downloadModel": {
-			"defaultValue": "large-performance-test-1024ts.cdi",
+			"defaultValue": "civil.sim.tgz",
 			"allowedValues": [
 				"",
-				"large-performance-test-1024ts.cdi"
+				"civil.sim.tgz",
+				"LeMans_17M.tgz",
+				"LeMans_100M.tgz",
+				"LeMans_514M.tgz",
+				"VTM_68M.tgz"
 				
 			],
 			"type": "String",
@@ -110,7 +113,7 @@
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
 		"ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
-		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawExaCluster/",
+		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawStarCCMCluster/",
 		"cnSetupScript": "cn-setup.sh",
 		"hnSetupScript": "hn-setup.sh",
 		"osType": {
@@ -124,7 +127,7 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
-				"[concat(variables('scriptUrl'), 'install-exa.sh')]",
+				"[concat(variables('scriptUrl'), 'install-ccm.sh')]",
 				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
 			],
 			"commandToExecute": ""
@@ -134,6 +137,24 @@
 		"storageApiVersion": "2015-06-15"
 	},
 	"resources": [{
+		"type": "Microsoft.Network/virtualNetworks",
+		"name": "[variables('virtualNetworkName')]",
+		"apiVersion": "[variables('networkApiVersion')]",
+		"location": "[parameters('resourceLocation')]",
+		"properties": {
+			"addressSpace": {
+				"addressPrefixes": [
+					"[variables('addressPrefix')]"
+				]
+			},
+			"subnets": [{
+				"name": "[variables('subnetName')]",
+				"properties": {
+					"addressPrefix": "[variables('subnetPrefix')]"
+				}
+			}]
+		}
+	}, {
 		"type": "Microsoft.Storage/storageAccounts",
 		"name": "[variables('jumpBoxSAName')]",
 		"apiVersion": "[variables('storageApiVersion')]",
@@ -178,13 +199,14 @@
 						"id": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]"
 					},
 					"subnet": {
-						"id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', parameters('vnetResourceGroup'), '/providers/Microsoft.Network/virtualNetworks/', parameters('vnetName'), '/subnets/', parameters('subnetName'))]"
+						"id": "[variables('subnetRef')]"
 					}
 				}
 			}]
 		},
 		"dependsOn": [
-			"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]"
+			"[concat('Microsoft.Network/publicIPAddresses/', variables('publicIPAddressName'))]",
+			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
 		]
 	}, {
 		"type": "Microsoft.Compute/virtualMachines",
@@ -238,7 +260,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('downloadModel')) ]",
+					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('PODKey'),' ',parameters('downloadModel')) ]",
 					"timestamp": 4
 				}
 			},
@@ -296,7 +318,7 @@
 								"name": "[variables('ipConfigName')]",
 								"properties": {
 									"subnet": {
-										"id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', parameters('vnetResourceGroup'), '/providers/Microsoft.Network/virtualNetworks/', parameters('vnetName'), '/subnets/', parameters('subnetName'))]"
+										"id": "[concat('/subscriptions/', subscription().subscriptionId,'/resourceGroups/', resourceGroup().name, '/providers/Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'), '/subnets/', variables('subnetName'))]"
 									}
 								}
 							}]
@@ -306,7 +328,8 @@
 			}
 		},
 		"dependsOn": [
-			"storageLoop"
+			"storageLoop",
+			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
 		]
 	}]
 }
