@@ -7,7 +7,7 @@ echo $USER,$LICIP,$HOST
 mkdir /mnt/resource/scratch
 mkdir /mnt/resource/scratch/INSTALLERS
 mkdir /mnt/resource/scratch/INSTALLERS/ANSYS
-wget -q http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -o /mnt/resource/scratch/
+wget -q http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -o /mnt/resource/scratch/ANSYS.tgz
 tar -xzf /mnt/resource/scratch/ANSYS.tgz -C /mnt/resource/scratch/INSTALLERS/
 
 cd /mnt/resource/scratch/INSTALLERS/ANSYS/
