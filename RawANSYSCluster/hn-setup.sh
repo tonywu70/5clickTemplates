@@ -46,7 +46,10 @@ mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
 chown $USER:$USER /home/$USER/bin
 
-arp | awk '{print $1}' | grep $localip > /home/$USER/bin/nodeips.txt
+nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
+myhost=`hostname -i`
+sed -i '/\<'$myhost'\>/d' /home/$USER/bin/nodeips.txt
+sed -i '/\<10.0.0.1\>/d' /home/$USER/bin/nodeips.txt
 
 echo -e  'y\n' | ssh-keygen -f /home/$USER/.ssh/id_rsa -t rsa -N ''
 echo 'Host *' >> /home/$USER/.ssh/config
