@@ -18,6 +18,7 @@ echo "*               soft    memlock         unlimited" >> /etc/security/limits
 mkdir -p /home/$USER/.ssh
 mkdir -p /home/$USER/bin
 mkdir -p /mnt/resource/scratch
+mkdir -p /mnt/resource/scratch/benchmark
 mkdir -p /mnt/nfsshare
 
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
