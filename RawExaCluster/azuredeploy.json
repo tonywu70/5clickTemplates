@@ -66,14 +66,10 @@
 			}
 		},
 		"downloadModel": {
-			"defaultValue": "civil.sim.tgz",
+			"defaultValue": "large-performance-test-1024ts.cdi",
 			"allowedValues": [
 				"",
-				"civil.sim.tgz",
-				"LeMans_17M.tgz",
-				"LeMans_100M.tgz",
-				"LeMans_514M.tgz",
-				"VTM_68M.tgz"
+				"large-performance-test-1024ts.cdi"
 				
 			],
 			"type": "String",
