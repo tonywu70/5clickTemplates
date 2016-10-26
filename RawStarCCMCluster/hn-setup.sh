@@ -3,8 +3,9 @@ USER=$1
 PASS=$2
 LICIP=$3
 DOWN=$4
-IP=`hostname -i`
-localip=`hostname -i | cut --delimiter='.' -f -3`
+
+IP=`ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+localip=`echo $IP | cut --delimiter='.' -f -3`
 
 echo User is: $USER
 echo Pass is: $PASS
@@ -45,10 +46,7 @@ mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
 chown $USER:$USER /home/$USER/bin
 
-nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
-myhost=`hostname -i`
-sed -i '/\<'$myhost'\>/d' /home/$USER/bin/nodeips.txt
-sed -i '/\<10.0.0.1\>/d' /home/$USER/bin/nodeips.txt
+arp | awk '{print $1}' | grep $localip > /home/$USER/bin/nodeips.txt
 
 echo -e  'y\n' | ssh-keygen -f /home/$USER/.ssh/id_rsa -t rsa -N ''
 echo 'Host *' >> /home/$USER/.ssh/config
@@ -63,7 +61,7 @@ chmod 400 ~/.ssh/config
 
 for NAME in `cat /home/$USER/bin/nodeips.txt`; do sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'hostname' >> /home/$USER/bin/nodenames.txt;done
 
-NAMES=`cat /home/$USER/bin/nodenames.txt` #names from names.txt file
+NAMES=`cat /home/$USER/bin/nodeips.txt` #names from names.txt file
 for NAME in $NAMES; do
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/cn-setup.sh $USER@$NAME:/home/$USER/
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/nodenames.txt $USER@$NAME:/home/$USER/
