@@ -91,6 +91,17 @@ chown -R $USER:$USER /mnt/resource/scratch/
 chmod -R 744 /mnt/resource/scratch/
 rm /home/$USER/bin/cn-setup.sh
 
+###### hamachi connection for license server access
+wget https://www.vpn.net/installers/logmein-hamachi-2.1.0.165-1.i486.rpm
+rpm -ivh logmein-hamachi-2.1.0.165-1.i486.rpm
+
+yum -y install glibc.i686
+yum install -y compat-libstdc++-33.x86_64
+yum install -y libstdc++.so.6 --setopt=protected_multilib=false
+/etc/init.d/logmein-hamachi start
+hamachi login
+hamachi attach newillt@gmail.com
+
 # Don't require password for HPC user sudo
 echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
     
