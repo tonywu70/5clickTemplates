@@ -19,7 +19,8 @@
 	2) Wait for deployment (may be long if a larger model)
 	3) Logon to machine IP listed in portal
 	4) Navigate to /mnt/resource
-	5) Run fluent, t20 is the number of cores you want to run on
+	5) configure VPN
+	6) Run fluent, t20 is the number of cores you want to run on
 		a. time(fluent 3d -g -mpi=intel -pib.dapl -mpiopt="-genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0" -ssh -t20 -cnf=hosts -i runme.jou)
 
 
@@ -46,6 +47,8 @@ In addition ANSYS Fluent version 17.2 is installed into the <u>/mnt/nfsshare/</u
 <b>Licensing</b>
 
 Currently the default settings point to an internal Microsoft ANSYS license that can only be used for benchmarking, performance testing, and other non-sales related activities. If you are using this as part of a sales process you will need to simply place the IP address of the ANSYS license server in as a parameter at deploy time.
+
+We have updated this to use a VPN, please contact tanewill@microsoft.com for information regarding how to use the ANSYS license.
 
 <b>Known Issues</b>
 
