@@ -57,24 +57,12 @@
 				"description": "Admin password on all VMs."
 			}
 		},
-		"PODKey": {
-			"maxLength": 30,
-			"defaultValue": "",
-			"type": "String",
-			"metadata": {
-				"description": "StarCCM+ POD Key, MSFT Usage Only, standard ports"
-			}
-		},
 		"downloadModel": {
-			"defaultValue": "civil.sim.tgz",
+			"defaultValue": "motorBike_3M.tgz",
 			"allowedValues": [
 				"",
-				"civil.sim.tgz",
-				"LeMans_17M.tgz",
-				"LeMans_100M.tgz",
-				"LeMans_514M.tgz",
-				"VTM_68M.tgz"
-				
+				"motorBike_3M.tgz",
+				"motorBike_30M.tgz"				
 			],
 			"type": "String",
 			"metadata": {
@@ -260,7 +248,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('PODKey'),' ',parameters('downloadModel')) ]",
+					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('downloadModel')) ]",
 					"timestamp": 4
 				}
 			},
