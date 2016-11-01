@@ -1,9 +1,8 @@
 #!/bin/bash
 USER=$1
-LICIP=$2
 HOST=`hostname`
-DOWN=$3
-echo $USER,$LICIP,$HOST,$DOWN
+DOWN=$2
+echo $USER,$HOST,$DOWN
 mkdir /mnt/resource/scratch/
 mkdir /mnt/resource/scratch/applications
 mkdir /mnt/resource/scratch/applications/OpenFOAM
