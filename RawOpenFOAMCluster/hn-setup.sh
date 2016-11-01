@@ -1,15 +1,13 @@
 #!/bin/bash
 USER=$1
 PASS=$2
-LICIP=$3
-DOWN=$4
+DOWN=$3
 
 IP=`ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 localip=`echo $IP | cut --delimiter='.' -f -3`
 
 echo User is: $USER
 echo Pass is: $PASS
-echo License IP is: $LICIP
 echo Model is: $DOWN
 
 echo "*               hard    memlock         unlimited" >> /etc/security/limits.conf
@@ -97,7 +95,7 @@ echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 # Disable tty requirement for sudo
 sed -i 's/^Defaults[ ]*requiretty/# Defaults requiretty/g' /etc/sudoers
 
-chmod +x install-ccm.sh
-source install-ccm.sh $USER $LICIP $DOWN
+chmod +x install-of.sh
+source install-of.sh $USER $DOWN
 
 
