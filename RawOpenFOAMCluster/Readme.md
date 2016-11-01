@@ -1,9 +1,9 @@
 # Simple VMSS Cluster with StarCCM+ installed
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy_existingvnet.json" target="_blank">
+<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawOpenFOAMCluster%2Fazuredeploy_existingvnet.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
 </a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawOpenFOAMCluster%2Fazuredeploy.json" target="_blank">
 <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 <br></br>
@@ -14,12 +14,11 @@
 		b. Select HPC available region
 		c. Select vm size (H16m/H16mr or A8/A9) and quantity (make sure to have quota for it)
 		d. Name, less than 10 characters
-		e. License server IP, use default if in MSFT
-		f. Benchmark model
-	2) Wait for deployment (may be long if a larger model)
+		e. Benchmark model
+	2) Wait for deployment (may be longer if a larger model)
 	3) Logon to machine IP listed in portal
-	4) Navigate to /mnt/scratch/benchmark
-	5) Run StarCCM+, 'np 80' is the number of cores you want to run on
+	4) Navigate to /mnt/resource/scratch/benchmark
+	5) Run OpenFOAM, 'np 80' is the number of cores you want to run on
 		a. time(starccm+ -np 80 -machinefile ../hosts -power -podkey ENTER_YOUR_PODKEY_HERE -rsh ssh
 		-mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0
 		-genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java 
