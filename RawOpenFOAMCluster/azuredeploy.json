@@ -203,7 +203,7 @@
 		"location": "[parameters('resourceLocation')]",
 		"properties": {
 			"hardwareProfile": {
-				"vmSize": "['Basic A4']"
+			  "vmSize": "Basic_A3"
 			},
 			"osProfile": {
 				"computerName": "[variables('jumpBoxName')]",
