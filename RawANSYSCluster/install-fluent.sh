@@ -25,7 +25,7 @@ echo export PATH=/mnt/resource/scratch/applications/ansys_inc/v172/fluent/bin:/o
 echo export I_MPI_DYNAMIC_CONNECTION=0 >> /home/$USER/.bashrc
 
 source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/resource/scratch/applications/ansys_inc/" -fluent
-source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/resource/scratch/applications/ansys_inc/" -cfx
+#source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/resource/scratch/applications/ansys_inc/" -cfx
 
 
 
