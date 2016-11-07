@@ -57,12 +57,12 @@
 				"description": "Admin password on all VMs."
 			}
 		},
-		"PODKey": {
+		"abqLicense": {
 			"maxLength": 30,
 			"defaultValue": "",
 			"type": "String",
 			"metadata": {
-				"description": "StarCCM+ POD Key, MSFT Usage Only, standard ports"
+				"description": "Abaqus License port@host, MSFT Usage Only, standard ports"
 			}
 		},
 		"downloadModel": {
@@ -113,7 +113,7 @@
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
 		"ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
-		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawStarCCMCluster/",
+		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawStarAbqCluster/",
 		"cnSetupScript": "cn-setup.sh",
 		"hnSetupScript": "hn-setup.sh",
 		"osType": {
@@ -260,7 +260,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('PODKey'),' ',parameters('downloadModel')) ]",
+					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('abqLicense'),' ',parameters('downloadModel')) ]",
 					"timestamp": 4
 				}
 			},
