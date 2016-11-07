@@ -26,7 +26,7 @@ ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
 
 rpm -ivh epel-release-7-8.noarch.rpm
-yum install -y -q nfs-utils sshpass nmap htop
+yum install -y -q nfs-utils sshpass nmap htop npm
 yum groupinstall -y "X Window System"
 
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
