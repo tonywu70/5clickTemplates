@@ -42,7 +42,7 @@ systemctl start nfs-lock
 systemctl start nfs-idmap
 systemctl restart nfs-server
 
-mv clusRun.sh cn-setup.sh /home/$USER/bin
+cp clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
 chown $USER:$USER /home/$USER/bin
 
