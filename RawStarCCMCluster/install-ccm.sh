@@ -34,5 +34,5 @@ rm -rf /mnt/resource/scratch/STAR-CCM+11.04.010_01_linux-x86_64-r8.tar.gz
 rm /mnt/resource/scratch/*.tgz
 mv /mnt/resource/scratch/*.sim /mnt/resource/scratch/benchmark
 chown -R $USER:$USER /mnt/resource/scratch/*
-chown -R $USER:$USER /mnt/resource/nfsshare
+chown -R $USER:$USER /mnt/nfsshare
 
