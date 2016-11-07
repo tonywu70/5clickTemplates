@@ -16,14 +16,14 @@ wget -q http://azbenchmarkstorage.blob.core.windows.net/abaqusbenchmarkstorage/2
 wget -q http://azbenchmarkstorage.blob.core.windows.net/abaqusbenchmarkstorage/2016.AM_SIM_Abaqus.AllOS.2-3.tar -O /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.2-3.tar
 wget -q http://azbenchmarkstorage.blob.core.windows.net/abaqusbenchmarkstorage/2016.AM_SIM_Abaqus.AllOS.3-3.tar -O /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.3-3.tar
 
-tar -xf /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.1-3.tar -C /mnt/scratch/INSTALLERS/
-tar -xf /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.2-3.tar -C /mnt/scratch/INSTALLERS/
-tar -xf /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.3-3.tar -C /mnt/scratch/INSTALLERS/
+tar -xf /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.1-3.tar -C /mnt/resource/scratch/INSTALLERS/
+tar -xf /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.2-3.tar -C /mnt/resource/scratch/INSTALLERS/
+tar -xf /mnt/resource/scratch/2016.AM_SIM_Abaqus.AllOS.3-3.tar -C /mnt/resource/scratch/INSTALLERS/
 
 echo USE THE BELOW COMMANDS AND PATHS FOR EACH STEP IN THE INSTALLATION PROCESS > /mnt/resource/scratch/INSTALLERS/install_abq.txt
 echo ksh /mnt/resource/scratch/INSTALLERS/AM_SIM_Abaqus.AllOS/1/3DEXPERIENCE_AbaqusSolver/Linux64/1/StartTUI.sh >> /mnt/resource/scratch/INSTALLERS/install_abq.txt
 echo	/mnt/resource/scratch/applications/DassaultSystemes/SimulationServices/V6R2016x >>  /mnt/resource/scratch/INSTALLERS/install_abq.txt
-echo  >>  /mnt/scratch/INSTALLERS/install_abq.txt
+echo  >>  /mnt/resource/scratch/INSTALLERS/install_abq.txt
 echo ksh /mnt/resource/scratch/INSTALLERS/AM_SIM_Abaqus.AllOS/1/SIMULIA_Abaqus_CAE/Linux64/1/StartTUI.sh >>  /mnt/resource/scratch/INSTALLERS/install_abq.txt
 echo	/mnt/resource/scratch/applications/SIMULIA/CAE/2016 >>  /mnt/resource/scratch/INSTALLERS/install_abq.txt
 echo	/mnt/resource/scratch/applications/DassaultSystemes/SimulationServices/V6R2016x >>  /mnt/resource/scratch/INSTALLERS/install_abq.txt
