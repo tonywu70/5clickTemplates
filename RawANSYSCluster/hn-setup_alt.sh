@@ -34,7 +34,6 @@ ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
 mkdir -p /home/$USER/bin
-wget --quiet http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/ANSYS.tgz
 
 mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
@@ -94,4 +93,4 @@ chown -R $USER:$USER /mnt/resource/
 rm /home/$USER/bin/cn-setup.sh
 
 chmod +x install-fluent.sh
-source install-fluent.sh $USER $LICIP
+source install-fluent.sh $USER $LICIP $DOWN
