@@ -108,6 +108,6 @@ echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
 sed -i 's/^Defaults[ ]*requiretty/# Defaults requiretty/g' /etc/sudoers
 
 chmod +x install-fluent.sh
-source install-fluent.sh $USER $LICIP
+source install-fluent.sh $USER $LICIP $DOWN
 
 
