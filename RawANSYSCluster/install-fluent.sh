@@ -15,8 +15,8 @@ wget -q https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawANS
 wget -q http://azbenchmarkstorage.blob.core.windows.net/ansysbenchmarkstorage/ANSYS.tgz -O /mnt/resource/scratch/ANSYS.tgz
 tar -xzf /mnt/resource/scratch/ANSYS.tgz -C /mnt/resource/scratch/INSTALLERS
 tar -xvf /mnt/resource/scratch/benchmark/$DOWN -C /mnt/resource/scratch/benchmark
-mv *.dat.gz benchmark.dat.gz
-mv *.cas.gz benchmark.cas.gz
+mv /mnt/resource/scratch/benchmark/*.dat.gz /mnt/resource/scratch/benchmark/benchmark.dat.gz
+mv /mnt/resource/scratch/benchmark/*.cas.gz /mnt/resource/scratch/benchmark/benchmark.cas.gz
 
 cd /mnt/resource/scratch/INSTALLERS/ANSYS/
 mkdir -p /mnt/resource/scratch/applications/ansys_inc/shared_files/licensing/
