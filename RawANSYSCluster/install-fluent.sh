@@ -32,6 +32,8 @@ echo export I_MPI_ROOT=/opt/intel/compilers_and_libraries_2016.2.181/linux/mpi >
 echo export PATH=/mnt/resource/scratch/applications/ansys_inc/v172/fluent/bin:/opt/intel/impi/5.1.3.181/bin64:$PATH >> /home/$USER/.bashrc
 echo export I_MPI_DYNAMIC_CONNECTION=0 >> /home/$USER/.bashrc
 
+chown -R $1:$1 /mnt/resource/scratch
+
 source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/resource/scratch/applications/ansys_inc/" -fluent
 #source /mnt/resource/scratch/INSTALLERS/ANSYS/INSTALL -silent -install_dir "/mnt/resource/scratch/applications/ansys_inc/" -cfx
 
