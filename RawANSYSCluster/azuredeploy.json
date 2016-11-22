@@ -117,7 +117,7 @@
 		"hnSetupScript": "hn-setup.sh",
 		"osType": {
 			"publisher": "OpenLogic",
-			"offer": "CentOS-HPC",
+			"offer": "CentOS",
 			"sku": "7.1",
 			"version": "latest"
 		},
