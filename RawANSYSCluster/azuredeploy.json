@@ -116,9 +116,9 @@
 		"cnSetupScript": "cn-setup.sh",
 		"hnSetupScript": "hn-setup.sh",
 		"osType": {
-			"publisher": "canonical",
-			"offer": "UbuntuServer",
-			"sku": "16.10",
+			"publisher": "OpenLogic",
+			"offer": "CentOS-HPC",
+			"sku": "7.1",
 			"version": "latest"
 		},
 		"imageReference": "[variables('osType')]",
