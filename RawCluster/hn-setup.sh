@@ -1,9 +1,11 @@
 #!/bin/bash
 USER=$1
 PASS=$2
+LICIP=$3
+DOWN=$4
 
-IP=`hostname -i`
-localip=`hostname -i | cut --delimiter='.' -f -3`
+IP=`ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
+localip=`echo $IP | cut --delimiter='.' -f -3`
 
 echo User is: $USER
 echo Pass is: $PASS
@@ -21,11 +23,12 @@ mkdir -p /mnt/nfsshare
 ln -s /opt/intel/impi/5.1.3.181/intel64/bin/ /opt/intel/impi/5.1.3.181/bin
 ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 
-wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-8.noarch.rpm
+wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
 
 rpm -ivh epel-release-7-8.noarch.rpm
-yum install -y -q nfs-utils sshpass nmap htop
+yum install -y -q nfs-utils sshpass nmap htop npm
 yum groupinstall -y "X Window System"
+npm install -g azure-cli
 
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
 echo "/mnt/resource/scratch $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
@@ -62,7 +65,7 @@ chmod 400 ~/.ssh/config
 
 for NAME in `cat /home/$USER/bin/nodeips.txt`; do sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'hostname' >> /home/$USER/bin/nodenames.txt;done
 
-NAMES=`cat /home/$USER/bin/nodenames.txt` #names from names.txt file
+NAMES=`cat /home/$USER/bin/nodeips.txt` #names from names.txt file
 for NAME in $NAMES; do
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/cn-setup.sh $USER@$NAME:/home/$USER/
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/nodenames.txt $USER@$NAME:/home/$USER/
@@ -85,16 +88,16 @@ for NAME in $NAMES; do
 done
 
 cp ~/.ssh/authorized_keys /home/$USER/.ssh/authorized_keys
-#mv /mnt/resource/*.cas.gz /mnt/resource/benchmark.cas.gz
-#mv /mnt/resource/*.dat.gz /mnt/resource/benchmark.dat.gz
-#mv runme.jou /mnt/resource/runme.jou
-cp /home/$USER/bin/nodenames.txt /mnt/scratch/hosts
+cp /home/$USER/bin/nodenames.txt /mnt/resource/scratch/hosts
 chown -R $USER:$USER /home/$USER/.ssh/
 chown -R $USER:$USER /home/$USER/bin/
 chown -R $USER:$USER /mnt/resource/scratch/
 chmod -R 744 /mnt/resource/scratch/
-rm /home/$USER/bin/cn-setup.sh
 
 
-
+# Don't require password for HPC user sudo
+echo "$USER ALL=(ALL) NOPASSWD: ALL" >> /etc/sudoers
+    
+# Disable tty requirement for sudo
+sed -i 's/^Defaults[ ]*requiretty/# Defaults requiretty/g' /etc/sudoers
 
