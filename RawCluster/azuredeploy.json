@@ -58,7 +58,7 @@
 			}
 		}
 	},
-"variables": {
+	"variables": {
 		"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
 		"longNamingInfix": "[toLower(parameters('vmssName'))]",
 		"jumpBoxName": "[concat(variables('longNamingInfix'),'jb')]",
@@ -103,6 +103,7 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
+				"[concat(variables('scriptUrl'), 'install-ccm.sh')]",
 				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
 			],
 			"commandToExecute": ""
