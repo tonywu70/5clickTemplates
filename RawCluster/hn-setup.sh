@@ -1,16 +1,12 @@
 #!/bin/bash
 USER=$1
 PASS=$2
-LICIP=$3
-DOWN=$4
 
 IP=`ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 localip=`echo $IP | cut --delimiter='.' -f -3`
 
 echo User is: $USER
 echo Pass is: $PASS
-echo License IP is: $LICIP
-echo Model is: $DOWN
 
 echo "*               hard    memlock         unlimited" >> /etc/security/limits.conf
 echo "*               soft    memlock         unlimited" >> /etc/security/limits.conf
