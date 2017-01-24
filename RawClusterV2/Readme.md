@@ -11,6 +11,8 @@
     <img src="http://azuredeploy.net/deploybutton.png"/>
     <figcaption>Deploy to an existing VNet</figcaption>
     </td>
+    </tr>
+    </table>
 <br><br>
 This template allows you to deploy a simple VM Scale Set of Linux VMs using the latest HPC version of CentOS 7.1. This template also deploys a jumpbox with a public IP address in the same virtual network. You can connect to the jumpbox via this public IP address, then connect from there to VMs in the scale set via private IP addresses. To ssh into the jumpbox, you could use the following command:
 
