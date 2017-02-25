@@ -1,4 +1,4 @@
-# Simple Cluster with ANSYS installed
+# Simple Cluster with DataSynapse installed
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FDataSynapse%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
