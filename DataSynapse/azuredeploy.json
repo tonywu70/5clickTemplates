@@ -2,40 +2,6 @@
 	"$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
-		"resourceLocation": {
-			"allowedValues": [
-				"eastasia",
-				"southeastasia",
-				"centralus",
-				"eastus",
-				"eastus2",
-				"westus",
-				"northcentralus",
-				"southcentralus",
-				"northeurope",
-				"westeurope",
-				"japanwest",
-				"japaneast",
-				"brazilsouth",
-				"australiaeast",
-				"australiasoutheast",
-				"southindia",
-				"centralindia",
-				"westindia",
-				"canadacentral",
-				"canadaeast",
-				"uksouth",
-				"ukwest",
-				"westcentralus",
-				"westus2",
-				"koreacentral",
-				"koreasouth"
-			],
-			"type": "String",
-			"metadata": {
-				"description": "Azure region where all resources will be deployed. This is distinct from resource group location."
-			}
-		},
 		"managerVMSku": {
 			"defaultValue": "Standard_D3_v2",
 			"allowedValues": [
@@ -92,6 +58,7 @@
 		}
 	},
 	"variables": {
+		"resourceLocation": "[resourceGroup().location]",
 		"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
 		"longNamingInfix": "[toLower(parameters('vmssName'))]",
 		"jumpBoxName": "[concat(variables('longNamingInfix'),'jb')]",
@@ -115,7 +82,7 @@
 		"subnetName": "[concat(variables('namingInfix'), 'subnet')]",
 		"vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
 		"subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
-		"publicIPAddressName": "[concat(variables('namingInfix'), 'pip')]",
+		"publicIPAddressName": "['publicip']",
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
 		"ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
@@ -143,7 +110,7 @@
 		"type": "Microsoft.Network/virtualNetworks",
 		"name": "[variables('virtualNetworkName')]",
 		"apiVersion": "[variables('networkApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"properties": {
 			"addressSpace": {
 				"addressPrefixes": [
@@ -161,7 +128,7 @@
 		"type": "Microsoft.Storage/storageAccounts",
 		"name": "[variables('jumpBoxSAName')]",
 		"apiVersion": "[variables('storageApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"properties": {
 			"accountType": "[variables('storageAccountType')]"
 		}
@@ -169,7 +136,7 @@
 		"type": "Microsoft.Storage/storageAccounts",
 		"name": "[concat(variables('uniqueStringArray')[copyIndex()], variables('newStorageAccountSuffix'))]",
 		"apiVersion": "[variables('storageApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"copy": {
 			"name": "storageLoop",
 			"count": "[variables('saCount')]"
@@ -181,7 +148,7 @@
 		"type": "Microsoft.Network/publicIPAddresses",
 		"name": "[variables('publicIPAddressName')]",
 		"apiVersion": "[variables('networkApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"properties": {
 			"publicIPAllocationMethod": "Dynamic",
 			"dnsSettings": {
@@ -192,7 +159,7 @@
 		"type": "Microsoft.Network/networkInterfaces",
 		"name": "[variables('jumpBoxNicName')]",
 		"apiVersion": "[variables('networkApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"properties": {
 			"ipConfigurations": [{
 				"name": "[variables('jumpBoxIPConfigName')]",
@@ -215,7 +182,7 @@
 		"type": "Microsoft.Compute/virtualMachines",
 		"name": "[variables('jumpBoxName')]",
 		"apiVersion": "[variables('computeApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"properties": {
 			"hardwareProfile": {
 				"vmSize": "[parameters('managerVMSku')]"
@@ -251,7 +218,7 @@
 			"type": "extensions",
 			"name": "masterExtension",
 			"apiVersion": "[variables('storageApiVersion')]",
-			"location": "[parameters('resourceLocation')]",
+			"location": "[variables('resourceLocation')]",
 			"tags": {
 				"displayName": "masterExtension"
 			},
@@ -284,7 +251,7 @@
 		},
 		"name": "[variables('namingInfix')]",
 		"apiVersion": "[variables('computeApiVersion')]",
-		"location": "[parameters('resourceLocation')]",
+		"location": "[variables('resourceLocation')]",
 		"properties": {
 			"overprovision": "true",
 			"upgradePolicy": {
@@ -330,5 +297,11 @@
 			"storageLoop",
 			"[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
 		]
-	}]
+	}],
+	"outputs": {
+	   "PublicAddress" : {
+     		"type" : "string",
+     		"value": "[concat(reference(variables('publicIPAddressName')),':8080')]"
+  		 }
+	}
 }
