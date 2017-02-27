@@ -74,8 +74,7 @@
     "computeApiVersion": "2016-03-30",
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15",
-    "deploymentApiVersion": "2016-09-01"
-
+    "deploymentApiVersion": "2016-09-01",
     "resourceLocation": "[resourceGroup().location]",
     "namingInfix": "[toLower(substring(concat(parameters('clusterName'), uniqueString(resourceGroup().id)), 0, 9))]",
     "longNamingInfix": "[toLower(parameters('clusterName'))]",
