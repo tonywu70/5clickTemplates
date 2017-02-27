@@ -8,7 +8,7 @@
 </a>
 <br></br>
 <b>Quickstart</b>
-1) Deploy ARM Template
+	1) Deploy ARM Template
 		a. Click on the link above
 		b. Create a resource group with a custom name in a region
 		c. Select vm size for the grid manager and for the engines
