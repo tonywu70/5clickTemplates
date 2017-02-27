@@ -20,7 +20,7 @@
       "allowedValues": [
         "Standard_D2_v2",
         "Standard_D3_v2",
-        "Standard_D4_v2",        
+        "Standard_D4_v2"        
       ],
       "type": "String",
       "metadata": {
@@ -207,7 +207,7 @@
     "dependsOn": [
       "[concat('Microsoft.Storage/storageAccounts/', variables('jumpBoxSAName'))]",
       "[concat('Microsoft.Network/networkInterfaces/', variables('jumpBoxNicName'))]"
-    ]
+    ],
     "properties": {
       "hardwareProfile": {
         "vmSize": "[parameters('managerVMSku')]"
@@ -238,7 +238,7 @@
           "enabled": "false"
         }
       }
-    },
+    }
   }, 
   {
     "type": "Microsoft.Compute/virtualMachineScaleSets",
@@ -294,8 +294,8 @@
           }]
         }
       }
-    },
-  }
+    }
+  },
   {
     "name": "masterExtension",
     "type": "Microsoft.Resources/deployments",
@@ -331,9 +331,10 @@
           "vmssName": { "value": "[variables('namingInfix')]" }
         }
       }
-    },
+    }
   ],
-  "outputs": {
+  "outputs": 
+  {
      "PublicAddress" : {
          "type" : "string",
          "value": "[concat(reference(variables('publicIPAddressName')),':8080')]"
