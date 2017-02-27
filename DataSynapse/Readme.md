@@ -16,7 +16,7 @@
 		d. Specify the number of engines
 		e. Supply the SAS key for the DataSynapse bits
 		f. Logon to thee IP specified in the output http://outputip:8080
-	2) Wait for deployment (may be long if a larger model)
+	2) Wait for deployment, about 5 minutes
 	3) Logon to machine IP listed in the deployment output, http://outputip:8080
 	4) Use username: admin, password: admin
 	5) Select 'Services / Service Test' and run the LinPack becnhmark
