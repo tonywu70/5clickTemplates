@@ -2,6 +2,13 @@
 	"$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
 	"contentVersion": "1.0.0.0",
 	"parameters": {
+		"clusterName": {
+			"maxLength": 10,
+			"type": "String",
+			"metadata": {
+				"description": "String used as a base for naming resources. Must be 3-10 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
+			}
+		},
 		"managerVMSku": {
 			"defaultValue": "Standard_D3_v2",
 			"allowedValues": [
@@ -51,7 +58,7 @@
 			}
 		},
 		"DataSynapseSASToken": {
-			"type": "SecureString",
+			"type": "String",
 			"metadata": {
 				"description": "Token provided by the PG for DataSynapse"
 			}
@@ -59,8 +66,8 @@
 	},
 	"variables": {
 		"resourceLocation": "[resourceGroup().location]",
-		"namingInfix": "[toLower(substring(concat(parameters('vmssName'), uniqueString(resourceGroup().id)), 0, 9))]",
-		"longNamingInfix": "[toLower(parameters('vmssName'))]",
+		"namingInfix": "[toLower(substring(concat(parameters('clusterName'), uniqueString(resourceGroup().id)), 0, 9))]",
+		"longNamingInfix": "[toLower(parameters('clusterName'))]",
 		"jumpBoxName": "[concat(variables('longNamingInfix'),'jb')]",
 		"jumpBoxSAName": "[concat(uniqueString(concat(resourceGroup().id, variables('newStorageAccountSuffix'), 'jumpboxsa')), 'jb')]",
 		"jumpBoxOSDiskName": "[concat(variables('jumpBoxName'), 'osdisk')]",
@@ -245,7 +252,7 @@
 	}, {
 		"type": "Microsoft.Compute/virtualMachineScaleSets",
 		"sku": {
-			"name": "[parameters('vmSku')]",
+			"name": "[parameters('engineVMSku')]",
 			"tier": "Standard",
 			"capacity": "[parameters('instanceCount')]"
 		},
