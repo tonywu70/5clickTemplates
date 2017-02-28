@@ -301,7 +301,7 @@
     "type": "Microsoft.Resources/deployments",
     "apiVersion": "[variables('deploymentApiVersion')]",
     "dependsOn": [
-      "['variables('jumpBoxName')]"
+      "[variables('jumpBoxName')]"
     ],
     "properties": {
         "mode": "Incremental",
@@ -310,28 +310,11 @@
           "contentVersion": "1.0.0.0"
         },
         "parameters": {
-          "vmName": { "value": "[variables('jumpBoxName')]" }
+          "vmName": { "value": "[variables('jumpBoxName')]" },
+          "token": { "value": "[parameters('DataSynapseSASToken')]"}
         }
       }
-  },
-  {
-      "name": "vmssExtension",
-      "type": "Microsoft.Resources/deployments",
-      "apiVersion": "[variables('deploymentApiVersion')]",
-      "dependsOn": [
-        "masterExtension"
-      ],
-      "properties": {
-        "mode": "Incremental",
-        "templateLink": {
-          "uri": "[variables('vmssTemplateURI')]",
-          "contentVersion": "1.0.0.0"
-        },
-        "parameters": {
-          "vmssName": { "value": "[variables('namingInfix')]" }
-        }
-      }
-    }
+  }
   ],
   "outputs": 
   {
