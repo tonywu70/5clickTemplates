@@ -1,5 +1,5 @@
 {
-  "$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
+  "$schema": "http://schema.management.azure.com/schemas/2015-01-01/deploymentTemplate.json#",
   "contentVersion": "1.0.0.0",
   "parameters": {
     "clusterName": {
@@ -68,7 +68,7 @@
     "computeApiVersion": "2016-03-30",
     "networkApiVersion": "2016-03-30",
     "storageApiVersion": "2015-06-15",
-    "deploymentApiVersion": "2016-09-01",
+    "deploymentApiVersion": "2015-01-01",
     "resourceLocation": "[resourceGroup().location]",
     "namingInfix": "[toLower(substring(concat(parameters('clusterName'), uniqueString(resourceGroup().id)), 0, 9))]",
     "longNamingInfix": "[toLower(parameters('clusterName'))]",
@@ -99,7 +99,6 @@
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/DataSynapse/",
     "headNodeScriptTemplateURI": "[uri(deployment().properties.templateLink.uri, 'headnode-script.json')]",
-    "vmssTemplateURI": "[uri(deployment().properties.templateLink.uri, 'vmss-script.json')]",
     "osType": {
       "publisher": "RedHat",
       "offer": "RHEL",
