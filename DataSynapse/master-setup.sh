@@ -28,6 +28,8 @@ sed -i -- "s/EnterYourHostNameHere/$myhostname/" install.silent
 sed -i -- "s/Required even if the machine you're installing on is the Primary Director\!/http:\/\/$externalip:8000/g" install.silent
 sed -i -- "0,/$externalip:8000/s/http:\/\/$externalip:8000/http:\/\/$externalip:8080/" install.silent
 
+./server.sh start
 ./install.sh install.silent
+./server.sh stop
 service firewalld stop
 ./server.sh start

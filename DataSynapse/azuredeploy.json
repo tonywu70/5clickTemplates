@@ -4,7 +4,7 @@
   "parameters": {
     "clusterName": {
       "maxLength": 10,
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "String used as a base for naming resources. Must be 3-10 characters in length and globally unique across Azure. A hash is prepended to this string for some resources, and resource-specific information is appended."
       }
@@ -16,7 +16,7 @@
         "Standard_D3_v2",
         "Standard_D4_v2"        
       ],
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "Which instance would you like to install the Grid Manager on?"
       }
@@ -40,25 +40,25 @@
     },
     "instanceCount": {
       "maxValue": 100,
-      "type": "Int",
+      "type": "int",
       "metadata": {
         "description": "Number of VM instances (100 or less)."
       }
     },
     "adminUsername": {
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "Admin username on all VMs."
       }
     },
     "adminPassword": {
-      "type": "SecureString",
+      "type": "securestring",
       "metadata": {
         "description": "Admin password on all VMs."
       }
     },
     "DataSynapseSASToken": {
-      "type": "String",
+      "type": "string",
       "metadata": {
         "description": "Token provided by the PG for DataSynapse"
       }
@@ -99,6 +99,7 @@
     "ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
     "scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/DataSynapse/",
     "headNodeScriptTemplateURI": "[uri(deployment().properties.templateLink.uri, 'headnode-script.json')]",
+    "vmssScriptTemplateURI": "[uri(deployment().properties.templateLink.uri, 'vmss-script.json')]",
     "osType": {
       "publisher": "RedHat",
       "offer": "RHEL",
@@ -290,7 +291,7 @@
     }
   },
   {
-    "name": "masterExtension",
+    "name": "GridManagerExtension",
     "type": "Microsoft.Resources/deployments",
     "apiVersion": "[variables('deploymentApiVersion')]",
     "dependsOn": [
@@ -307,13 +308,32 @@
           "token": { "value": "[parameters('DataSynapseSASToken')]"}
         }
       }
+  },
+  {
+    "name": "EngineExtension",
+    "type": "Microsoft.Resources/deployments",
+    "apiVersion": "[variables('deploymentApiVersion')]",
+    "dependsOn": [
+      "[variables('namingInfix')]"
+    ],
+    "properties": {
+        "mode": "Incremental",
+        "templateLink": {
+          "uri": "[variables('vmssScriptTemplateURI')]",
+          "contentVersion": "1.0.0.0"
+        },
+        "parameters": {
+          "vmName": { "value": "[variables('jumpBoxName')]" },
+          "token": { "value": "[parameters('DataSynapseSASToken')]"}
+        }
+      }
   }
   ],
   "outputs": 
   {
      "PublicAddress" : {
          "type" : "string",
-         "value": "[concat(reference(variables('publicIPAddressName')),':8080')]"
+         "value": "[uri(concat('http://',reference(variables('publicIPAddressName')).outputs.masterFQDN.value))]"
        }
   }
 }

@@ -7,14 +7,20 @@
       "metadata": {
         "Description": "vmName to apply the script"
       }
+    },
+    "token":{
+      "type": "string",
+      "metadata": {
+        "Description": "SAS token for DataSynapse bits"
+      }
     }
   },
   "variables": {
     "vmScripts": {
       "scriptsToDownload": [
-        "[uri(deployment().properties.templateLink.uri, 'master-setup.sh')]"
+        "[uri(deployment().properties.templateLink.uri, 'vmss-setup.sh')]"
       ],
-      "commandToExecute": "bash master-setup.sh"
+      "commandToExecute": "[concat('bash vmss-setup.sh ',parameters('token'))]"
     },
     "extensionApiVersion": "2015-06-15"
   },
