@@ -27,7 +27,7 @@
   "resources": [
     {
       "type": "Microsoft.Compute/virtualMachines/extensions",
-      "name": "[concat(parameters('vmName'), '/ext')]",
+      "name": "[concat(parameters('vmName'), '/vmss')]",
       "apiVersion": "[variables('extensionApiVersion')]",
       "location": "[resourceGroup().location]",
       "properties": {
