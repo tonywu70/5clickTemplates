@@ -2,12 +2,6 @@
   "$schema": "http://schema.management.azure.com/schemas/2015-01-01-preview/deploymentTemplate.json",
   "contentVersion": "1.0.0.0",
   "parameters": {
-    "masterSettings": {
-      "type": "object",
-      "metadata": {
-      "Description": "master settings object"
-      }
-    },
     "clusterName": {
       "maxLength": 10,
       "type": "String",
