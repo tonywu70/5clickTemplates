@@ -285,17 +285,17 @@
               {
                 "name": "customScript",
                 "properties": {
-                  "publisher": "Microsoft.Compute",
+                  "publisher": "Microsoft.Azure.Extensions",
+                  "type": "CustomScript",
                   "settings": {
                     "fileUris": "[uri(deployment().properties.templateLink.uri, 'vmss-setup.sh')]",
                     "timestamp": 12                    
                   },
-                  "typeHandlerVersion": "1.8",
+                  "typeHandlerVersion": "2.0",
                   "autoUpgradeMinorVersion": true,
                   "protectedSettings": {
                     "commandToExecute": "[concat('bash vmss-setup.sh ',parameters('DataSynapseSASToken'))]"
-                  },
-                  "type": "CustomScriptExtension"
+                  }
                 }
               }
             ]
