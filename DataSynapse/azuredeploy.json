@@ -288,7 +288,7 @@
                   "publisher": "Microsoft.Azure.Extensions",
                   "type": "CustomScript",
                   "settings": {
-                    "fileUris": "[uri(deployment().properties.templateLink.uri, 'vmss-setup.sh')]",
+                    "fileUris": ["[uri(deployment().properties.templateLink.uri, 'vmss-setup.sh')]"],
                     "timestamp": 12                    
                   },
                   "typeHandlerVersion": "2.0",
