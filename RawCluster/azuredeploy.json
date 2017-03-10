@@ -39,8 +39,8 @@
 			}
 		},
 		"instanceCount": {
-			"maxValue": 100,
-			"type": "Int",
+			
+			"type": "String",
 			"metadata": {
 				"description": "Number of VM instances (100 or less)."
 			}
