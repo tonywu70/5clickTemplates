@@ -239,7 +239,8 @@
     "location": "[variables('resourceLocation')]",
     "dependsOn": [
       "storageLoop",
-      "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
+      "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]",
+      "GridManagerExtension"
     ],
     "properties": {
       "overprovision": "true",
