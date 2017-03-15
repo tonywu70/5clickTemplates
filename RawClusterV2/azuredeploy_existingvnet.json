@@ -77,27 +77,6 @@
 			"metadata": {
 				"description": "Admin password on all VMs."
 			}
-		},
-		"licenseIP": {
-			"maxLength": 15,
-			"defaultValue": "",
-			"type": "String",
-			"metadata": {
-				"description": "ANSYS License Server IP, standard ports. MSFT Users contact tanewill@microsoft.com for license"
-			}
-		},
-		"downloadModel": {
-			"defaultValue": "sedan_4m.tar",
-			"allowedValues": [
-				"",
-				"sedan_4m.tar",
-				"aircraft_wing_14.tar",
-				"f1_racecar_140m.tar"
-			],
-			"type": "String",
-			"metadata": {
-				"description": "Which benchark model would you like to download"
-			}
 		}
 	},
 	"variables": {
@@ -127,7 +106,7 @@
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
 		"ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
-		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawANSYSCluster/",
+		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawANSYSClusterV2/",
 		"cnSetupScript": "cn-setup.sh",
 		"hnSetupScript": "hn-setup.sh",
 		"osType": {
@@ -141,9 +120,7 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
-				"[concat(variables('scriptUrl'), 'install-fluent.sh')]",
-				"[concat(variables('scriptUrl'), 'clusRun.sh')]",
-				"[concat(variables('scriptUrl'), 'runme.jou')]"
+				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
 			],
 			"commandToExecute": ""
 		},
@@ -256,7 +233,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword'),' ',parameters('licenseIP'),' ',parameters('downloadModel')) ]"
+					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword')) ]"
 				}
 			},
 			"dependsOn": [
