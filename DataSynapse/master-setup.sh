@@ -31,9 +31,7 @@ sed -i -- "0,/$externalip:8000/s/http:\/\/$externalip:8000/http:\/\/$externalip:
 
 date
 
-./server.sh start
 ./install.sh install.silent
-./server.sh stop
 service firewalld stop
 ./server.sh start
 
