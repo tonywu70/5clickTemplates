@@ -120,7 +120,8 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
-				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
+				"[concat(variables('scriptUrl'), 'clusRun.sh')]",
+				"[concat(variables('scriptUrl'), 'install-exa.sh')]"
 			],
 			"commandToExecute": ""
 		},
