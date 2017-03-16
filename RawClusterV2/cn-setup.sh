@@ -3,7 +3,7 @@ echo ##################################################
 echo ############# Compute Node Setup #################
 echo ##################################################
 IPPRE=$1
-USER=`whoami`
+USER=$2
 yum install -y -q nfs-utils
 mkdir -p /mnt/nfsshare
 mkdir -p /mnt/resource/scratch
