@@ -1,9 +1,9 @@
-# Simple VMSS Cluster with StarCCM+ installed
+# Simple VMSS Cluster with Abaqus installed
 
 <a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawAbqCluster%2Fazuredeploy.json" target="_blank">
     <img src="http://azuredeploy.net/deploybutton.png" />
 </a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy.json" target="_blank">
+<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawAbqCluster%2Fazuredeploy.json" target="_blank">
 <img src="http://armviz.io/visualizebutton.png"/>
 </a>
 <br></br>
@@ -26,7 +26,7 @@
 <b>Architecture</b>
 
 <img src="https://github.com/tanewill/5clickTemplates/blob/master/images/hpc_vmss_architecture.png"  align="middle" width="395" height="274"  alt="hpc_vmss_architecture" border="1"/> <br></br>
-This template is designed to assist in the assessment of the Dassault Abaqus FEA Software in the Microsoft Azure environment. It automatically downloads and configures StarCCM+. In addition it authenticates all of the nodes on the cluster and creates a common share directory to be used for each of the nodes. A Virtual Machine Jumpbox is created and a Virtual Machine Scale Set (VMSS) of the same type of machine is created. The VMSS enables easy scaling and quick deployment of the cluster. The Jumpbox serves as the head node. A network card is attached to the Jumpbox and placed in a Virtual Network. The Jumpbox and VMSS reside in the same virtual network. A public IP is assigned to the network with port 22 open. The Jumpbox can be accessed with the following command:
+This template is designed to assist in the assessment of the Dassault Abaqus FEA Software in the Microsoft Azure environment. It automatically downloads and configures Abaqus. In addition it authenticates all of the nodes on the cluster and creates a common share directory to be used for each of the nodes. A Virtual Machine Jumpbox is created and a Virtual Machine Scale Set (VMSS) of the same type of machine is created. The VMSS enables easy scaling and quick deployment of the cluster. The Jumpbox serves as the head node. A network card is attached to the Jumpbox and placed in a Virtual Network. The Jumpbox and VMSS reside in the same virtual network. A public IP is assigned to the network with port 22 open. The Jumpbox can be accessed with the following command:
 
 <code>ssh {username}@{vm-private-ip-address}</code>
 
@@ -39,14 +39,7 @@ A number of packages are installed during deployment in order to support the NFS
 
 <code>ssh {username}@{vm-private-ip-address}</code>
 
-In addition StarCCM+ version 11.02.010-R8 is installed into the <u>/mnt/scratch/applications/</u> directory and the path to the StarCCM+ binary is added to ~.bashrc. The benchmark model that was selected at deploy time is downloaded and unpacked. It is placed in /mnt/scratch/benchmark on the Jumpbox. A file named runAndRecord.java contains the scripting commands for StarCCM+. With these two files a benchmark can be run by issuing the following command.
-
-<code>time((/mnt/scratch/applications/STAR-CCM+11.02.010-R8/star/bin/starccm+ -np 8 -machinefile $HOSTS -power -podkey $PODKey -rsh ssh -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java /mnt/scratch/benchmark/civil.sim)</code>
-
-<b>Licensing</b>
-
-When the parameters are entered for deployment the user has the ability to insert their POD Key which is the license line supplied by CD-Adapco. Internal Microsoft employees can contact <a>tanewill@microsoft.com</a> for a POD Key that can be used for benchmarking, performance testing, and other non-sales related activities. If you are using this as part of a sales process you will need to simply place the customer POD Key in as a parameter at deploy time. Additionally the CDLMD_LICENSE_FILE enviornment variable is set to 1999@flex.cd-adapco.com.
-
+In addition Abaqus V6R2016x is installed into the <u>/mnt/scratch/applications/</u> directory and the path to the Abaqus binary is added to ~.bashrc. The benchmark model that was selected at deploy time is downloaded and unpacked. It is placed in /mnt/scratch/benchmark on the Jumpbox. 
 <b>Known Issues</b>
 
-H-Series VMs are only available in the South Central region, A8 and A9 VMs are only available in East US, North Central US, South Central US, West US, North Europe, West Europe, and Japan East.
+
