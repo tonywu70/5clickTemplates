@@ -7,6 +7,7 @@ HOST=`hostname`
 mkdir /mnt/resource/scratch
 mkdir /mnt/resource/scratch/benchmark
 mkdir /mnt/resource/scratch/INSTALLERS
+mkdir /mnt/resource/scratch/applications
 
 wget http://azbenchmarkstorage.blob.core.windows.net/exabenchmarkstorage/powerflow-5.3c-linux.tar.gz -O /mnt/resource/scratch/INSTALLERS/powerflow.tgz
 cd /mnt/resource/scratch/INSTALLERS
