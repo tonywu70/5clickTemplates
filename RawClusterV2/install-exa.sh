@@ -12,5 +12,5 @@ mkdir /mnt/resource/scratch/applications
 wget http://azbenchmarkstorage.blob.core.windows.net/exabenchmarkstorage/powerflow-5.3c-linux.tar.gz -O /mnt/resource/scratch/INSTALLERS/powerflow.tgz
 cd /mnt/resource/scratch/INSTALLERS
 tar -xzf powerflow.tgz
-yum install -y compat-libstdc++-33.i686 rsh pax giflib libXpm X11 opengl
+yum install -y compat-libstdc++-33.i686 rsh pax giflib libXpm X11 opengl htop
 chown -R $1:$1 /mnt/resource/scratch

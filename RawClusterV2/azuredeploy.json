@@ -189,7 +189,8 @@
 		"apiVersion": "[variables('computeApiVersion')]",
 		"location": "[parameters('resourceLocation')]",
 		"properties": {
-			"singlePlacementGroup":true,
+			"singlePlacementGroup":"true",
+			"overprovision": "false",
 			"hardwareProfile": {
 				"vmSize": "[parameters('vmSku')]"
 			},
