@@ -89,13 +89,13 @@
 		"publicIPAddressID": "[resourceId('Microsoft.Network/publicIPAddresses',variables('publicIPAddressName'))]",
 		"nicName": "[concat(variables('namingInfix'), 'nic')]",
 		"ipConfigName": "[concat(variables('namingInfix'), 'ipconfig')]",
-		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawClusterV2/",
+		"scriptUrl": "https://raw.githubusercontent.com/tanewill/5clickTemplates/master/RawUbuntuCluster/",
 		"cnSetupScript": "cn-setup.sh",
 		"hnSetupScript": "hn-setup.sh",
 		"osType": {
-			"publisher": "OpenLogic",
-			"offer": "CentOS-HPC",
-			"sku": "7.1",
+			"publisher": "Canonical",
+			"offer": "ubuntuserver",
+			"sku": "16.10",
 			"version": "latest"
 		},
 		"imageReference": "[variables('osType')]",
@@ -103,7 +103,8 @@
 			"scriptsToDownload": [
 				"[concat(variables('scriptUrl'), 'cn-setup.sh')]",
 				"[concat(variables('scriptUrl'), 'hn-setup.sh')]",
-				"[concat(variables('scriptUrl'), 'clusRun.sh')]"
+				"[concat(variables('scriptUrl'), 'clusRun.sh')]",
+				"[concat(variables('scriptUrl'), 'install-openfaom.sh')]"
 			],
 			"commandToExecute": ""
 		},
@@ -235,7 +236,7 @@
 				"autoUpgradeMinorVersion": true,
 				"settings": {
 					"fileUris": "[variables('vmScripts').scriptsToDownload]",
-					"commandToExecute": "[concat('bash ', 'hn-setup.sh ',parameters('adminUsername'),' ',parameters('adminPassword')) ]",
+					"commandToExecute": "install-openfoam.sh",
 					"timestamp": 4
 				}
 			},
