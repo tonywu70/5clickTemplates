@@ -1,5 +1,5 @@
 #!/bin/bash
-sudo add-apt-repository http://dl.openfoam.org/ubuntu
-sudo sh -c "wget -O - http://dl.openfoam.org/gpg.key | apt-key add -"
-sudo apt-get update
-sudo apt-get -y install openfoam4
+add-apt-repository http://dl.openfoam.org/ubuntu
+sh -c "wget -O - http://dl.openfoam.org/gpg.key | apt-key add -"
+apt-get update
+apt-get -y install openfoam4
