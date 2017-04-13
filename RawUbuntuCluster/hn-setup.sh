@@ -5,6 +5,8 @@ PASS=$2
 IP=`ifconfig eth0 | grep -Eo 'inet (addr:)?([0-9]*\.){3}[0-9]*' | grep -Eo '([0-9]*\.){3}[0-9]*' | grep -v '127.0.0.1'`
 localip=`echo $IP | cut --delimiter='.' -f -3`
 
+apt-get install -y openmpi-bin openmpi-doc libopenmpi-dev nmap
+
 echo User is: $USER
 echo Pass is: $PASS
 
@@ -22,8 +24,9 @@ ln -s /opt/intel/impi/5.1.3.181/lib64/ /opt/intel/impi/5.1.3.181/lib
 wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
 
 rpm -ivh epel-release-7-9.noarch.rpm
-yum install -y -q nfs-utils sshpass nmap htop npm
-yum groupinstall -y "X Window System"
+apt install -y -q #nfs-utils sshpass nmap htop npm
+apt install -y -q sshpass nmap htop npm
+apt groupinstall -y "X Window System"
 npm install -g azure-cli
 
 echo "/mnt/nfsshare $localip.*(rw,sync,no_root_squash,no_all_squash)" | tee -a /etc/exports
@@ -43,10 +46,11 @@ mv clusRun.sh cn-setup.sh /home/$USER/bin
 chmod +x /home/$USER/bin/*.sh
 chown $USER:$USER /home/$USER/bin
 
-nmap -sn $localip.* | grep $localip. | awk '{print $5}' > /home/$USER/bin/nodeips.txt
+nmap -sn -n $localip.* -oG - | grep $localip. | awk '{print $2}' > /home/$USER/bin/nodeips.txt
 myhost=`hostname -i`
 sed -i '/\<'$myhost'\>/d' /home/$USER/bin/nodeips.txt
 sed -i '/\<10.0.0.1\>/d' /home/$USER/bin/nodeips.txt
+sed -i '/Nmap/d' /home/$USER/bin/nodeips.txt
 
 echo -e  'y\n' | ssh-keygen -f /home/$USER/.ssh/id_rsa -t rsa -N ''
 echo 'Host *' >> /home/$USER/.ssh/config
@@ -62,6 +66,9 @@ chmod 400 ~/.ssh/config
 for NAME in `cat /home/$USER/bin/nodeips.txt`; do sshpass -p $PASS ssh -o ConnectTimeout=2 $USER@$NAME 'hostname' >> /home/$USER/bin/nodenames.txt;done
 
 NAMES=`cat /home/$USER/bin/nodeips.txt` #names from names.txt file
+
+for NAME in `cat /home/$USER/bin/nodeips.txt`; do sshpass -p $PASS ssh-copy-id -i /home/azureuser/.ssh/id_rsa.pub -f $USER@$NAME; done
+
 for NAME in $NAMES; do
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/cn-setup.sh $USER@$NAME:/home/$USER/
         sshpass -p $PASS scp -o "StrictHostKeyChecking no" -o ConnectTimeout=2 /home/$USER/bin/nodenames.txt $USER@$NAME:/home/$USER/

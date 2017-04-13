@@ -3,25 +3,22 @@
   "contentVersion": "1.0.0.0",
   "parameters": {
     "resourceLocation": {
-      "value": "East US"
+      "value": "North Central US"
     },
     "vmSku": {
-      "value": "Standard_A1"
-    },
-    "ubuntuOSVersion": {
-      "value": "15.10"
+      "value": "Standard_H16r"
     },
     "vmssName": {
-      "value": "GEN-UNIQUE-32"
+      "value": "fivetwo"
     },
     "instanceCount": {
-      "value": 5
+      "value": 64
     },
     "adminUsername": {
-      "value": "ubuntu"
+      "value": "azureuser"
     },
     "adminPassword": {
-      "value": "GEN-PASSWORD"
+      "value": "Azure@123456"
     }
   }
 }
