@@ -18,10 +18,10 @@
             "value": "azureuser"
         },
         "adminPassword": {
-            "value": "Azure@123456"
+            "value": ""
         },
         "DataSynapseSASToken": {
-            "value": "se=2017-03-01T00%3A00%3A00Z&sp=r&sv=2016-05-31&sr=c&sig=dkc7F33O5YlkLSFA7dPcbNv16soZtICFKnOmB6R46DY%3D"
+            "value": ""
         }
     }
 }
