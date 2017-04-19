@@ -25,6 +25,7 @@
       "defaultValue": "Standard_D4_v2",
       "allowedValues": [
         "Standard_A0",
+        "Standard_NC6",
         "Standard_D1_v2",
         "Standard_D4_v2",
         "Standard_D5_v2",
