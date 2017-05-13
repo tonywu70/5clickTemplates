@@ -65,10 +65,10 @@
     },
     "resources": [
         {
-      "type": "Microsoft.Compute/availabilitySets",
-      "name": "[variables('availabilitySetName')]",
-      "apiVersion": "2015-05-01-preview",
-      "location": "[resourceGroup().location]"
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[variables('availabilitySetName')]",
+            "apiVersion": "2015-05-01-preview",
+            "location": "[resourceGroup().location]"
         },
         {
             "type": "Microsoft.Storage/storageAccounts",
@@ -124,7 +124,7 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('nicName'),'_',copyIndex())]",
+            "name": "[concat(variables('nicName'),copyIndex())]",
             "location": "[resourceGroup().location]",
             "tags": {
                 "displayName": "NetworkInterface"
@@ -161,7 +161,7 @@
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),'0'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),parameters('vmCount')))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),'0'))]",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -219,7 +219,7 @@
                             "diskSizeGB": "[variables('dataDiskSize')]",
                             "lun": 0,
                             "vhd": {
-                                "Uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/vhds/',concat(variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
+                                "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/vhds/',concat(variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
                             },
                             "caching": "None",
                             "createOption": "Empty"
@@ -257,15 +257,5 @@
                 }
             }
             }
-    ],
-    "outputs": {
-       "HeadNodeIP": {
-        "value": "[reference('NIC0').ipConfigurations[0].properties.privateIPAddress]",
-        "type": "string"
-        },
-       "HeadNodePubIP": {
-        "value": "[reference(concat(variables('dnsPrefixNameForPublicIP'),'0')).properties.dnsSettings.fqdn]",
-        "type": "string"
-        }
-    }
+    ]
 }
