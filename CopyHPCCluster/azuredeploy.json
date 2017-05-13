@@ -161,7 +161,7 @@
             },
             "dependsOn": [
                 "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),'0'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),variables('vmCount'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),variables('vmCount')))]",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
             ],
             "properties": {
