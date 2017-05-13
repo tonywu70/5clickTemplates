@@ -53,8 +53,8 @@
         "subnetRef": "[concat(variables('vnetID'),'/subnets/',variables('subnetName'))]",
         "vmStorageAccountContainerName": "vhds",
         "vnetID": "[resourceId('Microsoft.Network/virtualNetworks',variables('virtualNetworkName'))]",
-        "executeScript": "finaldeploy.sh",
         "availabilitySetName": "computeavset",
+        "executeScript": "finaldeploy.sh",
         "osType": {
 			"publisher": "OpenLogic",
 			"offer": "CentOS-HPC",
@@ -152,36 +152,6 @@
             }
         },
         {
-            "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('nicName'),'0')]",
-            "location": "[resourceGroup().location]",
-            "tags": {
-                "displayName": "NetworkInterface"
-            },
-            "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),'0'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),'0'))]",
-                "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
-            ],
-            "properties": {
-                "ipConfigurations": [
-                    {
-                        "name": "[concat('ipconfig', '0')]",
-                        "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
-                            "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(variables('dnsPrefixNameForPublicIP'),'0'))]"
-                            },
-                            "subnet": {
-                                "id": "[variables('subnetRef')]"
-                            }
-                        }
-                    }
-                ]
-            }
-        },
-        {
             "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2015-05-01-preview",
             "copy": {
@@ -195,6 +165,9 @@
             "location": "[resourceGroup().location]",
             "name": "[concat(variables('vmNamePrefix'),copyIndex())]",
             "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+                },
                 "hardwareProfile": {
                     "vmSize": "[parameters('vmSize')]"
                 },
