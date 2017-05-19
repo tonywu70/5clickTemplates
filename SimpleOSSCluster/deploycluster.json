@@ -15,13 +15,6 @@
                 "description": "Password for the Virtual Machine."
             }
         },
-        "OSVersion": {
-            "type": "string",
-            "defaultValue": "15.10",
-            "allowedValues": [
-                "15.10"
-            ]
-        },
         "vmCount": {
             "type": "int",
             "defaultValue": 1
@@ -35,7 +28,8 @@
             "Standard_A8",
             "Standard_A9",
             "Standard_A10",
-            "Standard_A11"
+            "Standard_A11",
+            "Standard_H16r"
             ],
             "metadata": {
                 "description": "Virtual Machine Size"
@@ -49,8 +43,8 @@
         "vmNamePrefix":"[concat(resourceGroup().name,'comp')]",
         "addressPrefix": "10.0.0.0/16",
         "dataDiskSize": "1023",
-        "imageOffer": "ubuntuserver",
-        "imagePublisher": "canonical",
+        "imageOffer": "CentOS-HPC",
+        "imagePublisher": "OpenLogic",
         "nicName": "NIC",
         "OSDiskName": "osdisk",
         "publicIPAddressType": "Dynamic",
@@ -212,7 +206,7 @@
                     "imageReference": {
                         "publisher": "[variables('imagePublisher')]",
                         "offer": "[variables('imageOffer')]",
-                        "sku": "[parameters('OSVersion')]",
+                        "sku": "7.1",
                         "version": "latest"
                     },
                     "osDisk": {
@@ -273,7 +267,7 @@
                     "imageReference": {
                         "publisher": "[variables('imagePublisher')]",
                         "offer": "[variables('imageOffer')]",
-                        "sku": "[parameters('OSVersion')]",
+                        "sku": "7.1",
                         "version": "latest"
                     },
                     "osDisk": {
