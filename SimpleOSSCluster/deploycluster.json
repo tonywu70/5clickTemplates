@@ -273,7 +273,7 @@
                     "osDisk": {
                         "name": "osdisk",
                         "vhd": {
-                            "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',concat(variables('OSDiskName'),'0'),'.vhd')]"
+                            "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',concat(variables('OSDiskName'),'headnode'),'.vhd')]"
                         },
                         "caching": "ReadWrite",
                         "createOption": "FromImage"
