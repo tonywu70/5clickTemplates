@@ -124,7 +124,7 @@
                 "displayName": "NetworkInterface"
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', 'dnsPrefixNameForPublicIP')]",
+                "[concat('Microsoft.Network/publicIPAddresses/', 'jumpBoxPIP')]",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -164,7 +164,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses','dnsPrefixNameForPublicIP')]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses','jumpBoxPIP')]"
                             },
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
