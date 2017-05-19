@@ -85,7 +85,7 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/publicIPAddresses",
-            "name": "[concat(variables('dnsPrefixNameForPublicIP'),'0')]",
+            "name": "['jumpBoxPIP']",
             "location": "[resourceGroup().location]",
             "tags": {
                 "displayName": "PublicIPAddress"
@@ -154,14 +154,13 @@
         {
             "apiVersion": "2015-05-01-preview",
             "type": "Microsoft.Network/networkInterfaces",
-            "name": "[concat(variables('nicName'),'0')]",
+            "name": "['jumpBoxNIC']",
             "location": "[resourceGroup().location]",
             "tags": {
                 "displayName": "NetworkInterface"
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),'0'))]",
-                "[concat('Microsoft.Network/networkInterfaces/', concat(variables('nicName'),variables('vmCount'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', 'jumpBoxPIP')]",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -182,10 +181,14 @@
             }
         },
         {
+            "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2015-05-01-preview",
             "copy": {
                 "name": "nodeCopy",
                 "count": "[parameters('vmCount')]"
+            },
+            "tags": {
+                "displayName": "Compute Nodes"
             },
             "dependsOn": [
                 "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
@@ -201,7 +204,7 @@
                     "vmSize": "[parameters('vmSize')]"
                 },
                 "osProfile": {
-                    "computername": "[concat(variables('vmNamePrefix'),copyIndex())]",
+                    "computerName": "[concat(variables('vmNamePrefix'),copyIndex())]",
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
@@ -226,7 +229,7 @@
                             "diskSizeGB": "[variables('dataDiskSize')]",
                             "lun": 0,
                             "vhd": {
-                                "Uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/vhds/',concat(variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
+                                "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/vhds/',concat(variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
                             },
                             "caching": "None",
                             "createOption": "Empty"
@@ -240,40 +243,68 @@
                         }
                     ]
                 }
-            },
-            "tags": {
-                "displayName": "VirtualMachine"
-            },
-            "type": "Microsoft.Compute/virtualMachines"
+            }
         },
         {
-           
+            "type": "Microsoft.Compute/virtualMachines",
             "apiVersion": "2015-05-01-preview",
-            "type": "Microsoft.Compute/virtualMachines/extensions",
-            "name": "[concat(variables('vmNamePrefix'),'0','/Install')]",
+            "tags": {
+                "displayName": "Head Node"
+            },
+            "dependsOn": [
+                "[concat('Microsoft.Storage/storageAccounts/', variables('newStorageAccountName'))]",
+                "[concat('Microsoft.Network/networkInterfaces/', 'jumpBoxNIC')]"
+            ],
             "location": "[resourceGroup().location]",
-            "dependsOn": ["[concat('Microsoft.Compute/virtualMachines/', variables('vmNamePrefix'),'0')]"],
+            "name": "jumpBox",
             "properties": {
-                "publisher": "Microsoft.OSTCExtensions",
-                "type": "CustomScriptForLinux",
-                "typeHandlerVersion": "1.4",
-                "settings": {
-                "fileUris": [
-                    "[concat('https://raw.githubusercontent.com/tanewill/tanewill/Ubuntu/DeployMultiVM/',variables('executeScript'))]"
-                ],
-                "commandToExecute": "[concat('bash ',variables('executeScript'),' 2>&1 & disown')]"
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "['jumpBox']",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "[parameters('OSVersion')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "name": "osdisk",
+                        "vhd": {
+                            "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/',variables('vmStorageAccountContainerName'),'/',concat(variables('OSDiskName'),'0'),'.vhd')]"
+                        },
+                        "caching": "ReadWrite",
+                        "createOption": "FromImage"
+                    },
+                    "dataDisks": [
+                        {
+                            "name": "datadisk1",
+                            "diskSizeGB": "[variables('dataDiskSize')]",
+                            "lun": 0,
+                            "vhd": {
+                                "uri": "[concat('http://',variables('newStorageAccountName'),'.blob.core.windows.net/vhds/',concat(variables('vmNamePrefix'),copyIndex()),'dataDisk1' ,'.vhd')]"
+                            },
+                            "caching": "None",
+                            "createOption": "Empty"
+                        }
+                    ]
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[resourceId('Microsoft.Network/networkInterfaces', 'jumpBoxNIC')]"
+                        }
+                    ]
                 }
             }
-            }
-    ],
-    "outputs": {
-       "HeadNodeIP": {
-        "value": "[reference('NIC0').ipConfigurations[0].properties.privateIPAddress]",
-        "type": "string"
-        },
-       "HeadNodePubIP": {
-        "value": "[reference(concat(variables('dnsPrefixNameForPublicIP'),'0')).properties.dnsSettings.fqdn]",
-        "type": "string"
         }
-    }
+    ]
 }
