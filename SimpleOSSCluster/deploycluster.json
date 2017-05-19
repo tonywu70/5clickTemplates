@@ -38,7 +38,7 @@
     },
     "variables": {
         "newStorageAccountName":"[concat(resourceGroup().name,'stor')]",
-        "dnsPrefixNameForPublicIP":"[concat(resourceGroup().name,'ip')]",
+        "dnsPrefixNameForPublicIP":"headnodeip",
         "virtualNetworkName": "[concat(resourceGroup().name,'net')]",
         "vmNamePrefix":"[concat(resourceGroup().name,'comp')]",
         "addressPrefix": "10.0.0.0/16",
@@ -87,7 +87,7 @@
             "properties": {
                 "publicIPAllocationMethod": "[variables('publicIPAddressType')]",
                 "dnsSettings": {
-                    "domainNameLabel": "[concat(variables('dnsPrefixNameForPublicIP'),'0')]"
+                    "domainNameLabel": "['dnsPrefixNameForPublicIP']"
                 }
             }
         },
@@ -124,7 +124,7 @@
                 "displayName": "NetworkInterface"
             },
             "dependsOn": [
-                "[concat('Microsoft.Network/publicIPAddresses/', concat(variables('dnsPrefixNameForPublicIP'),'0'))]",
+                "[concat('Microsoft.Network/publicIPAddresses/', 'dnsPrefixNameForPublicIP')]",
                 "[concat('Microsoft.Network/virtualNetworks/', variables('virtualNetworkName'))]"
             ],
             "properties": {
@@ -164,7 +164,7 @@
                         "properties": {
                             "privateIPAllocationMethod": "Dynamic",
                             "publicIPAddress": {
-                                "id": "[resourceId('Microsoft.Network/publicIPAddresses',concat(variables('dnsPrefixNameForPublicIP'),'0'))]"
+                                "id": "[resourceId('Microsoft.Network/publicIPAddresses','dnsPrefixNameForPublicIP')]"
                             },
                             "subnet": {
                                 "id": "[variables('subnetRef')]"
