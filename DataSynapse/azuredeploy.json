@@ -323,12 +323,5 @@
         }
       }
   }
-  ],
-  "outputs": 
-  {
-     "PublicAddress" : {
-         "type" : "string",
-         "value": "[uri(concat('http://',reference(variables('publicIPAddressName')).outputs.masterFQDN.value))]"
-       }
-  }
+  ]
 }
