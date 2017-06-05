@@ -263,15 +263,12 @@
                     "adminUsername": "[parameters('adminUsername')]",
                     "adminPassword": "[parameters('adminPassword')]"
                 },
-                    "storageProfile": {
-                        "imageReference": "[variables('NodeimageReference')]",  
-                        "osdisk": {
-                        "caching": "ReadOnly",
-                        "createOption": "FromImage",
-                        "managedDisk": {
-                            "storageAccountType": "Standard_LRS"
-                        }
-                        }
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "[variables('imagePublisher')]",
+                        "offer": "[variables('imageOffer')]",
+                        "sku": "7.1",
+                        "version": "latest"
                     },
                     "osDisk": {
                         "name": "osdisk",
