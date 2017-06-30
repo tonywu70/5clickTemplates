@@ -1,55 +1,175 @@
-# Simple VMSS Cluster with StarCCM+ installed
+# Run Star-CCM+ in an Azure HPC Cluster
 
-<a href="https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy.json" target="_blank">
-    <img src="http://azuredeploy.net/deploybutton.png" />
-</a>
-<a href="http://armviz.io/#/?load=https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy.json" target="_blank">
-<img src="http://armviz.io/visualizebutton.png"/>
-</a>
-<br></br>
-<b>Quickstart</b>
+With this template, you can quickly set up and benchmark a high-performance
+computing (HPC) cluster in the Microsoft Azure environment as a proof of concept
+for running Star-CCM+ version 11.02.010-R8 from CD-adapco, a Siemens Business.
+This template creates the cluster, provides benchmarking options, and installs
+the Star-CCM+ simulation software so you can test its 
+[performance on Azure](https://azure.microsoft.com/en-us/blog/availability-of-star-ccm-on-microsoft-azure/?v=17.23h).
 
-	1) Deploy ARM Template
-		a. Click on the link above
-		b. Select HPC available region
-		c. Select vm size (H16m/H16mr or A8/A9) and quantity (make sure to have quota for it)
-		d. Name, less than 10 characters
-		e. License server IP, use default if in MSFT
-		f. Benchmark model
-	2) Wait for deployment (may be long if a larger model)
-	3) Logon to machine IP listed in portal
-	4) Navigate to /mnt/scratch/benchmark
-	5) Run StarCCM+, 'np 80' is the number of cores you want to run on
-		a. time(starccm+ -np 80 -machinefile ../hosts -power -podkey ENTER_YOUR_PODKEY_HERE -rsh ssh
-		-mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0
-		-genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java 
-		/mnt/scratch/benchmark/NAME_OF_THE_SIM_FILE.sim)
+> **NOTE:** To use this template, you must have a valid Power-on-Demand (POD) license
+> for Star-CCM+. For details, see the Licensing section later in this article.
+> Your Azure subscription must also have a sufficient quota to run this workload,
+> which requires A8-A9 or H-Series virtual machines (VMs).
 
+## Architecture
 
-<b>Architecture</b>
+This template creates a simple architecture you can use to demonstrate Star-CCM+
+running in a high-performance cluster based on virtual machine scale sets. This
+architecture is intended for test purposes.
 
-<img src="https://github.com/tanewill/5clickTemplates/blob/master/images/hpc_vmss_architecture.png"  align="middle" width="395" height="274"  alt="hpc_vmss_architecture" border="1"/> <br></br>
-This template is designed to assist in the assessment of the CD-Adapco StarCCM+ CFD Software in the Microsoft Azure environment. It automatically downloads and configures StarCCM+. In addition it authenticates all of the nodes on the cluster and creates a common share directory to be used for each of the nodes. A Virtual Machine Jumpbox is created and a Virtual Machine Scale Set (VMSS) of the same type of machine is created. The VMSS enables easy scaling and quick deployment of the cluster. The Jumpbox serves as the head node. A network card is attached to the Jumpbox and placed in a Virtual Network. The Jumpbox and VMSS reside in the same virtual network. A public IP is assigned to the network with port 22 open. The Jumpbox can be accessed with the following command:
+Scale sets make it quick to deploy this cluster. A scale set is an Azure compute
+resource you can use to deploy and manage a collection of identical VMs as a
+set. Scale sets support autoscaling, making them well suited for building
+large-scale services targeting big compute and big data workloads.
 
-<code>ssh {username}@{vm-private-ip-address}</code>
-
-Four Storage Accounts are created for the VMSS and one for the Jumpbox. One NFS file share is created from the head node's OS disk and shared with all of the VMSS nodes, /mnt/nfsshare, another share is created on the temp disk of the head node, /mnt/scratch. The temp disk is a physically attached disk and will typically provide faster performance on each of the nodes.
+You use an [Azure Resource Manager](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview) 
+(ARM) template to deploy the cluster shown in the following figure.
 
 
-<b>Software Configuration</b>
+![](https://github.com/tanewill/5clickTemplates/blob/master/images/hpc_star-ccm-architecture.png "High-performance cluster for running Star-CCM+ in Azure.")
+Figure 1. High-performance cluster for running Star-CCM+ in Azure.
 
-A number of packages are installed during deployment in order to support the NFS share and the tools that are used to create the authentication. During the authentication phase of the deployment, files named <u>nodenames.txt</u> and <u>nodeips.txt</u> are placed in ~/bin. These are files that contain the names and ip addresses of all of the nodes in the VMSS a copy of the <u>nodenames.txt</u> is placed in <u>/mnt/resource/hosts</u>. Each of these nodes should be accesible with the following command:
+After downloading and configuring Star-CCM+, the template authenticates all the
+nodes in the cluster and creates a common share directory used by each node. One
+VM is designated as the jumpbox and head node. A network interface (NIC) is
+added to the jumpbox, which is placed in a virtual network together with the
+scale set. A public IP is assigned to the jumpbox NIC and port 22 is left open
+for SSH.
 
-<code>ssh {username}@{vm-private-ip-address}</code>
+To access the jumpbox, use the following command:
 
-In addition StarCCM+ version 11.02.010-R8 is installed into the <u>/mnt/scratch/applications/</u> directory and the path to the StarCCM+ binary is added to ~.bashrc. The benchmark model that was selected at deploy time is downloaded and unpacked. It is placed in /mnt/scratch/benchmark on the Jumpbox. A file named runAndRecord.java contains the scripting commands for StarCCM+. With these two files a benchmark can be run by issuing the following command.
+```
+   ssh {username}\@{vm-public-ip-address}
+```
 
-<code>time((starccm+ -np 80 -machinefile ../hosts -power -podkey YOUR_POD_KEY_HERE -rsh ssh -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv I_MPI_DAPL_PROVIDER=ofa-v2-ib0 -genv I_MPI_DAPL_UD=0 -genv I_MPI_DYNAMIC_CONNECTION=0" -batch /mnt/scratch/benchmark/runAndRecord.java NAME_OF_YOUR_SIM_FILE_HERE.sim)</code>
+## Storage
 
-<b>Licensing</b>
+For this architecture, the template creates four [storage accounts](https://docs.microsoft.com/en-us/azure/storage/storage-create-storage-account)
+for the scale set and one for the jumpbox. The following NFS file shares are
+created:
 
-When the parameters are entered for deployment the user has the ability to insert their POD Key which is the license line supplied by CD-Adapco. Internal Microsoft employees can contact <a>tanewill@microsoft.com</a> for a POD Key that can be used for benchmarking, performance testing, and other non-sales related activities. If you are using this as part of a sales process you will need to simply place the customer POD Key in as a parameter at deploy time. Additionally the CDLMD_LICENSE_FILE enviornment variable is set to 1999@flex.cd-adapco.com.
+-   **/mnt/nfsshare** is created from the head node's operating system disk and
+    shared with the scale set nodes.
 
-<b>Known Issues</b>
+-   **/mnt/resource/scratch** is created on the temp disk of the head node. The
+    temp disk is a physically attached disk that typically provides faster
+    performance on each of the nodes. If the jumpbox is deallocated, the data in
+    this directory will be lost.
 
-H-Series VMs are only available in the South Central region, A8 and A9 VMs are only available in East US, North Central US, South Central US, West US, North Europe, West Europe, and Japan East.
+This template does not take advantage of Azure Managed Disks to manage the
+storage accounts associated with the VM disks. We plan to add this feature in a
+future update of this template.
+
+## Authentication
+
+To support the NFS share and the tools used to set up authentication, several
+packages are installed during deployment. During the authentication phase, the
+**nodenames.txt** and **nodeips.txt** files are placed in **\~/bin**. These
+files contain the names and IP addresses of the nodes in the scale set. A copy
+of **nodenames.txt** is placed in **/mnt/resource/hosts**.
+
+The VMs that are part of the scale set, which is inside a private network, are
+accessible only from the jumpbox by using a private IP address. To access one of
+these nodes from the jumpbox, use the following command in an SSH client:
+
+```
+   ssh {username}\@{vm-private-ip-address}
+```
+
+## Star-CCM+
+
+During deployment, you select the model of benchmark you want to use, and this
+model is installed along with Star-CCM+ version 11.02.010-R8. The application is
+installed in the **/mnt/resource/scratch/applications/** directory, and a path
+to the binary is added to **\~.bashrc**. The benchmark model is unpacked in the
+jumpbox’s **/mnt/resource/scratch/benchmark** directory.
+
+The **runAndRecord.java** file contains the scripting commands for Star-CCM+. To
+run a benchmark, issue the following command, where {podkey} is your license and
+{filename.sim} is the name of the Star-CCM+ simulation you want to run.
+
+```
+    time(Star-CCM+ -np 80 -machinefile ../hosts -power -podkey {podkey} -rsh ssh
+    -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv
+    I\_MPI\_DAPL\_PROVIDER=ofa-v2-ib0 -genv I\_MPI\_DAPL\_UD=0 -genv
+    I\_MPI\_DYNAMIC\_CONNECTION=0 -genv I\_MPI\_FABRICS=shm:dapl" -batch
+    /mnt/resource/scratch/benchmark/runAndRecord.java
+    /mnt/resource/scratch/benchmark/{filename.sim)
+```
+
+## Licensing
+
+During deployment, you are asked for the POD key associated with your Star-CCM+
+license.
+
+-   **If you’re using this template to demonstrate Star-CCM+ for sales
+    purposes**, before deployment, you can add your customer’s POD key as a
+    parameter in the **azuredeploy.parameters** file.
+
+-   **If you work for Microsoft**, you can [sign up to receive an existing POD key](https://aka.ms/cd-adapco)
+    for benchmarking, performance testing, and other non-sales related activities.
+
+# Deploy the ARM template
+
+1.  Right-click **Deploy to Azure** shown below and select either **Open link in
+    new tab** or **Open link in new window**.
+
+>    [![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/#create/Microsoft.Template/uri/https%3A%2F%2Fraw.githubusercontent.com%2Ftanewill%2F5clickTemplates%2Fmaster%2FRawStarCCMCluster%2Fazuredeploy.json)
+
+1.  In the Azure portal, enter values for the following settings:
+
+    1.  For **Resource group**, select **Create New** and type a name for the
+        [resource group](https://docs.microsoft.com/en-us/azure/azure-resource-manager/resource-group-overview#resource-groups)
+        associated with this template’s deployment.
+
+    2.  For **Location** box, select a region.
+
+    3.  For **Resource Location**, select a region where HPC is available. The
+        resources will be deployed to this region. For the latest information,
+        see [Products by Region](https://azure.microsoft.com/en-us/regions/services/).
+
+    4.  For **Vm Sku**, choose the VM size that works in your region, such as
+        **H16r** or **H16mr**.
+
+    5.  For **Vmss Name**, enter a base name of 3 to 10 characters used in
+        naming resources. The name must be unique across Azure. For some
+        resources, a hash is prefixed to this name. Other resource-specific
+        information is appended to this name.
+
+    6.  For **Instance Count**, choose the number of VMs you want. To see if you
+        have the quota for the quantity you choose, see how to 
+        [check core and storage usage](https://blogs.msdn.microsoft.com/madan/2016/10/25/check-azure-resource-manager-arm-vm-core-storage-usage-using-powershell/)
+        using PowerShell.
+
+    7.  For **Admin Username** and **Admin Password**, enter the values you want
+        to use for the administrator account, which applies to all the VMs.
+
+    8.  In the **POD Key** box, enter your product license.
+
+    9.  For **Download Model**, select the benchmark model you want to use.
+
+    10. Review the terms and conditions, then click the **I agree to the terms
+        and conditions stated above** checkbox.
+
+    11. Click the **Purchase** button, then wait for the deployment to finish,
+        which may take some time depending on the VM sizes selected. The
+        deployment status is shown under **Notifications**.
+
+2.  In Azure portal, navigate to the resource group where this was deployed,
+    click the **Public IP** resource, copy the IP address, then log on to the
+    VM.
+
+3.  Navigate to **/mnt/resource/scratch/benchmark**.
+
+4.  To run **Star-CCM+**, use the following command, substituting your POD key
+    number and the name of the .sim file you want to run. In this code sample,
+    **np 80** is the number of cores to run on.
+```
+    time(Star-CCM+ -np 80 -machinefile ../hosts -power -podkey {podkey} -rsh ssh
+    -mpi intel -cpubind bandwidth,v -mppflags " -ppn 8 -genv
+    I\_MPI\_DAPL\_PROVIDER=ofa-v2-ib0 -genv I\_MPI\_DAPL\_UD=0 -genv
+    I\_MPI\_DYNAMIC\_CONNECTION=0 -genv I\_MPI\_FABRICS=shm:dapl" -batch
+    /mnt/resource/scratch/benchmark/runAndRecord.java
+    /mnt/resource/scratch/benchmark/{filename.sim)
+```
